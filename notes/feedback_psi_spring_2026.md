@@ -1,0 +1,10 @@
+- Move all centroid data into the “Peaks” data partition, switching off a flag and/or point/peak count cvParams
+  - The reader has a state/flag parameter that indicates the caller wants a specific mode of data (profile, centroid)
+- Keep namespace’d identifiers. They help you maintain context from high to low level interfaces and detect file mixups.
+- Specify a mobilograms, “diagnostic traces” (effect over time that aren't chromatograms) as entity types.
+- Support region of interest polygons for imaging MS and spatial queries (e.g. feature extraction bounding boxes)
+- Prepare for storing intelligent data acquisition decision traces (long-term, vendor specific)
+- After integrating feedback:
+  - Validator
+  - Specification
+  - Open API type cross-language interface?

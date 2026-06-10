@@ -1,0 +1,154 @@
+/* ============================================================================
+   mzPeak specification — Material theme customisations
+   ========================================================================== */
+
+:root {
+  --md-primary-fg-color:        #3b4bbf;
+  --md-primary-fg-color--light: #5566d6;
+  --md-primary-fg-color--dark:  #2b3690;
+  --md-accent-fg-color:         #6d4bd6;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-hue: 232;
+  --md-primary-fg-color:        #8b9bff;
+  --md-accent-fg-color:         #b69bff;
+}
+
+/* Slightly tighter, more technical reading measure */
+.md-grid {
+  max-width: 64rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Hero block on the landing page
+   -------------------------------------------------------------------------- */
+.mzp-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 2.4rem 0 1.2rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  margin-bottom: 1.6rem;
+}
+.mzp-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--md-accent-fg-color);
+}
+.mzp-hero h1 {
+  font-size: 2.6rem;
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.mzp-hero__tagline {
+  font-size: 1.05rem;
+  color: var(--md-default-fg-color--light);
+  max-width: 42rem;
+}
+.mzp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.mzp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--md-primary-fg-color);
+  color: #fff;
+}
+.mzp-badge--ghost {
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+/* ----------------------------------------------------------------------------
+   Card grid (landing page navigation)
+   -------------------------------------------------------------------------- */
+.mzp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.mzp-card {
+  display: block;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.6rem;
+  background: var(--md-default-bg-color);
+  transition: border-color 120ms, box-shadow 120ms, transform 120ms;
+  color: inherit !important;
+}
+.mzp-card:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 6px 22px -12px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+.mzp-card h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.mzp-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* ----------------------------------------------------------------------------
+   Packed parallel table example
+   -------------------------------------------------------------------------- */
+.packed-table thead tr th {
+  font-size: 0.66rem;
+  padding: 0.5em;
+  text-align: center;
+  line-height: 1.2;
+}
+.packed-table tbody tr td {
+  font-size: 0.68rem;
+  padding: 0.3em;
+  text-align: center;
+}
+.point-table,
+.chunk-table {
+  text-align: center;
+}
+.point-table thead th,
+.chunk-table thead th {
+  text-align: center;
+}
+
+/* Schematic figures sit on white regardless of theme so diagrams stay legible */
+.mzp-figure img {
+  background: #ffffff;
+  padding: 1em;
+  border-radius: 0.4rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Inflected CV column names / CURIEs read better in mono
+   -------------------------------------------------------------------------- */
+.md-typeset code {
+  font-feature-settings: "kern";
+  border-radius: 0.25rem;
+}
+
+/* Requirement keywords (MUST / SHOULD / …) get a subtle emphasis when wrapped
+   in <span class="rfc"> in the source. */
+.md-typeset .rfc {
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

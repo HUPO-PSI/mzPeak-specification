@@ -1,0 +1,209 @@
+/* ============================================================================
+   mzPeak specification — brand theme (from the mzPeak / OpenMS design handoff)
+   Identity: "a modern scientific instrument" — light, hairline-bordered chrome,
+   one electric-blue accent (#3157e9, sampled from the logo mark), with the
+   OpenMS spectrum (orange→blue) as a 2px flourish only (never data).
+   IBM Plex Sans for text, IBM Plex Mono for every measured value (set in
+   mkdocs.yml theme.font). The header stays white via palette primary:white,
+   so the blue logo mark has strong contrast.
+   ========================================================================== */
+
+:root {
+  /* Brand blue ramp (sampled from the mzPeak mark) */
+  --mzp-blue-50:  #f0f3ff;
+  --mzp-blue-100: #e1e7fe;
+  --mzp-blue-300: #839af6;
+  --mzp-blue-500: #4163ec;
+  --mzp-blue-600: #3157e9;   /* primary accent */
+  --mzp-blue-700: #1e42d2;
+  --mzp-blue-800: #20399d;
+
+  /* OpenMS brand spectrum — secondary flourish only */
+  --mzp-openms: linear-gradient(
+    90deg, #ff9101 0%, #ff6f12 12%, #ff4a48 26%, #ff2f74 37%, #ff15ab 49%,
+    #f804ce 57%, #d203e6 65%, #a814f3 74%, #762bf5 84%, #4848ed 93%, #3355ea 100%);
+
+  --md-accent-fg-color: var(--mzp-blue-700);
+}
+
+/* Brand-blue links & interactive accents (header chrome stays white) */
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: var(--mzp-blue-600);
+  --md-accent-fg-color: var(--mzp-blue-700);
+}
+/* Dark scheme: lift the blue so links stay legible on slate */
+[data-md-color-scheme="slate"] {
+  --md-hue: 222;
+  --md-typeset-a-color: var(--mzp-blue-300);
+  --md-accent-fg-color: var(--mzp-blue-300);
+}
+
+/* ----------------------------------------------------------------------------
+   Chrome — hairline borders + the OpenMS spectrum strip under the nav
+   -------------------------------------------------------------------------- */
+.md-header {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+/* The 2px spectrum flourish sits beneath the tab bar on desktop … */
+.md-tabs {
+  border-bottom: 2px solid transparent;
+  border-image: var(--mzp-openms) 1;
+}
+/* … and beneath the header itself on narrow screens where tabs are hidden. */
+@media screen and (max-width: 76.1875em) {
+  .md-header {
+    border-bottom: 2px solid transparent;
+    border-image: var(--mzp-openms) 1;
+  }
+}
+
+/* Logo mark a touch larger for presence in the light header */
+.md-header__button.md-logo img {
+  height: 1.5rem;
+  width: auto;
+}
+
+/* Slightly tighter, more technical reading measure */
+.md-grid {
+  max-width: 64rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Hero block on the landing page
+   -------------------------------------------------------------------------- */
+.mzp-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 2.2rem 0 1.4rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  margin-bottom: 1.6rem;
+}
+/* md_in_html wraps the bare <img>/<span> hero lines in <p>; let flex gap own
+   the spacing instead of paragraph margins. */
+.mzp-hero > p {
+  margin: 0;
+}
+.mzp-hero__logo {
+  height: auto;
+  width: clamp(13rem, 34vw, 19rem);
+  margin: 0;
+}
+/* Dark mode: lift the logo blue toward the lighter end of the ramp so the
+   wordmark/mark stay legible on the dark header and page (replaces a weak
+   drop-shadow that did not meet contrast). */
+[data-md-color-scheme="slate"] .md-header__button.md-logo img,
+[data-md-color-scheme="slate"] .mzp-hero__logo {
+  filter: brightness(1.4) saturate(1.05);
+}
+.mzp-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--mzp-blue-600);
+}
+[data-md-color-scheme="slate"] .mzp-hero__eyebrow {
+  color: var(--mzp-blue-300);
+}
+.mzp-hero h1 {
+  font-size: 2.1rem;
+  line-height: 1.08;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.mzp-hero__tagline {
+  font-size: 1.02rem;
+  color: var(--md-default-fg-color--light);
+  max-width: 42rem;
+}
+.mzp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.mzp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--md-code-font-family, monospace);
+  padding: 0.22rem 0.62rem;
+  border-radius: 999px;
+  background: var(--mzp-blue-600);
+  color: #fff;
+}
+.mzp-badge--ghost {
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+/* Landing-page navigation uses Material's built-in `.grid.cards` component
+   (see docs/index.md) — no custom card styling needed here. */
+
+/* ----------------------------------------------------------------------------
+   Packed parallel table example
+   -------------------------------------------------------------------------- */
+.packed-table thead tr th {
+  font-size: 0.66rem;
+  padding: 0.5em;
+  text-align: center;
+  line-height: 1.2;
+}
+.packed-table tbody tr td {
+  font-size: 0.68rem;
+  padding: 0.3em;
+  text-align: center;
+}
+.point-table,
+.chunk-table {
+  text-align: center;
+}
+.point-table thead th,
+.chunk-table thead th {
+  text-align: center;
+}
+
+/* Custom raw-HTML tables bypass Material's scroll wrapper; make them scroll
+   horizontally instead of overflowing the viewport on small screens. */
+.packed-table,
+.point-table,
+.chunk-table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Schematic figures sit on white regardless of theme so diagrams stay legible */
+.mzp-figure img {
+  background: #ffffff;
+  padding: 1em;
+  border-radius: 0.4rem;
+}
+/* Tall portrait diagrams declare an explicit height attribute; Material forces
+   height:auto so they blow up to full width. Cap them and keep aspect ratio. */
+.mzp-figure img[height] {
+  max-height: 28rem;
+  width: auto;
+}
+
+/* ----------------------------------------------------------------------------
+   Inflected CV column names / CURIEs read better in mono
+   -------------------------------------------------------------------------- */
+.md-typeset code {
+  font-feature-settings: "kern";
+  border-radius: 0.25rem;
+}
+
+/* Requirement keywords (MUST / SHOULD / …) get a subtle emphasis when wrapped
+   in <span class="rfc"> in the source. */
+.md-typeset .rfc {
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

@@ -1,1 +1,11 @@
+# Legacy single-file pandoc output
 index.html
+
+# MkDocs build output
+/site/
+
+# Python virtual environments / caches
+.venv/
+.cache/
+__pycache__/
+*.pyc

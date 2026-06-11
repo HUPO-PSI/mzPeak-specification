@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+<!-- Open Graph / Twitter social metadata. A static preview image (the mzPeak
+     mark) is used rather than the cairo-dependent social-cards plugin, to keep
+     the CI build free of system image libraries. -->
+{% block extrahead %}
+  {% set page_title = config.site_name %}
+  {% if page and page.title and not page.is_homepage %}
+    {% set page_title = page.title ~ " — " ~ config.site_name %}
+  {% endif %}
+  {% set page_desc = config.site_description %}
+  {% if page and page.meta and page.meta.description %}
+    {% set page_desc = page.meta.description %}
+  {% endif %}
+  {% set page_url = page.canonical_url if page else config.site_url %}
+  {% set preview = config.site_url ~ "assets/img/mzpeak-mark.png" %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_desc }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:image" content="{{ preview }}">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_desc }}">
+  <meta name="twitter:image" content="{{ preview }}">
+{% endblock %}

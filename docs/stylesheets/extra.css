@@ -207,3 +207,11 @@
   font-weight: 700;
   letter-spacing: 0.02em;
 }
+
+/* ----------------------------------------------------------------------------
+   Definition-list terms (Glossary, Authors) render bold so the looked-up
+   term stands out from its definition.
+   -------------------------------------------------------------------------- */
+.md-typeset dl dt {
+  font-weight: 700;
+}

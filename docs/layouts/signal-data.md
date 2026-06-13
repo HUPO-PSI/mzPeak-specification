@@ -148,15 +148,21 @@ obscures the stored value from the page index also disables predicate filtering
 on it. The techniques below are written in terms of spectra but apply more
 broadly.
 
+### Numerical precision
+
+There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles **SHOULD** still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers! It is the writer's prerogotive to choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
+
+Opting for lossy compression like MS-Numpress carries its own precision costs. See [(4)](../reference/references.md) for more details.
+
 ### Zero run stripping
 
 Some vendors produce profile arrays with large "empty" regions of zero-intensity
 points along a semi-regular m/z axis. These regions hold little information, so
 all but the first and last zero-intensity points of a run are removed. This is
-only meaningful for profile data; readers **SHOULD** assume that zero runs have
-been stripped.
+only meaningful for profile data. Readers **SHOULD** assume that zero runs have
+been stripped. Writers **MAY** strip zero runs, it is recommended but not required.
 
-A **zero run** is a sequence of three or more zero values, reduced to just its
+A *zero run* is a sequence of three or more zero values, reduced to just its
 first and last positions. Zero runs can be very long and, outside of scenarios
 that assume a complete coordinate grid, provide no value. If a zero run needs to
 be reconstructed beyond the flanking points, the same method used for filling

@@ -45,7 +45,8 @@ file **MUST** be serialised as UTF-8.
         "version": "2026-01-16"
       }
     ],
-    "file_description": { }
+    "file_description": { ... },
+    ...
   }
 }
 ```
@@ -64,7 +65,7 @@ file names.
 
 ## File-level metadata
 
-File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` and in the
+File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` *and* in the
 metadata Parquet files' key–value pairs, as JSON encoded according to the schemas
 below:
 

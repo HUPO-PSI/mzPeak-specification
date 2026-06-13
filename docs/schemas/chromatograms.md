@@ -8,7 +8,11 @@ currently carried here as well, pending their
 ## Chromatogram signal data — `chromatograms_data.parquet`
 
 ```json
-{ "name": "chromatograms_data.parquet", "entity_type": "chromatogram", "data_kind": "data arrays" }
+{
+  "name": "chromatograms_data.parquet",
+  "entity_type": "chromatogram",
+  "data_kind": "data arrays"
+}
 ```
 
 The signal data is encoded using either
@@ -28,7 +32,11 @@ unit is up to the writer.
 ## Chromatogram metadata — `chromatograms_metadata.parquet`
 
 ```json
-{ "name": "chromatograms_metadata.parquet", "entity_type": "chromatogram", "data_kind": "metadata" }
+{
+  "name": "chromatograms_metadata.parquet",
+  "entity_type": "chromatogram",
+  "data_kind": "metadata"
+}
 ```
 
 This table uses the
@@ -48,10 +56,11 @@ This table uses the
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
   ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), absorption
   ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)).
-- **`data_processing_ref`** (integer) — a `data_processing` governing this
+- **`data_processing_ref`** (string) — a `data_processing` governing this
   chromatogram if it deviates from `run.default_data_processing_id`; `null`
   otherwise.
-- **`parameters`** (list).
+- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) —
   see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
 - [**`MS_1003060_number_of_data_points`**](http://purl.obolibrary.org/obo/MS_1003060)
@@ -62,14 +71,14 @@ This table uses the
 
 ### `precursor` (group)
 
-The method of precursor-ion selection and activation.
+The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring, this group will be unilaterally `null`.
 
 - **`source_index`** (integer) — the chromatogram this precursor belongs to
   (foreign key).
 - **`precursor_index`** (integer) — the chromatogram the precursor was created
-  from (foreign key).
+  from (foreign key). See [spectra](spectra.md#precursor-group) for more details.
 - **`precursor_id`** (string) — the `id` of the chromatogram referenced by
-  `precursor_index`.
+  `precursor_index`. See [spectra](spectra.md#precursor-group) for more details.
 - **`isolation_window`** (group) — as for
   [spectra](spectra.md#precursor-group): **MUST** supply children of
   [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792).
@@ -79,9 +88,12 @@ The method of precursor-ion selection and activation.
 
 ### `selected_ion` (group)
 
+Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this group will be unilaterally `null`.
+
 - **`source_index`** (integer) / **`precursor_index`** (integer) — foreign keys.
 - **`ion_mobility_value`** (float) / **`ion_mobility_type`** (CURIE) — optional.
-- **`parameters`** (list).
+- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **MUST** supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455) (ion selection
   attribute) one or more times — selected-ion m/z, charge state, intensity.

@@ -115,6 +115,20 @@ extra_javascript:
 
 plugins:
   - search
+  # - exporter:
+  #     formats:
+  #       pdf:
+          # enabled: !ENV [MKDOCS_EXPORTER_PDF, true]
+          # concurrency: 8
+          # stylesheets:
+          #   - resources/stylesheets/pdf.scss
+          # covers:
+          #   front: resources/templates/covers/front.html.j2
+          #   back: resources/templates/covers/back.html.j2
+          # aggregator:
+          #   enabled: true
+          #   output: document.pdf
+          #   covers: all
 
 nav:
   - Home: index.md
@@ -129,9 +143,10 @@ nav:
   - Data Layouts:
       - Packed Parallel Metadata Tables: layouts/metadata-tables.md
       - Signal Data Model: layouts/signal-data.md
-      - Point Layout: layouts/point-layout.md
-      - Chunked Layout: layouts/chunked-layout.md
-      - Auxiliary Data Arrays: layouts/auxiliary-arrays.md
+      - Storage Models:
+        - Point Layout: layouts/point-layout.md
+        - Chunked Layout: layouts/chunked-layout.md
+        - Auxiliary Data Arrays: layouts/auxiliary-arrays.md
   - Archive Organization:
       - The Index File: archive/index-file.md
       - Data Kinds: archive/data-kinds.md

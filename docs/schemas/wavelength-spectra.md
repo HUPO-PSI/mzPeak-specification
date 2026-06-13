@@ -10,7 +10,11 @@ archive.
 ## Wavelength spectrum signal data — `wavelength_spectra_data.parquet`
 
 ```json
-{ "name": "wavelength_spectra_data.parquet", "entity_type": "wavelength spectrum", "data_kind": "data arrays" }
+{
+  "name": "wavelength_spectra_data.parquet",
+  "entity_type": "wavelength spectrum",
+  "data_kind": "data arrays"
+}
 ```
 
 The signal data is encoded using either
@@ -26,7 +30,11 @@ carefully for profile data.
 ## Wavelength spectrum metadata — `wavelength_spectra_metadata.parquet`
 
 ```json
-{ "name": "wavelength_spectra_metadata.parquet", "entity_type": "wavelength spectrum", "data_kind": "metadata" }
+{
+  "name": "wavelength_spectra_metadata.parquet",
+  "entity_type": "wavelength spectrum",
+  "data_kind": "metadata"
+}
 ```
 
 This table uses the
@@ -42,8 +50,10 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
   **SHOULD** be time-sorted. Primary key.
 - **`id`** (string) — the "nativeID" string, per a
   [native identifier format](http://purl.obolibrary.org/obo/MS_1000767).
-- **`time`** (float64) — data-acquisition start time; **SHOULD** mirror the
-  parallel `scan` facet.
+- **`time`** (float64) — the data-acquisition start time. **SHOULD** be
+  replicated from the parallel `scan` facet for simpler filtering; for a spectrum
+  with multiple scans it **SHOULD** be the minimum value if the run is in
+  acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
 - **`data_processing_ref`** (string) — a `data_processing` governing this
   spectrum if it deviates from the default; `null` otherwise.
 - **`parameters`** (list).
@@ -69,7 +79,7 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
 - **`instrument_configuration_ref`** (integer) — the `instrument_configuration`
   governing this scan.
 - **`parameters`** (list).
-- **`scan_windows`** — see the equivalent substructure for
+- **`scan_windows`** (list) — see the equivalent substructure for
   [spectra](spectra.md#scan-group).
 - **MAY** supply a child of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute) one

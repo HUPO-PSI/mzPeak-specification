@@ -3,13 +3,13 @@
 The `data_kind` field tells the reader the *semantics* of the data in a file, and
 roughly what schema to expect. There are currently five controlled values:
 
-| `data_kind` | Expected layout | Meaning |
-| :-- | :-- | :-- |
-| `data arrays` | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Signal data, usually in its "raw" form, for the file's `entity_type`. |
-| `peaks` | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Like `data arrays`, but *processed* — implies a less-refined entry exists in a `data arrays` file. This is how profile **and** centroid signal coexist for a spectrum. |
-| `metadata` | [packed parallel table](../layouts/metadata-tables.md) | Everything but the homogeneous signal arrays. May still be large. |
-| `proprietary` | implementation-defined | Entirely the purview of the writer (often an instrument vendor). May not be Parquet. Should be ignored unless the reader is for that vendor. |
-| `other` | implementation-defined | None of the above. May not be Parquet. |
+| `data_kind`    | Expected layout | Meaning |
+| :------------- | :-------------- | :------ |
+| `data arrays`  | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Signal data, usually in its "raw" form, for the file's `entity_type`. |
+| `peaks`        | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Like `data arrays`, but *processed* — implies a less-refined entry exists in a `data arrays` file. This is how profile **and** centroid signal coexist for a spectrum. |
+| `metadata`     | [packed parallel table](../layouts/metadata-tables.md) | Everything but the homogeneous signal arrays. May still be large. |
+| `proprietary`  | implementation-defined | Entirely the purview of the writer (often an instrument vendor). May not be Parquet. Should be ignored unless the reader is for that vendor. |
+| `other`        | implementation-defined | None of the above. May not be Parquet. |
 
 Any value outside this list is treated as `other`. Files marked `proprietary`
 and `other` are implementation-defined, but `other` files may still be of

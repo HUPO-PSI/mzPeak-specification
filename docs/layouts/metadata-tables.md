@@ -160,7 +160,10 @@ constructed by the following inflection rules:
 
 1. The base column name is `${CV_CODE}_${CV_ACCESSION}_${CLEANED_NAME}` where:
     1. `${CV_CODE}` identifies the controlled vocabulary itself — `MS` for
-       PSI-MS, `UO` for the Units of Measurement Ontology.
+       PSI-MS, `UO` for the Units of Measurement Ontology for instance. This **SHOULD**
+       correspond to the `cv.id` in [cv_list.json](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
+       defined for the [file-level metadata](../archive/index-file.md#file-level-metadata)
+       or subsidiary identifier namespaces.
     2. `${CV_ACCESSION}` is the accession number. For `MS:1000016` "scan start
        time" this is `1000016`.
     3. `${CLEANED_NAME}` is the term's name with any character that is not valid

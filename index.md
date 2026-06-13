@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This document is no longer used. See `docs/` for the actively worked on specification.
+
 # mzPeak File Format
 
 **PSI Recommendation**
@@ -14,6 +18,7 @@ This document provides information to the proteomics community about a TODO. Dis
 Version Draft 5 of version 0.9
 
 
+- [DEPRECATED](#deprecated)
 - [mzPeak File Format](#mzpeak-file-format)
 - [Abstract](#abstract)
 - [Introduction](#introduction)

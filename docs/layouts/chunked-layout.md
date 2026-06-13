@@ -126,6 +126,9 @@ efficiency.
         return chunks
     ```
 
+??? info "Multi-dimensional chunking postponed for the future"
+    Currently, chunking is only permitted in one dimension, the added complexity of chunking in multiple dimensions was not deemed necessary *yet*. There may come a time when we have high enough density that it becomes worthwhile to support. If you believe you have a use case, let us know!
+
 ## Chunk encodings
 
 ### Basic encoding
@@ -234,9 +237,9 @@ same array type, array name, data type, unit, and data-processing ID as the
     The start point is *included* in the chunk-values array — it is a specific
     component of the Numpress-encoded bytes.
 
-## Opaque array transforms
+## Opaque array transforms for *other* dimensions
 
-Sometimes we prefer to store data lossily in non-uniform, unaligned, or otherwise
+Sometimes we prefer to store data in arrays other than the main axis lossily in non-uniform, unaligned, or otherwise
 non-standard types that have no physical representation in Parquet. MS-Numpress's
 short logged float (SLOF) and positive-integer encodings are good examples. While
 Numpress-linear handles the coordinate dimension, opaque transforms can also
@@ -248,6 +251,12 @@ The column's physical type **MUST** be a list of byte arrays, though the type in
 the array index **MUST** be the *decoded* array's real type. Column names
 **SHOULD** be of the form `<array_name>_<transform_name>_bytes`, e.g.
 `intensity_numpress_slof_bytes`.
+
+??? question "Transform name or accession code?"
+    We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314){ .foo } instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
+
+!!! info "Lossy transformations"
+
 
 ## Reading a single entry from the chunked encoding
 

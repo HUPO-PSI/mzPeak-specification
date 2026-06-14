@@ -91,7 +91,7 @@ metadata. mzPeak uses CV terms in three ways:
 The `parameters` column may be present in any facet of a metadata table. It
 **MUST** be a list of the following schema:
 
-```python
+```
 optional group field_id=-1 parameters (List) {
   repeated group field_id=-1 list {
     optional group field_id=-1 item {
@@ -117,7 +117,7 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
 
 !!! note "Naming and column promotion"
     - Parquet columns **MUST** be uniquely named, so if a parameter appears more
-      than once in a single entry it **MUST** be stored in the `parameters`
+      than once in a single row it **MUST** be stored in the `parameters`
       column.
     - Writers are encouraged, when sufficient context is available, to promote
       parameters that are present in most rows of a table to *columns*. This is

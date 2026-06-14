@@ -19,7 +19,8 @@
       "properties": {
         "version": {
           "type": "string",
-          "description": "The mzPeak file format version"
+          "description": "The mzPeak file format version, formatted as a semantic version",
+          "pattern": "(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)"
         },
         "id": {
           "type": "string",

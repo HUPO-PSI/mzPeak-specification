@@ -124,7 +124,11 @@ usually makes more sense when the value is usually present.
   the [arrays-and-columns](../layouts/signal-data.md#arrays-and-columns)
   constraints. These may be large; load eagerly with care.
 - **`mz_delta_model`** (list of float64) — parameters of the m/z delta model used
-  to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is no fixed length requirement, and this value **MAY** be `null` or empty if no model was learned. :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
+  to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is
+  no fixed length requirement, and this value **MAY** be `null` or empty if no model
+  was learned. Polynomial coefficient terms should be written in descending power,
+  including any zeros.
+  :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
 - [**`MS_1000525_spectrum_representation`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) — e.g.
   [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" or
@@ -147,6 +151,7 @@ usually makes more sense when the value is usually present.
   one or more times — e.g.
   [`MS_1000796_spectrum_title`](http://purl.obolibrary.org/obo/MS_1000796).
 - [`MS_1000570_spectra_combination](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) --- how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795`](http://purl.obolibrary.org/obo/MS_1000795).
+
 ### `scan` (group)
 
 A scan or acquisition from the original raw file used to create a spectrum.
@@ -162,7 +167,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
   collections, use `USI000000` as the collection identifier with the `id` of a
   source file in `file_description.source_files`.
 - **`instrument_configuration_ref`** (integer) — the `instrument_configuration`
-  governing this scan.
+  governing this scan referenced by `id`.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`ion_mobility_value`** (float64) — optional ion-mobility measurement for this

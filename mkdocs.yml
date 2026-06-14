@@ -103,7 +103,9 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      check_paths: true
+      restrict_base_path: false
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
@@ -151,6 +153,16 @@ nav:
       - The Index File: archive/index-file.md
       - Data Kinds: archive/data-kinds.md
       - Entity Types: archive/entity-types.md
+      - Run-Level Metadata:
+        - Parameters: archive/param.md
+        - Controlled Vocabularies: archive/cv_list.md
+        - File Description: archive/file_description.md
+        - Instrument Configurations: archive/instrument_configuration.md
+        - Software: archive/software.md
+        - Data Processing Methods: archive/data_processing.md
+        - Samples: archive/sample.md
+        - Scan Settings: archive/scan_settings_list.md
+        - MS Run: archive/ms_run.md
   - File Schemas:
       - Spectra: schemas/spectra.md
       - Chromatograms: schemas/chromatograms.md

@@ -77,7 +77,7 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
 
 - **`source_index`** (uint64) — the spectrum this scan belongs to (foreign key).
 - **`instrument_configuration_ref`** (integer) — the `instrument_configuration`
-  governing this scan.
+  governing this scan referenced by `id`.
 - **`parameters`** (list).
 - **`scan_windows`** (list) — see the equivalent substructure for
   [spectra](spectra.md#scan-group).

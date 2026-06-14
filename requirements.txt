@@ -7,3 +7,6 @@ pymdown-extensions>=10
 
 # JSON Schema validation (`just validate-jsonschema`).
 check-jsonschema
+
+# For semantic validation
+psims

@@ -35,8 +35,8 @@ file **MUST** be serialised as UTF-8.
       {
         "id": "MS",
         "full_name": "Proteomics Standards Initiative Mass Spectrometry Ontology",
-        "uri": "http://purl.obolibrary.org/obo/ms/4.1.248/ms.obo",
-        "version": "4.1.248"
+        "uri": "http://purl.obolibrary.org/obo/ms/4.1.249/psi-ms.obo",
+        "version": "4.1.249"
       },
       {
         "id": "UO",
@@ -85,3 +85,9 @@ below:
     encryptable. The index is JSON for convenience and ease of access from
     scripting languages; whether some fields should move to encryptable Parquet
     metadata is unresolved.
+
+## Format Versioning
+
+The mzPeak archive's format version is written in `mzpeak_index.metadata.version`. The
+value is formatted as a semantic version `#!js /(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/`.
+Version compatibility **SHOULD** be consistent with semantic versioning rules.

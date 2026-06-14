@@ -20,7 +20,7 @@ The signal data is encoded using either
 [chunked layout](../layouts/chunked-layout.md). The entity index column **MUST**
 be named `chromatogram_index`. The default primary axis is a
 [`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595), though the
-unit is up to the writer.
+unit is up to the writer. For consistency, we recommend using minutes.
 
 ### Recommended Parquet encodings
 
@@ -39,8 +39,7 @@ unit is up to the writer.
 }
 ```
 
-This table uses the
-[packed parallel metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [packed parallel metadata table](../layouts/metadata-tables.md) schema.
 
 ### `chromatogram` (group)
 
@@ -97,3 +96,15 @@ Like the `precursor` group, outside of sequential, multiple or parallel reaction
 - **MUST** supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455) (ion selection
   attribute) one or more times — selected-ion m/z, charge state, intensity.
+
+### `product` (group)
+
+- **`source_index`** (integer) — the chromatogram this product belongs to
+  (foreign key).
+- **`product_index`** (integer) — the chromatogram the product was created
+  from (foreign key). See [spectra](spectra.md#precursor-group) for more details.
+- **`isolation_window`** (group) — as for
+  [spectra](spectra.md#precursor-group): **MUST** supply children of
+  [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792).
+- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

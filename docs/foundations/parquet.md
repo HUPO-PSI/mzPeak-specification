@@ -8,7 +8,8 @@ This is a minimal overview of Parquet. For full details, see the
 Parquet files contain a physical data schema defining how their data columns are
 encoded as bytes on disk. This schema supports arbitrary levels of nullability,
 nesting (groups), and repetition (lists). These physical data types may also be
-mapped to one or more *logical types*.
+mapped to one or more *logical types*. Parquet stores all data in little endian
+byte order.
 
 There is a broader many-to-many mapping between Parquet schemas and
 [Apache Arrow](https://arrow.apache.org/) schemas. Arrow supports many types

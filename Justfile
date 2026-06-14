@@ -42,3 +42,14 @@ validate-jsonschema:
         schema/sample.json \
         schema/scan_settings_list.json \
         schema/software.json
+
+render-jsonschema:
+    uv run "script/schema_to_md.py" "schema/param.json" -o "docs/archive/param.md"
+    uv run "script/schema_to_md.py" "schema/cv_list.json" -o "docs/archive/cv_list.md"
+    uv run "script/schema_to_md.py" "schema/file_description.json" -o "docs/archive/file_description.md"
+    uv run "script/schema_to_md.py" "schema/instrument_configuration.json" -o "docs/archive/instrument_configuration.md"
+    uv run "script/schema_to_md.py" "schema/data_processing.json" -o "docs/archive/data_processing.md"
+    uv run "script/schema_to_md.py" "schema/software.json" -o "docs/archive/software.md"
+    uv run "script/schema_to_md.py" "schema/sample.json" -o "docs/archive/sample.md"
+    uv run "script/schema_to_md.py" "schema/scan_settings_list.json" -o "docs/archive/scan_settings_list.md"
+    uv run "script/schema_to_md.py" "schema/ms_run.json" -o "docs/archive/ms_run.md"

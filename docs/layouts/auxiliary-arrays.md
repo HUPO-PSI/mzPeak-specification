@@ -72,7 +72,7 @@ the auxiliary array structure referencing a child term of [MS:1000518|binary dat
 ## Compression
 Auxiliary arrays' data are stored as raw byte arrays, with no data type-specific transformations
 to make them more compressable, but they receive the blanket compression codec and level that the
-entire Parquet file receives. Their `compression` field **SHOULD** be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000525) for no additional compression.
+entire Parquet file receives. Their `compression` field **SHOULD** be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576) for no additional compression.
 If you wish to apply a specific compression algorithm to the data of a single entry *before* it
 is compressed by Parquet, set the `compression` field for that entry to the appropriate controlled
 vocabulary term descending from [`MS:1000572|binary compression type`](http://purl.obolibrary.org/obo/MS_1000572)

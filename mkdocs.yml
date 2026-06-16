@@ -117,6 +117,12 @@ extra_javascript:
 
 plugins:
   - search
+  - enumerate-headings:
+      toc_depth: 3                 # number down to 1.1.1, matching the existing TOC depth
+      strict: false                # don't fail the --strict build on pages that skip a heading level
+      increment_across_pages: true # continuous numbering in nav order (each page = next top-level section)
+      exclude:
+        - index.md                 # the hero/abstract home page is not "Section 1"
   # - exporter:
   #     formats:
   #       pdf:

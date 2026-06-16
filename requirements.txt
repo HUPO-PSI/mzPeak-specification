@@ -5,6 +5,9 @@
 mkdocs-material>=9.5,<10
 pymdown-extensions>=10
 
+# PSI house-style hierarchical section numbering (1, 1.1, 1.1.1).
+mkdocs-enumerate-headings-plugin>=0.6
+
 # JSON Schema validation (`just validate-jsonschema`).
 check-jsonschema
 

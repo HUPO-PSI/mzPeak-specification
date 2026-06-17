@@ -2,7 +2,7 @@
 
 1. Van Den Bossche T, Alexandrov T, Bilbao A, *et al.* mzPeak: Designing a Scalable, Interoperable, and Future-Ready Mass Spectrometry Data Format. *Journal of Proteome Research.* 2025;24(11):5329–5335. doi:[10.1021/acs.jproteome.5c00435](https://doi.org/10.1021/acs.jproteome.5c00435) — the mzPeak white paper; primary reference for the format.
 
-2. Bradner S. Key words for use in RFCs to Indicate Requirement Levels. BCP 14, RFC 2119; 1997. doi:[10.17487/RFC2119](https://doi.org/10.17487/RFC2119) — defines the MUST / SHOULD / MAY requirement levels used throughout this specification (cited above as "(2)").
+2. Bradner S. Key words for use in RFCs to Indicate Requirement Levels. BCP 14, RFC 2119; 1997. doi:[10.17487/RFC2119](https://doi.org/10.17487/RFC2119). Leiba B. Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words. BCP 14, RFC 8174; 2017. doi:[10.17487/RFC8174](https://doi.org/10.17487/RFC8174) — together (BCP 14) these define the MUST / SHOULD / MAY requirement levels used throughout this specification, normative only when the keywords appear in all capitals (cited above as "(2)").
 
 3. Martens L, Chambers M, Sturm M, *et al.* mzML — a Community Standard for Mass Spectrometry Data. *Molecular & Cellular Proteomics.* 2011;10(1):R110.000133. doi:[10.1074/mcp.R110.000133](https://doi.org/10.1074/mcp.R110.000133)
 

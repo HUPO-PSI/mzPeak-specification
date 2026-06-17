@@ -1,6 +1,6 @@
 # Implementations
 
-mzPeak is backed by five independent, from-scratch implementations — not bindings
+mzPeak is backed by seven independent, from-scratch implementations — not bindings
 to a single core. Building on the widely available
 [Apache Parquet](https://parquet.apache.org/) and
 [Apache Arrow](https://arrow.apache.org/) libraries keeps the on-disk structure
@@ -13,7 +13,9 @@ natively.
 | **Python** | read | Zero-copy Arrow / Pandas. |
 | **R** | read | `dplyr`-compatible table access. |
 | **C#** | read / write | Includes a Thermo RawFileReader demo. |
+| **Java** | read / write | Dependency-light JVM demonstrator. |
 | **JavaScript / TypeScript** | read | Runs in the browser, Node, and Deno. |
+| **C++** | *planned* | — |
 
 ## Rust — reference implementation
 
@@ -24,16 +26,18 @@ the prose is ambiguous.
 
 ## Python
 
-A read-only library exposing mzPeak data as zero-copy
-[Apache Arrow](https://arrow.apache.org/) tables and
+The [`python/`](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/python)
+library in `mzpeak_prototyping` is a read-only library exposing mzPeak data as
+zero-copy [Apache Arrow](https://arrow.apache.org/) tables and
 [Pandas](https://pandas.pydata.org/) DataFrames, so metadata and signal can be
 queried with the analytical tooling proteomics and metabolomics users already
 know.
 
 ## R
 
-A read-only library offering `dplyr`-compatible access to the packed metadata and
-signal tables, developed in coordination with the
+The [`R/`](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/R) library
+in `mzpeak_prototyping` is a read-only library offering `dplyr`-compatible access
+to the packed metadata and signal tables, developed in coordination with the
 [R for Mass Spectrometry](https://www.rformassspectrometry.org/) community. The
 current interface uses S6-style classes; an S4 interface (for full Bioconductor
 ecosystem compatibility) is planned.
@@ -44,6 +48,15 @@ ecosystem compatibility) is planned.
 implementation for the .NET ecosystem. It ships with a demonstration that reads
 vendor data through Thermo's RawFileReader and writes it to mzPeak.
 
+## Java
+
+[`okohlbacher/mzPeakJ`](https://github.com/okohlbacher/mzPeakJ) is a
+dependency-light, pure-JVM read/write demonstrator. It reads unpacked directories
+and single-file ZIP archives, writes point and Numpress layouts, covers spectra,
+chromatograms, and wavelength spectra, and is cross-validated against the Rust
+reference implementation. It is a proof-of-concept rather than a hardened
+production library.
+
 ## JavaScript / TypeScript
 
 A read-only implementation that runs in the browser, Node.js, and Deno, making
@@ -51,6 +64,11 @@ mzPeak archives directly inspectable on the web. An
 [online viewer](https://hupo-psi.github.io/mzpeakts/) demonstrates reading local
 and remote files — including extracted-ion chromatograms, base-peak
 chromatograms, and metadata inspection — entirely client-side.
+
+## C++
+
+A native C++ implementation is planned to round out the set of from-scratch
+implementations. No public repository is available yet.
 
 !!! note "A common cross-language API is in progress"
     A language-agnostic, OpenAPI-style description of the shared reader/writer

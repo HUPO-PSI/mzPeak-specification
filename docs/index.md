@@ -104,7 +104,7 @@ file, and metadata model.
 
     ---
 
-    The read/write libraries — Rust, Python, R, C#, and JavaScript/TypeScript.
+    The read/write libraries — Rust, Python, R, C#, Java, JavaScript/TypeScript, and C++.
 
     [:octicons-arrow-right-24: Implementations](implementations.md)
 
@@ -144,14 +144,16 @@ Additional Parquet files may be added to cover further modalities (for example
 
 ## Reference implementations
 
-mzPeak is backed by five independent, from-scratch implementations (not bindings
+mzPeak is backed by seven independent, from-scratch implementations (not bindings
 to a single core):
 
 - **Rust** — read/write reference implementation · [HUPO-PSI/mzPeak](https://github.com/HUPO-PSI/mzPeak)
-- **Python** — read-only, zero-copy Arrow/Pandas API
-- **R** — read-only, `dplyr`-compatible access
+- **Python** — read-only, zero-copy Arrow/Pandas API · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/python)
+- **R** — read-only, `dplyr`-compatible access · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/R)
 - **C#** — read/write · [HUPO-PSI/mzPeak.NET](https://github.com/HUPO-PSI/mzPeak.NET)
+- **Java** — read/write demonstrator · [okohlbacher/mzPeakJ](https://github.com/okohlbacher/mzPeakJ)
 - **JavaScript / TypeScript** — read-only, runs in the browser, Node, and Deno · [online viewer](https://hupo-psi.github.io/mzpeakts/)
+- **C++** — planned
 
 See [Implementations](implementations.md) for details, and [Tools](tools.md) for
 converters, the conformance validator, and viewers.

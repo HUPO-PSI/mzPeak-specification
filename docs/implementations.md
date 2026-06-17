@@ -15,7 +15,7 @@ natively.
 | **C#** | read / write | Includes a Thermo RawFileReader demo. |
 | **Java** | read / write | Dependency-light JVM demonstrator. |
 | **JavaScript / TypeScript** | read | Runs in the browser, Node, and Deno. |
-| **C++** | *planned* | — |
+| **C++** | read | OpenMS library; streaming writer planned. |
 
 ## Rust — reference implementation
 
@@ -67,8 +67,10 @@ chromatograms, and metadata inspection — entirely client-side.
 
 ## C++
 
-A native C++ implementation is planned to round out the set of from-scratch
-implementations. No public repository is available yet.
+[`OpenMS/mzpeak`](https://github.com/OpenMS/mzpeak) is a native C++ library for
+the mzPeak format, currently read-only with a streaming writer interface planned.
+It is an early work in progress — the API is expected to stabilise over the
+course of 2026.
 
 !!! note "A common cross-language API is in progress"
     A language-agnostic, OpenAPI-style description of the shared reader/writer

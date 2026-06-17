@@ -153,7 +153,7 @@ to a single core):
 - **C#** — read/write · [HUPO-PSI/mzPeak.NET](https://github.com/HUPO-PSI/mzPeak.NET)
 - **Java** — read/write demonstrator · [okohlbacher/mzPeakJ](https://github.com/okohlbacher/mzPeakJ)
 - **JavaScript / TypeScript** — read-only, runs in the browser, Node, and Deno · [online viewer](https://hupo-psi.github.io/mzpeakts/)
-- **C++** — planned
+- **C++** — read-only, work in progress · [OpenMS/mzpeak](https://github.com/OpenMS/mzpeak)
 
 See [Implementations](implementations.md) for details, and [Tools](tools.md) for
 converters, the conformance validator, and viewers.

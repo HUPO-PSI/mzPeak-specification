@@ -39,7 +39,7 @@ The [`R/`](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/R) librar
 in `mzpeak_prototyping` is a read-only library offering `dplyr`-compatible access
 to the packed metadata and signal tables, developed in coordination with the
 [R for Mass Spectrometry](https://www.rformassspectrometry.org/) community. The
-current interface uses S6-style classes; an S4 interface (for full Bioconductor
+current interface uses R6 classes; an S4 interface (for full Bioconductor
 ecosystem compatibility) is planned.
 
 ## C#

@@ -20,15 +20,44 @@ Description of the acquisition settings of the instrument prior to the start of 
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` |  | The unique identifier for this scan settings configuration |
+| `id` | `string` | Yes | The unique identifier for this scan settings configuration |
 | `source_file_references` | `array` of `string` |  |  |
+| `targets` | `array` of [`target`](#target) |  | A list of targeted ions or intervals on an inclusion list. |
+| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing the scan settings. |
 
 #### Property Details
 
-**`id`** - `string` *(optional)*
+**`id`** - `string` *(required)*
 
 The unique identifier for this scan settings configuration
 
 **`source_file_references`** - `array` of `string` *(optional)*
+
+**`targets`** - `array` of [`target`](#target) *(optional)*
+
+A list of targeted ions or intervals on an inclusion list.
+
+**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+
+Additional parameters describing the scan settings.
+
+---
+
+### target
+<a name="target"></a>
+
+**Type:** `object`
+
+#### Properties
+
+| Property | Type | Required | Description |
+|----------|------|:--------:|-------------|
+| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing this target |
+
+#### Property Details
+
+**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+
+Additional parameters describing this target
 
 ---

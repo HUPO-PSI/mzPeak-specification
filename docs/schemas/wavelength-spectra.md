@@ -1,6 +1,6 @@
 # Wavelength Spectra
 
-Wavelength spectra — UV, DAD, and other electromagnetic-radiation (EMR) spectra —
+Wavelength spectra — UV, DAD, and other electromagnetic-radiation (EMR) spectra ---
 are stored independently from mass spectra so the two modalities can have
 divergent schemas without inflating the number of empty columns, and so a reader
 need not sift through mass spectra to find EMR spectra (or vice versa). These
@@ -54,7 +54,7 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
-- **`data_processing_ref`** (string) — a `data_processing` governing this
+- **`data_processing_id`** (string) — a `data_processing` governing this
   spectrum if it deviates from the default; `null` otherwise.
 - **`parameters`** (list).
 - **`number_of_auxiliary_arrays`** (integer) / **`auxiliary_arrays`** (list) —
@@ -76,7 +76,7 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
 ### `scan` (group)
 
 - **`source_index`** (uint64) — the spectrum this scan belongs to (foreign key).
-- **`instrument_configuration_ref`** (integer) — the `instrument_configuration`
+- **`instrument_configuration_id`** (integer) — the `instrument_configuration`
   governing this scan referenced by `id`.
 - **`parameters`** (list).
 - **`scan_windows`** (list) — see the equivalent substructure for

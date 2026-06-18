@@ -112,7 +112,7 @@ usually makes more sense when the value is usually present.
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
 - [**`MS_1000511_ms_level`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
   — the MS stage number, or `null` for non-mass spectra.
-- **`data_processing_ref`** (string) — the identifier of a `data_processing` that
+- **`data_processing_id`** (string) — the identifier of a `data_processing` that
   governs this spectrum if it deviates from the default in
   `run.default_data_processing_id`; `null` otherwise.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
@@ -150,7 +150,7 @@ usually makes more sense when the value is usually present.
   [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
   one or more times — e.g.
   [`MS_1000796_spectrum_title`](http://purl.obolibrary.org/obo/MS_1000796).
-- [`MS_1000570_spectra_combination](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) --- how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795`](http://purl.obolibrary.org/obo/MS_1000795).
+- [`MS_1000570_spectra_combination](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
 ### `scan` (group)
 
@@ -165,8 +165,10 @@ A scan or acquisition from the original raw file used to create a spectrum.
   scan. For local spectra, its `id`; for *external* sources, a
   [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished
   collections, use `USI000000` as the collection identifier with the `id` of a
-  source file in `file_description.source_files`.
-- **`instrument_configuration_ref`** (integer) — the `instrument_configuration`
+  source file in `file_description.source_files`. This might happen when summing and
+  averaging spectra to improve signal quality (e.g. building a consensus spectrum), or
+  when collating spectra across ion mobility measurements into an ion mobility frame.
+- **`instrument_configuration_id`** (integer) — the `instrument_configuration`
   governing this scan referenced by `id`.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
@@ -176,8 +178,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
   [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892).
 - **`scan_windows`** (list) — the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)
-    - [MS_1000501_scan_window_lower_limit](http://purl.obolibrary.org/obo/MS_1000501) (float32) --- The lower m/z bound of a mass spectrometer scan window.
-    - [MS_1000500_scan_window_upper_limit](http://purl.obolibrary.org/obo/MS_1000500) (float32) --- The upper m/z bound of a mass spectrometer scan window.
+    - [MS_1000501_scan_window_lower_limit](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
+    - [MS_1000500_scan_window_upper_limit](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
 - **MAY** supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,
@@ -226,3 +228,21 @@ An ion isolated for dissociation.
     Is there a better way to make ion-mobility storage generic over its type
     ("ion mobility drift time", "inverse reduced ion mobility", "FAIMS
     compensation voltage")? Left open.
+
+
+### `product` (group) (optional)
+
+When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately with a different isolation window. This group is optional and **MAY** be omitted when the relevant data is absent.
+
+- **`source_index`** (integer) — the spectrum this product belongs to
+  (foreign key).
+- **`product_index`** (integer) — the ascending 0-based index, incrementing by 1 per
+  entry. This number uniquely identifies each product ion selection across all rows.
+- **`isolation_window`** (group) — the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
+    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+    - **MUST** supply children of
+      [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
+      attribute) one or more times; promote to columns when available — e.g.
+      isolation-window target m/z, lower offset, upper offset.
+- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

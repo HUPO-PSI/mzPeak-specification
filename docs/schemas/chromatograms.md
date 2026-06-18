@@ -55,12 +55,12 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
   ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), absorption
   ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)).
-- **`data_processing_ref`** (string) — a `data_processing` governing this
+- **`data_processing_id`** (string) — a `data_processing` governing this
   chromatogram if it deviates from `run.default_data_processing_id`; `null`
   otherwise.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) —
+- **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) ---
   see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
 - [**`MS_1003060_number_of_data_points`**](http://purl.obolibrary.org/obo/MS_1003060)
   (integer) — data points stored in `chromatograms_data.parquet`.
@@ -97,14 +97,19 @@ Like the `precursor` group, outside of sequential, multiple or parallel reaction
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455) (ion selection
   attribute) one or more times — selected-ion m/z, charge state, intensity.
 
-### `product` (group)
+### `product` (group) (optional)
+
+When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately with a different isolation window. This group is optional and **MAY** be omitted when the relevant data is absent.
 
 - **`source_index`** (integer) — the chromatogram this product belongs to
   (foreign key).
-- **`product_index`** (integer) — the chromatogram the product was created
-  from (foreign key). See [spectra](spectra.md#precursor-group) for more details.
-- **`isolation_window`** (group) — as for
-  [spectra](spectra.md#precursor-group): **MUST** supply children of
-  [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792).
+- **`product_index`** (integer) — the ascending 0-based index, incrementing by 1 per
+  entry. This number uniquely identifies each product ion selection across all rows.
+- **`isolation_window`** (group) — the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
+    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+    - **MUST** supply children of
+      [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
+      attribute) one or more times; promote to columns when available — e.g.
+      isolation-window target m/z, lower offset, upper offset.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

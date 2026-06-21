@@ -38,7 +38,7 @@ signal tables, developed in coordination with the
 current interface uses S6-style classes; an S4 interface (for full Bioconductor
 ecosystem compatibility) is planned.
 
-## C#
+## C\#
 
 [`HUPO-PSI/mzPeak.NET`](https://github.com/HUPO-PSI/mzPeak.NET) is a read/write
 implementation for the .NET ecosystem. It ships with a demonstration that reads

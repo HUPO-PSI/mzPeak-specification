@@ -46,7 +46,7 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
 - **`index`** (integer) — the ascending 0-based index, incrementing by 1 per
   entry and **SHOULD** be time-sorted ascending. Primary key for the
   `chromatogram` facet.
-- **`id`** (string) — a unique string identifier.
+- **`id`** (string) — a unique string identifier. Unlike for spectra, there is no "nativeId" format definition for chromatograms at this time.
 - [**`MS_1000465_scan_polarity`**](http://purl.obolibrary.org/obo/MS_1000465)
   (integer) — `1`, `-1`, or `null`.
 - [**`MS_1000626_chromatogram_type`**](http://purl.obolibrary.org/obo/MS_1000626)
@@ -54,10 +54,12 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
   ([`MS:1000235`](http://purl.obolibrary.org/obo/MS_1000235)), selected ion
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
   ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), absorption
-  ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)).
-- **`data_processing_id`** (string) — a `data_processing` governing this
-  chromatogram if it deviates from `run.default_data_processing_id`; `null`
-  otherwise.
+  ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)),
+  or selected ion current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)).
+- **`data_processing_id`** (string) — the `id` of a `data_processing` that
+  governs this chromatogram if it deviates from the default in
+  `run.default_data_processing_id`; `null` otherwise. This applies data processing reflects how properties or attributes of the chromatogram are calculated. Data arrays
+  are governed by the data processing methods defined in the [array index](../layouts/signal-data.md#the-array-index)
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) ---

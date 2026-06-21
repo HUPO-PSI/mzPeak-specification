@@ -5,7 +5,11 @@
 A conformant archive MUST contain `mzpeak_index.json` at its root. All other members are
 discovered through it; readers MUST NOT depend on member names other than `mzpeak_index.json`.
 mzPeak files containing only metadata (no spectra, no chromatograms) are thus still legal
-mzPeak archives.
+mzPeak archives. Additionally, any of the Parquet files **MAY** be empty but present, and readers must gracefully handle these files being valid schematically but containing no rows.
+
+### Archive file order
+
+There is no required order of files in an mzPeak archive. As a matter of course the `mzpeak_index.json` will be the last file written to a ZIP archive. Some data files rely on information from other files, making reading the archive incrementally impractical at this time. File names within the archive **SHOULD** be unique, but in some unusual scenarios a ZIP archive may contain multiple files with the same name, in which case the last instance **SHOULD** be used.
 
 ## Conformant archive
 

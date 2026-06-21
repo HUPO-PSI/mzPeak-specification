@@ -28,13 +28,12 @@ Files in a ZIP may be stored compressed or uncompressed.
 TAR archives are designed for linear traversal: to learn what files an archive
 contains you must hop from header entry to header entry until you reach the end.
 Compared with ZIP's central directory, this is less efficient and more expensive
-on object stores. TAR also has no per-file encryption, which would make
-protecting the parts of an archive that are *not* Parquet files harder.
+on object stores.
 
 ## Unpacked archives
 
 If an mzPeak archive is stored as an unpacked directory, the directory name is
-treated as the name of the run.
+treated as the name of the archive. All other paths and files stored in the archive relative to that directory as usual.
 
 ## Encryption
 

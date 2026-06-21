@@ -54,8 +54,10 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
-- **`data_processing_id`** (string) — a `data_processing` governing this
-  spectrum if it deviates from the default; `null` otherwise.
+- **`data_processing_id`** (string) — the `id` of a `data_processing` that
+  governs this spectrum if it deviates from the default in
+  `run.default_data_processing_id`; `null` otherwise. This applies data processing reflects how properties or attributes of the spectrum are calculated. Data arrays
+  are governed by the data processing methods defined in the [array index](../layouts/signal-data.md#the-array-index)
 - **`parameters`** (list).
 - **`number_of_auxiliary_arrays`** (integer) / **`auxiliary_arrays`** (list) —
   see [auxiliary data arrays](../layouts/auxiliary-arrays.md).

@@ -18,7 +18,7 @@ Spectra are described by up to three files: a **signal** file
 
     For timsTOF-style data that is centroided in m/z but profiled in ion
     mobility, the consensus is to treat it as centroid for the mass-spectrum
-    dimension and place it in `spectra_peaks.parquet`.
+    dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`MS_1003439_ion_mobility_frame_representation`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
 
 ## Spectrum signal data — `spectra_data.parquet`
 
@@ -112,9 +112,10 @@ usually makes more sense when the value is usually present.
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
 - [**`MS_1000511_ms_level`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
   — the MS stage number, or `null` for non-mass spectra.
-- **`data_processing_id`** (string) — the identifier of a `data_processing` that
+- **`data_processing_id`** (string) — the `id` of a `data_processing` that
   governs this spectrum if it deviates from the default in
-  `run.default_data_processing_id`; `null` otherwise.
+  `run.default_data_processing_id`; `null` otherwise. This applies data processing reflects how properties or attributes of the spectrum are calculated. Data arrays
+  are governed by the data processing methods defined in the [array index](../layouts/signal-data.md#the-array-index)
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`number_of_auxiliary_arrays`** (integer) — the count of
@@ -126,7 +127,7 @@ usually makes more sense when the value is usually present.
 - **`mz_delta_model`** (list of float64) — parameters of the m/z delta model used
   to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is
   no fixed length requirement, and this value **MAY** be `null` or empty if no model
-  was learned. Polynomial coefficient terms should be written in descending power,
+  was learned. Polynomial coefficient terms **MUST** be written in descending power,
   including any zeros.
   :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
 - [**`MS_1000525_spectrum_representation`**](http://purl.obolibrary.org/obo/MS_1000525)
@@ -160,7 +161,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
   (foreign key).
 - **`scan_index`** (uint64) — the ascending 0-based index, incrementing by 1 per
   entry; uniquely identifies a scan, especially with multiple scans per spectrum
-  (summing/averaging).
+  (summing/averaging), chained together to form ion mobility frames while preserving the original data.
 - **`spectrum_reference`** (string) — another spectrum corresponding to this
   scan. For local spectra, its `id`; for *external* sources, a
   [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished

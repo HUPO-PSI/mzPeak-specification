@@ -69,14 +69,14 @@ File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` *and* in the
 metadata Parquet files' key–value pairs, as JSON encoded according to the schemas
 below:
 
-- [`cv_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
-- [`file_description`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/file_description.json)
-- [`instrument_configuration_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/instrument_configuration.json)
-- [`data_processing_method_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/data_processing.json)
-- [`software_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/software.json)
-- [`sample_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/sample.json)
-- [`scan_settings_list`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/scan_settings_list.json)
-- [`run`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/ms_run.json)
+- [`cv_list`](./cv_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
+- [`file_description`](./file_description.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/file_description.json)
+- [`instrument_configuration_list`](./instrument_configuration.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/instrument_configuration.json)
+- [`data_processing_method_list`](./data_processing.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/data_processing.json)
+- [`software_list`](./software.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/software.json)
+- [`sample_list`](./sample.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/sample.json)
+- [`scan_settings_list`](./scan_settings_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/scan_settings_list.json)
+- [`run`](./ms_run.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/ms_run.json)
 
 !!! question "Open item — cleartext vs. encryptable metadata"
     Anything in `mzpeak_index.json` is necessarily cleartext to all readers

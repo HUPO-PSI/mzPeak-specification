@@ -11,6 +11,10 @@ mzPeak archives. Additionally, any of the Parquet files **MAY** be empty but pre
 
 There is no required order of files in an mzPeak archive. As a matter of course the `mzpeak_index.json` will be the last file written to a ZIP archive. Some data files rely on information from other files, making reading the archive incrementally impractical at this time. File names within the archive **SHOULD** be unique, but in some unusual scenarios a ZIP archive may contain multiple files with the same name, in which case the last instance **SHOULD** be used.
 
+### Unpacked archives
+
+The same requirements apply to an unpacked archive. There is no "ordering" on the host file system. File systems versioning is not considered here, but it is usually preferrable to use the latest version of the files in the unpacked archive.
+
 ## Conformant archive
 
 A conformant archive **MUST**:

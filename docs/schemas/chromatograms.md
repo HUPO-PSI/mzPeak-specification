@@ -92,7 +92,7 @@ The method of precursor-ion selection and activation. Outside of sequential, mul
 Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this group will be unilaterally `null`.
 
 - **`source_index`** (integer) / **`precursor_index`** (integer) — foreign keys.
-- **`ion_mobility_value`** (float) / **`ion_mobility_type`** (CURIE) — optional.
+- **`ion_mobility_value`** (float) / **`ion_mobility_type`** (CURIE) — See the `spectrum` [`scan.ion_mobility_value`](spectra.md#scan-group) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **MUST** supply a child of

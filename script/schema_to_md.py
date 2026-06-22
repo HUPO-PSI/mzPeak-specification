@@ -5,6 +5,7 @@ import json
 import argparse
 import re
 
+from urllib.request import urlopen
 from pathlib import Path
 from io import FileIO
 
@@ -36,12 +37,12 @@ def type_str(schema: dict, root: dict) -> str:
     if t is None:
         for keyword in ("anyOf", "oneOf"):
             if keyword in schema:
-                return " | ".join(type_str(s, root) for s in schema[keyword])
+                return " or ".join(type_str(s, root) for s in schema[keyword])
         if "enum" in schema:
             return "`enum`"
         return ""
     if isinstance(t, list):
-        return " | ".join(f"`{x}`" for x in t)
+        return " or ".join(f"`{x}`" for x in t)
     if t == "array":
         items = schema.get("items")
         return f"`array` of {type_str(items, root)}" if items else "`array`"
@@ -51,8 +52,11 @@ def type_str(schema: dict, root: dict) -> str:
 def fmt_examples(examples: list) -> str:
     return ", ".join(f"`{json.dumps(e)}`" for e in examples)
 
+def _mklink(mat):
+    return f'<{mat.group(1)}>'
+
 def detect_link(text: str):
-    return re.sub(r"(http(?:s)?://\S+)", lambda mat: f'<{mat.group(1)}>', text)
+    return re.sub(r"(?<!\()(http(?:s)?://\S+)", _mklink, text)
 
 def render_properties(schema: dict, root: dict, level: int) -> list[str]:
     properties = schema.get("properties", {})
@@ -69,8 +73,8 @@ def render_properties(schema: dict, root: dict, level: int) -> list[str]:
     ]
     for name, prop in properties.items():
         resolved = resolve_ref(prop["$ref"], root) if "$ref" in prop else prop
-        req = "Yes" if name in required else ""
-        desc = resolved.get("description", "").replace("\n", " ")
+        req = "Yes" if name in required else "&nbsp;"
+        desc = detect_link(resolved.get("description", "&nbsp;").replace("\n", " "))
         lines.append(f"| `{name}` | {type_str(prop, root)} | {req} | {desc} |")
     lines.append("")
 
@@ -139,7 +143,11 @@ def schema_to_markdown(schema: dict) -> str:
     lines = [f"# {schema.get('title', 'JSON Schema')}", ""]
 
     if desc := schema.get("description"):
-        lines += [desc, ""]
+        lines += [detect_link(desc), ""]
+
+    if meta := schema.get("$meta"):
+        if summary_uri := meta["summary"]:
+            lines += [detect_link(urlopen(summary_uri).read().replace(b"\r", b"").decode('utf8')), ""]
 
     t = schema.get("type")
     if t == "array" and "items" in schema:

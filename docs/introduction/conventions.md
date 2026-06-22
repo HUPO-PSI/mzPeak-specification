@@ -6,7 +6,7 @@ document are to be interpreted as described in
 [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
 
 Throughout the specification, controlled-vocabulary terms are written as CURIEs
-of the form `MS:1000511` and, where helpful, linked to their definition in the
+of the form `MS:1000511`, optionally with their names appended after a `|`, e.g. `MS:1000511|ms level` and, where helpful, linked to their definition in the
 [PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms). When a
 term name is *inflected* into a Parquet column name, it appears in `code` font,
 e.g. `MS_1000511_ms_level` — see

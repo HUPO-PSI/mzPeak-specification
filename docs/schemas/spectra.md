@@ -109,7 +109,7 @@ usually makes more sense when the value is usually present.
 - **`time`** (float64) — the data-acquisition start time. **SHOULD** be
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
-  acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
+  acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031).
 - [**`MS_1000511_ms_level`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
   — the MS stage number, or `null` for non-mass spectra.
 - **`data_processing_id`** (string) — the `id` of a `data_processing` that
@@ -174,9 +174,9 @@ A scan or acquisition from the original raw file used to create a spectrum.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`ion_mobility_value`** (float64) — optional ion-mobility measurement for this
-  scan.
+  scan. If multiple ion mobility values are used and combined on the instrument, such as with a FAIMS compensation voltage ramp, the writer **SHOULD** record multiple `scan` records per `spectrum` with the [ramp start](http://purl.obolibrary.org/obo/MS_1003450) and [ramp end](http://purl.obolibrary.org/obo/MS_1003451) values in this column, using the [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571) combinator. If multiple ion mobility values are separately acquired per frame, then an ion mobility dimension **MUST** instead be used in the [signal data](#spectrum-signal-data--spectra_dataparquet) and/or [peak data](#spectrum-peak-data--spectra_peaksparquet).
 - **`ion_mobility_type`** (CURIE) — optional; a child of
-  [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892).
+  [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892). See **`scan.ion_mobility_value`** for more details on ion mobility ramps.
 - **`scan_windows`** (list) — the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)
     - [MS_1000501_scan_window_lower_limit](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
@@ -218,17 +218,11 @@ An ion isolated for dissociation.
   (foreign key).
 - **`precursor_index`** (uint64) — the spectrum the selected ion was created from
   (foreign key).
-- **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE, child of
-  [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892){.cvparam}) — optional.
+- **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE) — See the [`scan.ion_mobility_value`](#scan-group) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **MUST** supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455){.cvparam} (ion selection
   attribute) one or more times — e.g. selected-ion m/z, charge state, intensity.
-
-!!! question "Open item — generic ion-mobility storage"
-    Is there a better way to make ion-mobility storage generic over its type
-    ("ion mobility drift time", "inverse reduced ion mobility", "FAIMS
-    compensation voltage")? Left open.
 
 
 ### `product` (group) (optional)

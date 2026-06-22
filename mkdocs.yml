@@ -159,7 +159,7 @@ nav:
       - The Index File: archive/index-file.md
       - Data Kinds: archive/data-kinds.md
       - Entity Types: archive/entity-types.md
-      - Run-Level Metadata:
+      - Run-Level Metadata Schemas:
         - Parameters: archive/param.md
         - Controlled Vocabularies: archive/cv_list.md
         - File Description: archive/file_description.md

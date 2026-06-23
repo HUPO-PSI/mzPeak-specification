@@ -3,7 +3,7 @@
   "title": "mzPeak metadata MS run",
   "description": "Describe the JSON format of the run-level metadata section, analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#run",
   "$meta": {
-    "summary": "file:docs/archive/meta/ms_run.md"
+    "summary": "file:schema/meta/ms_run.md"
   },
   "type": "object",
   "required": [

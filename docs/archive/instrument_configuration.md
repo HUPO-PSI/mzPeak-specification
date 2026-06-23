@@ -10,7 +10,7 @@ This describes which components are engaged for a particular scan configuration.
 
 When handling an instrument with multiple mass analyzers like an [MS:1003768|ion trap orbitrap instrument](http://purl.obolibrary.org/obo/MS_1003768), there **SHOULD** be multiple [`instrument_configuration`](#instrument_configuration) instances.
 
-??? example
+??? example "An example with two configurations, one using the ion trap, one using the orbitrap"
     ```json
     [
         {

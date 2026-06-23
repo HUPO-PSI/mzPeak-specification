@@ -3,7 +3,7 @@
   "title": "mzPeak metadata data processing method list",
   "description": "Describe the JSON format of data processing method list",
   "$meta": {
-    "summary_uri": "file:docs/archive/meta/data_processing.md"
+    "summary": "file:schema/meta/data_processing.md"
   },
   "type": "array",
   "items": {

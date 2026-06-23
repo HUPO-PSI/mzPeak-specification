@@ -3,7 +3,7 @@
   "title": "mzPeak metadata scan settings list",
   "description": "The list of scan settings pre-configuring acquisition settings. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.",
   "$meta": {
-    "summary": "file:docs/archive/meta/scan_settings.md"
+    "summary": "file:schema/meta/scan_settings.md"
   },
   "type": "array",
   "items": {

@@ -3,6 +3,9 @@
   "title": "mzPeak metadata file description",
   "description": "Describe the JSON format of the file description section",
   "type": "object",
+  "$meta": {
+    "summary": "file:docs/archive/meta/file_description.md"
+  },
   "required": ["contents", "source_files"],
   "properties": {
     "contents": {

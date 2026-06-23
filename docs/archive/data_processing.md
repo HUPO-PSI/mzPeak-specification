@@ -20,8 +20,8 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` |  | A unique identifier for the data processing method. |
-| `methods` | `array` of [`processing_method`](#processing_method) |  |  |
+| `id` | `string` | &nbsp; | A unique identifier for the data processing method. |
+| `methods` | `array` of [`processing_method`](#processing_method) | &nbsp; | &nbsp; |
 
 #### Property Details
 
@@ -44,9 +44,9 @@ Describes a single step of data processing.
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `order` | `integer` |  | The order in which the step is applied in the data processing pipeline. |
-| `software_reference` | `string` |  | The identifier for a software entry that performed this operation. |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) |  | Additional parameters describing this data processing step denoting actions, parameters, and other descriptors. |
+| `order` | `integer` | &nbsp; | The order in which the step is applied in the data processing pipeline. |
+| `software_reference` | `string` | &nbsp; | The identifier for a software entry that performed this operation. |
+| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | &nbsp; | Additional parameters describing this data processing step denoting actions, parameters, and other descriptors. |
 
 #### Property Details
 

@@ -2,13 +2,17 @@
 
 The list of scan settings pre-configuring acquisition settings. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.>
 
-## Use-cases
+## Use cases
 
 This is used primarily used for high-level configuration of data-independent acquisition strategies like targeted MS, SWATH, and the like. Additionally used for imaging MS to define the spatial scanning parameters.
 
 ### Targeted MS
 
-Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings) entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters.
+Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings) entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510)
+
+### Data-Independent Acquisition (DIA)
+
+Like targeted MS, DIA methods may define their windows scheme with terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510), using a `target` for each window.
 
 ### Imaging MS
 
@@ -96,8 +100,8 @@ Description of the acquisition settings of the instrument prior to the start of 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | The unique identifier for this scan settings configuration |
-| `source_file_references` | `array` of `string` |  |  |
-| `targets` | `array` of [`target`](#target) |  | A list of targeted ions or intervals on an inclusion list. |
+| `source_file_references` | `array` of `string` | &nbsp; | &nbsp; |
+| `targets` | `array` of [`target`](#target) | &nbsp; | A list of targeted ions or intervals on an inclusion list. |
 | `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing the scan settings. |
 
 #### Property Details

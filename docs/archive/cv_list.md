@@ -22,7 +22,7 @@ Describe the JSON format of a controlled vocabulary, analogous to <https://pepti
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | The short identifier used for CURIEs from this controlled vocabulary. |
 | `version` | `string` | Yes | The version for this controlled vocabulary, like a release number, date, or similar. No particular format is expected. |
-| `full_name` | `string` |  | The usual name for the resource (e.g. The PSI-MS Controlled Vocabulary). |
+| `full_name` | `string` | &nbsp; | The usual name for the resource (e.g. The PSI-MS Controlled Vocabulary). |
 | `uri` | `string` | Yes | The URI for the controlled vocabulary. |
 
 #### Property Details

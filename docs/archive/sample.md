@@ -21,7 +21,7 @@ A description (one) of the samples used to generate this dataset. Analogous to <
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | A unique identifier for this sample. |
-| `name` | `string` |  | A human-readable name for this sample that might be easier to recognize. |
+| `name` | `string` | &nbsp; | A human-readable name for this sample that might be easier to recognize. |
 | `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing this sample. |
 
 #### Property Details

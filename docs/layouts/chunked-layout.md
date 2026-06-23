@@ -127,7 +127,9 @@ efficiency.
     ```
 
 ??? info "Multi-dimensional chunking postponed for the future"
-    Currently, chunking is only permitted in one dimension, the added complexity of chunking in multiple dimensions was not deemed necessary *yet*. There may come a time when we have high enough density that it becomes worthwhile to support. If you believe you have a use case, let us know!
+    Currently, chunking is only permitted in one dimension, the added complexity of chunking in multiple dimensions was not deemed necessary *yet*. Current instruments do not produce large enough and dense enough ion mobility dimensions to rival the m/z dimension for compression difficulty.
+
+    There may come a time when we have high enough density that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, chunk_encoding`, and `chunk_values` columns. If you believe you have a use case, let us know!
 
 ## Chunk encodings
 
@@ -253,9 +255,7 @@ the array index **MUST** be the *decoded* array's real type. Column names
 `intensity_numpress_slof_bytes`.
 
 ??? question "Transform name or accession code?"
-    We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314){ .foo } instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
-
-!!! info "Lossy transformations"
+    We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314) instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
 
 
 ## Reading a single entry from the chunked encoding

@@ -4,7 +4,11 @@ This is used primarily used for high-level configuration of data-independent acq
 
 ### Targeted MS
 
-Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings) entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters.
+Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings) entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510)
+
+### Data-Independent Acquisition (DIA)
+
+Like targeted MS, DIA methods may define their windows scheme with terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510), using a `target` for each window.
 
 ### Imaging MS
 

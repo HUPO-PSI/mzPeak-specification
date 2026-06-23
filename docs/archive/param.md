@@ -9,9 +9,9 @@ Describe the JSON format of controlled vocabulary or user-defined parameters.
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `name` | `string` | Yes | The name of the parameter. If controlled, this should be the name from the source controlled vocabulary. |
-| `accession` | `string` | `null` |  | The compact CURIE for the controlled vocabulary term, if it exists, null otherwise |
-| `value` | `number` | `string` | `boolean` | `null` |  | The value for this parameter, if any. This may be omitted if null |
-| `unit` | `string` | `null` |  | The compact CURIE for the unit describing the measurement for this parameter |
+| `accession` | `string` or `null` | &nbsp; | The compact CURIE for the controlled vocabulary term, if it exists, null otherwise |
+| `value` | `number` or `string` or `boolean` or `null` | &nbsp; | The value for this parameter, if any. This may be omitted if null |
+| `unit` | `string` or `null` | &nbsp; | The compact CURIE for the unit describing the measurement for this parameter |
 
 ## Property Details
 
@@ -21,16 +21,16 @@ The name of the parameter. If controlled, this should be the name from the sourc
 
 *Examples:* `"Q Exactive"`, `"SHA-1"`, `"MSn spectrum"`
 
-**`accession`** - `string` | `null` *(optional)*
+**`accession`** - `string` or `null` *(optional)*
 
 The compact CURIE for the controlled vocabulary term, if it exists, null otherwise
 
 *Examples:* `"MS:1000580"`, `"MS:1000768"`
 
-**`value`** - `number` | `string` | `boolean` | `null` *(optional)*
+**`value`** - `number` or `string` or `boolean` or `null` *(optional)*
 
 The value for this parameter, if any. This may be omitted if null
 
-**`unit`** - `string` | `null` *(optional)*
+**`unit`** - `string` or `null` *(optional)*
 
 The compact CURIE for the unit describing the measurement for this parameter

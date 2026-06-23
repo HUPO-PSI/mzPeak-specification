@@ -111,10 +111,6 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tilde
 
-extra_javascript:
-  - javascripts/mathjax.js
-  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-
 plugins:
   - search
   - enumerate-headings:
@@ -123,20 +119,21 @@ plugins:
       increment_across_pages: true # continuous numbering in nav order (each page = next top-level section)
       exclude:
         - index.md                 # the hero/abstract home page is not "Section 1"
-  # - exporter:
-  #     formats:
-  #       pdf:
+  - exporter:
+      formats:
+        pdf:
           # enabled: !ENV [MKDOCS_EXPORTER_PDF, true]
-          # concurrency: 8
+          enabled: false
+          concurrency: 8
           # stylesheets:
           #   - resources/stylesheets/pdf.scss
           # covers:
           #   front: resources/templates/covers/front.html.j2
           #   back: resources/templates/covers/back.html.j2
-          # aggregator:
-          #   enabled: true
-          #   output: document.pdf
-          #   covers: all
+          aggregator:
+            enabled: true
+            output: document.pdf
+            covers: all
 
 nav:
   - Home: index.md

@@ -119,9 +119,12 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
     - Parquet columns **MUST** be uniquely named, so if a parameter appears more
       than once in a single row it **MUST** be stored in the `parameters`
       column.
-    - Writers are encouraged, when sufficient context is available, to promote
-      parameters that are present in most rows of a table to *columns*. This is
-      more space-efficient and enables predicate filtering.
+    - Writers **SHOULD** to promote parameters that are present with zero or one times per row
+      to *columns* unless there is ambiguity or insufficient context. This is more space-efficient and enables predicate filtering. Examples where ambiguity might prevent promotion:
+        - The parameter *MAY* be repeated, but until all records are written, it is impossible to know.
+        - The parameter is a user-defined term, leaving it up to the implementation to know whether it may be repeated multiple times for the same row.
+        - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
+
 
 !!! question "Open item — lists and maps"
     Whether `parameters` values should also support list- or map-valued types is

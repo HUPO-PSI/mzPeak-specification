@@ -33,3 +33,28 @@ add a new data kind:
    type fits, create a new one — an LC-MS feature might associate with
    `spectrum`, but there is no clean one-to-one or one-to-many relationship
    between spectra and LC-MS features, so a new entity type may be needed.
+
+## Reading `proprietary` and `other` entries
+
+`proprietary` and `other` files are implementation-defined, so a reader cannot
+assume a layout. The following rules keep them safe to carry across tools.
+
+**Reader contract.** A reader **MUST NOT** fail when it encounters a
+`data_kind` it does not recognise, or a `proprietary` file written for a
+different vendor; it **MUST** read the rest of the archive and skip the
+member. A reader **MAY** interpret an `other` file from its `name` and layout
+when it recognizes them; otherwise it **MUST** leave the member untouched.
+
+**Preserve on copy.** A tool that rewrites or repackages an archive **MUST**
+preserve `proprietary` and `other` members verbatim - both their bytes and
+their index entry. A writer **MUST NOT** change a modellable entity to
+`other`/`proprietary` to avoid encoding it properly.
+
+**Declare the format.** A `proprietary` entry **SHOULD** record its
+originating format as a `cvParam` on its index entry, using the relevant
+PSI-MS file-format terms. A vendor reader can then find the members it understands without relying on
+file-name conventions, and a generic reader can report what it skipped.
+
+**Scope.** Embedded vendor content **SHOULD** be limited to acquisition-method,
+tune, and calibration metadata that has no `metadata`-kind representation. The
+bulk vendor raw signal **SHOULD NOT** be embedded.

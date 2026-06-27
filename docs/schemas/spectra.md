@@ -124,11 +124,14 @@ usually makes more sense when the value is usually present.
 - **`auxiliary_arrays`** (list) — structures describing arrays that did not fit
   the [arrays-and-columns](../layouts/signal-data.md#arrays-and-columns)
   constraints. These may be large; load eagerly with care.
-- **`mz_delta_model`** (list of float64) — parameters of the m/z delta model used
-  to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is
-  no fixed length requirement, and this value **MAY** be `null` or empty if no model
-  was learned. Polynomial coefficient terms **MUST** be written in descending power,
-  including any zeros.
+- **`mz_delta_model`** (list of float64) — coefficients of the per-row axis model
+  used to reconstruct [null-marked data](../layouts/signal-data.md#null-marking) or a
+  [parametric axis](../layouts/signal-data.md#parametric-axis-reconstruction). The
+  list is interpreted according to the reconstruction-model `transform` CURIE on the
+  corresponding array-index entry (which model family — `spacing`, `linear`,
+  `sqrt_linear`); for the `spacing` model the terms are polynomial coefficients in
+  descending power, including any zeros. There is no fixed length requirement, and
+  this value **MAY** be `null` or empty if no model was learned.
   :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
 - [**`MS_1000525_spectrum_representation`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) — e.g.

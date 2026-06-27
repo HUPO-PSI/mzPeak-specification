@@ -49,7 +49,13 @@ A conformant reader **MUST**:
 - resolve signal columns and transforms **via the array index**, not by column name;
 - resolve CV parameters by **accession** (name is advisory);
 - ignore unrecognized members, columns, metadata keys, `entity_type`/`data_kind`, or CV terms
-  without error, preserving their literal values.
+  without error, preserving their literal values;
+- **fail closed on interpretation-changing transforms:** when an array carries a `transform`
+  whose model the reader does not implement (e.g. a reconstruction model under `MS:1003820`),
+  the reader **MUST NOT** return the stored values as the array's coordinate — it **MUST** skip
+  the affected entities or raise an error. This is the exception to the previous rule: such a
+  transform makes the raw values (integer ordinals) actively misleading, not merely
+  unrecognized.
 
 ## Validation
 

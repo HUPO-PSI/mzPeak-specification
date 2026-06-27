@@ -21,7 +21,10 @@ The signal data is encoded using either
 [point layout](../layouts/point-layout.md) or
 [chunked layout](../layouts/chunked-layout.md). The entity index column **MUST**
 be named `wavelength_spectrum_index`, and a co-located time column, if written,
-**SHOULD** be named `wavelength_spectrum_time`.
+**SHOULD** be named `wavelength_spectrum_time`. The main wavelength-axis array
+**SHOULD** be named `wavelength` and the intensity array `intensity`, mirroring the
+`mz`/`intensity` convention for [mass spectra](../layouts/point-layout.md); as
+elsewhere, readers resolve signal columns through the array index rather than by name.
 
 When using [null marking](../layouts/signal-data.md#null-marking), follow the
 [null semantics for signal data](../layouts/signal-data.md#null-semantics-for-signal-data)

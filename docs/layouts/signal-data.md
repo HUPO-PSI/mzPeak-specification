@@ -325,8 +325,8 @@ the array), then filling the null values with either a locally estimated value
 (when more than one value is available to estimate the median delta) or the
 regression model described above (for a single point).
 
-Unpaired `null` values **MAY** appear only as the first or last `null` in the
-array; any other unpaired `null` is an unrecoverable error. A run of three or
+Unpaired `null` values **MAY** appear only as the first or last `null` value in array;
+any other unpaired `null` is an unrecoverable error. A run of three or
 more `null` values **MAY** be recoverable but should not occur under normal
 operation.
 

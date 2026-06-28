@@ -21,7 +21,8 @@ and used in conjunction with — several existing and emerging community models:
 
 ## Controlled vocabularies
 
-mzPeak metadata is anchored in the **PSI-MS controlled vocabulary**. The
+mzPeak metadata is anchored in the
+**[PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms)**. The
 controlled vocabularies an archive relies on — with their versions and source
 URIs — are declared in the archive's `cv_list` (see
 [file-level metadata](../archive/index-file.md#file-level-metadata)), so a reader

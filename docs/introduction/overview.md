@@ -17,8 +17,9 @@ The format takes a hybrid approach: an archive of
 [Apache Parquet](https://parquet.apache.org/) tables — packaged in an
 uncompressed ZIP container, or an unpacked directory, together with a small JSON
 index — that stores numerical signal data as compact, columnar binary while
-keeping metadata both human- and machine-readable and anchored in the PSI-MS
-controlled vocabulary. Building on the widely available Apache Parquet and Apache
+keeping metadata both human- and machine-readable and anchored in the
+[PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms).
+Building on the widely available Apache Parquet and Apache
 Arrow libraries rather than a single core implementation, the on-disk structure
 is language-independent. Uncompressed archive members and a required Parquet page
 index let a reader locate and decode a single spectrum without parsing an entire

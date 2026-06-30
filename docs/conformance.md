@@ -63,7 +63,17 @@ A conformant reader **MUST**:
 - parallel columns of an entity have equal length;
 - the sorting-rank-0 coordinate array is ascending;
 - every non-null foreign key resolves to an existing key/id;
-- chunks of an entity are ascending by `chunk_start` and non-overlapping.
+- chunks of an entity are ascending by `chunk_start` and non-overlapping;
+- within an entity, all `array_index` entries share one layout family — either every entry
+  is `point` or every entry is one of the `chunk_*` formats; the two **MUST NOT** be mixed;
+- time columns (for example `spectrum.time` and `wavelength_spectrum_time`) are expressed in
+  [minutes](http://purl.obolibrary.org/obo/UO_0000031);
+- each signal Parquet file carries a [page index](https://parquet.apache.org/docs/file-format/pageindex/);
+- `data_type`, `array_type`, and `unit` CURIEs in the array index descend from their required
+  CV parents (`MS:1000518`, `MS:1000513`, and a unit term respectively).
+
+The last four cannot be expressed in JSON Schema or the CvMapping rules, so a conformant
+validator **MUST** check them programmatically.
 
 ## Conformance classes
 

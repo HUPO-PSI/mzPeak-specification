@@ -326,9 +326,10 @@ the array), then filling the null values with either a locally estimated value
 regression model described above (for a single point).
 
 Unpaired `null` values **MAY** appear only as the first or last `null` value in array;
-any other unpaired `null` is an unrecoverable error. A run of three or
-more `null` values **MAY** be recoverable but should not occur under normal
-operation.
+any other unpaired `null` is an unrecoverable error. A run of three or more `null`
+values **MAY** be recoverable but should not occur under normal operation. When using
+the chunked layout this applies to each chunk's value array as well, making each chunk
+independently decodable.
 
 The locally estimated value **SHOULD** be the second median of the spacing of the
 current segment's non-`null` values. The regression model predicts the spacing

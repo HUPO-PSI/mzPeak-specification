@@ -420,8 +420,8 @@ from the single non-null value of a segment that has only one.
 Unless otherwise noted, readers **SHOULD** treat `null` values in the sorting-
 rank-0 array of an entry as governed by this model, with parallel `null` values
 in any intensity arrays read as `0`. The former should carry a `transform` of
-[`MS:1003901`](http://purl.obolibrary.org/obo/MS_1003901) and the latter a
-`transform` of [`MS:1003902`](http://purl.obolibrary.org/obo/MS_1003902). All
+[`MS:1003902`](http://purl.obolibrary.org/obo/MS_1003902) and the latter a
+`transform` of [`MS:1003901`](http://purl.obolibrary.org/obo/MS_1003901). All
 other values at those points are read as-is, with null semantics meaning the
 value was absent. Writers using null marking **SHOULD** use `null` only for the
 first sorting dimension and its associated intensity value; all other columns

@@ -58,6 +58,7 @@
     "file": {
       "type": "object",
       "description": "A single file in the mzPeak archive of a certain type",
+      "required": ["name", "entity_type", "data_kind"],
       "properties": {
         "name": {
           "type": "string",
@@ -65,19 +66,64 @@
         },
         "entity_type": {
           "type": "string",
-          "examples": ["spectrum", "chromatogram", "other", "proprietary"],
+          "examples": ["spectrum", "chromatogram", "other", "proprietary", "wavelength_spectrum"],
           "description": "The things being described in one facet or another by this file"
         },
         "data_kind": {
           "type": "string",
           "examples": [
-            "data arrays",
+            "data_arrays",
             "metadata",
             "peaks",
             "other",
             "proprietary"
           ],
           "description": "The facet of the thing being described in this file"
+        },
+        "column_mapping": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/column_descriptor"},
+          "description": "A list of Parquet column to controlled vocabulary term mappings"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/param.json"
+          },
+          "description": "A list of parameters describing the file stored in the mzPeak archive itself"
+        }
+      }
+    },
+    "column_descriptor": {
+      "type": "object",
+      "description": "A mapping from a Parquet column to a controlled vocabulary term",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The human-readable term name",
+          "examples": [
+            "ms level",
+            "filter string",
+            "selected ion m/z"
+          ]
+        },
+        "path": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "The path in a Parquet schema for the mapped column split at nesting levels, omitting [list, item|element] tokens",
+          "examples": [
+            ["isolation_window", "target_mz"],
+            ["activation", "collision_energy"]
+          ]
+        },
+        "accession": {
+          "type": ["string", "null"],
+          "description": "The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term",
+          "default": null
+        },
+        "unit": {
+          "type": ["string", "null"],
+          "default": null
         }
       }
     }

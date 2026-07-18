@@ -89,7 +89,7 @@ formats. The available `buffer_format` values are:
 
 | `buffer_format` | Used by | Meaning |
 | :-- | :-- | :-- |
-| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array must be `point`. |
+| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array **MUST** be `point` (see [Conformance](../conformance.md#validation)). |
 | `chunk_values` | [chunked](chunked-layout.md) | The "main" axis values bounded between a chunk's start and end, encoded for better compressibility (in addition to Parquet's own encoding). |
 | `chunk_start` | [chunked](chunked-layout.md) | The starting value of the main axis for the chunk, inclusive. |
 | `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, inclusive. It should be less than the next chunk's `chunk_start`. |

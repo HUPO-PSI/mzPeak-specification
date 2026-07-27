@@ -73,7 +73,7 @@ have not been observed with isolation and fragmentation. `spectrum.index` and
 - **MAY** supply a child of
   [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
   one or more times — e.g.
-  [`MS_1000796_spectrum_title`](http://purl.obolibrary.org/obo/MS_1000796).
+  [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
 
 ### `scan` (group)
 

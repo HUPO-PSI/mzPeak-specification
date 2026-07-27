@@ -137,12 +137,10 @@ efficiency.
 
 > Chunk-encoding CV term: [`MS:1000576` — no compression](http://purl.obolibrary.org/obo/MS_1000576)
 
-When storing centroids, or data that are not similarly spaced (as is usually the
-case for pre-centroided spectra), but still wanting the chunked layout, no
-special encoding of the chunk values is necessary. Values within each chunk are
-written as-is to the chunk-values array. This does not improve compressibility,
-but it keeps a consistent schema for other entries that *would* benefit from a
-different encoding.
+When storing centroids, or sparse data that are not similarly spaced but still wanting the chunked layout,
+no special encoding of the chunk values is necessary. Values within each chunk are written as-is to the
+chunk-values array. This does not improve compressibility, but it keeps a consistent schema for other
+entries that *would* benefit from a different encoding.
 
 !!! note
     The start point is *excluded* from the chunk-values array.

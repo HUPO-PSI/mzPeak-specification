@@ -47,9 +47,9 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
   entry and **SHOULD** be time-sorted ascending. Primary key for the
   `chromatogram` facet.
 - **`id`** (string) — a unique string identifier. Unlike for spectra, there is no "nativeId" format definition for chromatograms at this time.
-- [**`MS_1000465_scan_polarity`**](http://purl.obolibrary.org/obo/MS_1000465)
+- [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
   (integer) — `1`, `-1`, or `null`.
-- [**`MS_1000626_chromatogram_type`**](http://purl.obolibrary.org/obo/MS_1000626)
+- [**`chromatogram_type (MS:1000626)`**](http://purl.obolibrary.org/obo/MS_1000626)
   (CURIE) — e.g. total ion current
   ([`MS:1000235`](http://purl.obolibrary.org/obo/MS_1000235)), selected ion
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
@@ -64,7 +64,7 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) ---
   see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
-- [**`MS_1003060_number_of_data_points`**](http://purl.obolibrary.org/obo/MS_1003060)
+- [**`number_of_data_points (MS:1003060)`**](http://purl.obolibrary.org/obo/MS_1003060)
   (integer) — data points stored in `chromatograms_data.parquet`.
 - **MAY** supply a child of
   [`MS:1000808`](http://purl.obolibrary.org/obo/MS_1000808) (chromatogram

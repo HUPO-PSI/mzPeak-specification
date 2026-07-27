@@ -1,66 +1,54 @@
-# Packed Parallel Metadata Tables
+# Metadata Tables
 
-The `spectra_metadata.parquet` and `chromatograms_metadata.parquet` files store
-multiple schemas *in parallel*. The root schema is made up of several branched
-"group" (Parquet) or "struct" (Arrow) facets, any of which may be null at any
-level. We borrow relational-database language — **primary key** and **foreign
-key** — to describe how the parallel tables interconnect.
+Mass spectra and other entities described in `mzPeak` are complex, multi-faceted entities.
+Each facet is described by a `data_kind` associated with the `entity_type`. The columns of
+a metadata table can vary widely based upon context, but they have the following rules:
 
-The example below shows two rows of related MS1 and MS2 spectra. Treat
-`scan.source_index`, `precursor.source_index`, `precursor.precursor_index`,
-`selected_ion.source_index`, and `selected_ion.precursor_index` as foreign keys
-with respect to `spectrum.index`, the primary key:
+For `data_kind == metadata`:
+- There **MUST** be an `index` column that is an integer value that **MUST** be unique. It **SHOULD** also be
+  sorted. This is akin to a primary key in relational databases.
 
-- `precursor.source_index` refers to the `spectrum` that this `precursor` record
-  belongs to.
-- `precursor.precursor_index` refers to the `spectrum` that *is* the precursor of
-  the spectrum referenced by `precursor.source_index`.
-- Together, `(precursor.source_index, precursor.precursor_index)` forms a
-  compound key.
+For all other kinds:
+- There **MUST** be a `source_index` column that is an integer value that *references* the `index` of
+  the `metadata` table for the instance that this row is associated. There may be zero or more rows
+  with the same `source_index` value. This is akin to a foreign key in relational databases.
+- There **MAY** be another column or a set of columns that function as a primary or composite primary key.
+  This will be defined by the particular file's schema.
 
-Any of these columns may be `null`, meaning that such a record does not exist in
-the table. The same applies to the `selected_ion` facet.
+In addition, all `data_kind` must support the following:
+- There **MAY** be a `parameters` column that is a list column as described [below](#the-parameters-list) in
+  the [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section. If there are nested columns, each
+  `struct`-like group may have its own `parameters` column.
+- Additional columns described in the [index file](../archive/index-file.md)'s column mapping may be present
+  that map a controlled vocabulary term to a column as described in [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section.
+- Additional columns may be defined specifically for a combination of `entity_type` and `data_kind`.
+- If a column value is `null`, treat its value as absent from that row. The `index` or `source_index` columns' values **MUST** not be `null`.
 
-<table class="packed-table" markdown="0">
-  <thead>
-    <tr>
-      <th colspan="4">spectrum</th>
-      <th colspan="2">scan</th>
-      <th colspan="3">precursor</th>
-      <th colspan="3">selected_ion</th>
-    </tr>
-    <tr>
-      <th>index</th>
-      <th>id</th>
-      <th>time</th>
-      <th>MS_1000511_<br/>ms_level</th>
-      <th>source_<br/>index</th>
-      <th>MS_1000616_preset_<br/>scan_configuration</th>
-      <th>source_<br/>index</th>
-      <th>precursor_<br/>index</th>
-      <th>isolation_<br/>window</th>
-      <th>source_<br/>index</th>
-      <th>precursor_<br/>index</th>
-      <th>MS_1000744_selected_<br/>ion_mz</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td colspan="12" style="text-align:center;">…</td></tr>
-    <tr>
-      <td>502</td><td>scan=502</td><td>20.51</td><td>1</td>
-      <td>502</td><td>3</td>
-      <td>503</td><td>502</td><td>{…}</td>
-      <td>503</td><td>502</td><td>233.5</td>
-    </tr>
-    <tr>
-      <td>503</td><td>scan=503</td><td>20.531</td><td>2</td>
-      <td>503</td><td>2</td>
-      <td>504</td><td>502</td><td>{…}</td>
-      <td>504</td><td>502</td><td>562.3</td>
-    </tr>
-    <tr><td colspan="12" style="text-align:center;">…</td></tr>
-  </tbody>
-</table>
+## Examples
+
+### Example 1: `entity_type=spectrum` `data_kind=metadata`
+
+This is the primary metadata table for mass spectra. There is an `index` column that uniquely identifies rows.
+
+|   **index** | id                                         |   ms_level |       time |   scan_polarity | spectrum_representation   | spectrum_type   |   lowest_observed_mz |   highest_observed_mz |   number_of_data_points |   number_of_peaks |   base_peak_mz |   base_peak_intensity |   total_ion_current | data_processing_id   | parameters   | auxiliary_arrays   |   number_of_auxiliary_arrays | mz_delta_model                                    |
+|--------:|:-------------------------------------------|-----------:|-----------:|----------------:|:--------------------------|:----------------|---------------------:|----------------------:|------------------------:|------------------:|---------------:|----------------------:|--------------------:|:---------------------|:-------------|:-------------------|-----------------------------:|:--------------------------------------------------|
+|       0 | controllerType=0 controllerNumber=1 scan=1 |          1 | 0.004935   |               1 | MS:1000128                | MS:1000579      |              200     |               1999.99 |                   13589 |               null |        810.415 |           1.47122e+06 |         7.12632e+07 |                      | []           | []                 |                            0 | [-2.21139275e-08  9.69754604e-11  6.05422863e-09] |
+|       1 | controllerType=0 controllerNumber=1 scan=2 |          1 | 0.00789667 |               1 | MS:1000128                | MS:1000579      |              200.091 |               2000    |                   18177 |               null |        810.545 |      183839           |         1.29013e+07 |                      | []           | []                 |                            0 | [0.09090909]                                      |
+|       2 | controllerType=0 controllerNumber=1 scan=3 |          2 | 0.0112183  |               1 | MS:1000127                | MS:1000580      |              231.389 |               1560.72 |                     null |               485 |        736.637 |      161141           |    586279           |                      | []           | []                 |                            0 |                                                   |
+|       3 | controllerType=0 controllerNumber=1 scan=4 |          2 | 0.0228383  |               1 | MS:1000127                | MS:1000580      |              236.047 |               1636.43 |                     null |              1006 |        780.536 |       29161.9         |    441570           |                      | []           | []                 |                            0 |                                                   |
+|       4 | controllerType=0 controllerNumber=1 scan=5 |          2 | 0.034925   |               1 | MS:1000127                | MS:1000580      |              203.222 |               1412.57 |                     null |               837 |        578.986 |        8601.8         |    114332           |                      | []           | []                 |                            0 |                                                   |
+
+### Example 2: `entity_type=spectrum` `data_kind=selected_ion`
+
+This is a secondary metadata file, it has `source_index` column. This identifies the `index` value of the `spectrum` row in the table above in [Example 1](#example-1-entity_typespectrum-data_kindmetadata). It has a second key, `precursor_index` denoting the index of the precursor spectrum that the selected ion was isolated in. When there is only one selected ion per spectrum, this will look unique, but this isn't guaranteed!
+
+|   source_index |   precursor_index |   selected_ion_mz |   charge_state |        intensity |   ion_mobility_value | ion_mobility_type   | parameters   |
+|---------------:|------------------:|------------------:|---------------:|-----------------:|---------------------:|:--------------------|:-------------|
+|              2 |                 1 |           810.789 |            null |      1.99404e+06 |                  null |                     | []           |
+|              3 |                 1 |           837.345 |            null | 999937           |                  null |                     | []           |
+|              4 |                 1 |           725.362 |            null | 313667           |                  null |                     | []           |
+|              5 |                 1 |           558.869 |            null | 202178           |                  null |                     | []           |
+|              6 |                 1 |           812.325 |            null |      1.16189e+06 |                  null |                     | []           |
 
 ## Controlled Vocabulary Terms
 
@@ -71,12 +59,12 @@ metadata. mzPeak uses CV terms in three ways:
    either the defined value of the term's expected type (e.g. via
    `has_value_type`) *or* a CURIE for a child of the column-name term. For
    example:
-    - The column [`MS_1000525_spectrum_representation`](http://purl.obolibrary.org/obo/MS_1000525)
+    - The column [`spectrum_representation (MS:1000525)`](http://purl.obolibrary.org/obo/MS_1000525)
       holds CURIEs for a child term —
       [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid
       spectrum" or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128)
       "profile spectrum" — as appropriate for the spectrum in that row.
-    - The column [`MS_1000511_ms_level`](http://purl.obolibrary.org/obo/MS_1000511)
+    - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
 2. **As structural elements.** In several places — such as the
    [array index](signal-data.md#the-array-index) — CURIEs reference named
@@ -88,7 +76,7 @@ metadata. mzPeak uses CV terms in three ways:
 
 ### The `parameters` list
 
-The `parameters` column may be present in any facet of a metadata table. It
+The `parameters` column may be present in any `struct`-like group of a metadata table. It
 **MUST** be a list of the following schema:
 
 ```
@@ -125,6 +113,10 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
         - The parameter is a user-defined term, leaving it up to the implementation to know whether it may be repeated multiple times for the same row.
         - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
 
+!!! question "Open item - auxiliary data arrays"
+    Whether `auxiliary_data_array` are subjecto to parameter-to-column promotion if they are recurring.
+    Technically they are under the current wording, but they are already a special case escape hatch and
+    complicated enough to parse.
 
 !!! question "Open item — lists and maps"
     Whether `parameters` values should also support list- or map-valued types is
@@ -156,48 +148,16 @@ Recommended physical types:
   especially for strings, where the offset is a *byte* offset, not an item
   offset.
 
-### Column name inflection
+### Column Mapping
 
-When a CV-term concept is represented as a column, the column name **SHOULD** be
-constructed by the following inflection rules:
+When a CV-term concept is represented as a column, the column name **SHOULD** unless otherwise
+stated be named according to the following rules and have a corresponding entry in the file's
+[file index](../archive/index-file.md)'s column mappings.
 
-1. The base column name is `${CV_CODE}_${CV_ACCESSION}_${CLEANED_NAME}` where:
-    1. `${CV_CODE}` identifies the controlled vocabulary itself — `MS` for
-       PSI-MS, `UO` for the Units of Measurement Ontology for instance. This **SHOULD**
-       correspond to the `cv.id` in [cv_list.json](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
-       defined for the [file-level metadata](../archive/index-file.md#file-level-metadata)
-       or subsidiary identifier namespaces.
-    2. `${CV_ACCESSION}` is the accession number. For `MS:1000016` "scan start
-       time" this is `1000016`.
-    3. `${CLEANED_NAME}` is the term's name with any character that is not valid
-       in a Parquet column name replaced by `_`. The regular expression
-       `/[^a-zA-Z0-9_\\-]+/` matches all such characters in ASCII. For
-       `MS:1000016`, the result is `MS_1000016_scan_start_time`.
-    4. Because the string "m/z" appears so frequently, it **SHOULD** be rewritten
-       as `mz` to avoid extra underscores. For `MS:1000504` "base peak m/z", the
-       result is `MS_1000504_base_peak_mz`.
-2. **If a single unit applies to every value in the column**, it **SHOULD** be
-   appended as `_unit_${UNIT_CV_CODE}_${UNIT_CV_ACCESSION}`. For example,
-   `MS_1000528_lowest_observed_mz_unit_MS_1000040` is `MS:1000528` "lowest
-   observed m/z" with unit `MS:1000040` "m/z".
-3. **If the unit varies across the column**, it **SHOULD** be carried in a
-   separate column whose name is the inflected name with `_unit` appended, whose
-   values are the unit CURIEs.
+1. If defined by the schema, match the *expected* name, often derived from the CV-term's name.
+2. Otherwise, begin with the prefix `opt_` followed by a unique name that is descriptive of the value being stored.
+     1. If the value is a CV-term, the term's name with non-identifier-safe characters (`/[^a-zA-Z0-9_\\-]+/`) replaced
+      with `_`
+     2. If not, provide as succinct unique name in the column name after the `opt_` prefix, with a more complete name defined
+        in the column mapping.
 
-## Null semantics for metadata
-
-A row value that is `null` is treated as absent — having no value. If a *foreign
-key* column is `null`, assume the corresponding record does not exist (as when an
-MS2 spectrum is stored without its MS1 precursor, as in MGF files, or in a slice
-of a run). If the *primary key* of a facet is `null`, the reader **SHOULD** skip
-that facet's columns for that row.
-
-A writer **SHOULD** minimise the number of interspersed all-`null` rows, though
-this is not strictly required. Minimising interspersed nulls improves
-compressibility. In the figures below, "Packed Tables" keeps the rows of each
-parallel facet contiguous, while "Sparse Tables" intermixes rows of nulls.
-
-<div class="mzp-figure" markdown>
-<img src="../../assets/img/packed_tables.png" alt="Packed tables: contiguous facet rows" width="45%"/>
-<img src="../../assets/img/sparse_tables.png" alt="Sparse tables: interspersed null rows" width="45%"/>
-</div>

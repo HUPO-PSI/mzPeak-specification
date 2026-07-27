@@ -1,13 +1,17 @@
 # Data Kinds
 
 The `data_kind` field tells the reader the *semantics* of the data in a file, and
-roughly what schema to expect. There are currently five controlled values:
+roughly what schema to expect. There are currently 16 controlled values:
 
 | `data_kind`    | Expected layout | Meaning |
 | :------------- | :-------------- | :------ |
 | `data arrays`  | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Signal data, usually in its "raw" form, for the file's `entity_type`. |
 | `peaks`        | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Like `data arrays`, but *processed* — implies a less-refined entry exists in a `data arrays` file. This is how profile **and** centroid signal coexist for a spectrum. |
-| `metadata`     | [packed parallel table](../layouts/metadata-tables.md) | Everything but the homogeneous signal arrays. May still be large. |
+| `metadata`     | [metadata table](../layouts/metadata-tables.md) | Primary metadata facet of the `entity_type`, includes its `index` values and other top-level information. |
+| `scans`        | [metadata table](../layouts/metadata-tables.md) | Instrument scan events for the `entity_type`, expected for `spectrum`, not `chromatogram` |
+| `precursors`   | [metadata table](../layouts/metadata-tables.md) | Precursor isolation and activation event tieing the product scan to the precursor scan. Expected for `spectrum` and some types of `chromatogram` |
+| `selected_ions`| [metadata table](../layouts/metadata-tables.md) | Ions isolated during precursor selection. Like `precursors`, this is expected for `spectrum` and some types of `chromatogram` |
+| `products`     | [metadata table](../layouts/metadata-tables.md) | Target isolation windows used for reaction monitoring. May appear for `spectrum` and `chromatogram`, but rare. |
 | `proprietary`  | implementation-defined | Entirely the purview of the writer (often an instrument vendor). May not be Parquet. Should be ignored unless the reader is for that vendor. |
 | `other`        | implementation-defined | None of the above. May not be Parquet. |
 
@@ -26,7 +30,7 @@ add a new data kind:
 1. **Pick a name** that fits in the index JSON. Prefer lower-case — e.g.
    `feature map` for extracted features.
 2. **Pick a layout** (or layouts) for the data kind — e.g. the
-   [packed parallel table](../layouts/metadata-tables.md) for lists of bounding
+   [metadata table](../layouts/metadata-tables.md) for lists of bounding
    boxes with associated metadata.
 3. **Describe the relationships** with valid [entity types](entity-types.md).
    Prefer simple relationships (one-to-one, one-to-many). If no existing entity

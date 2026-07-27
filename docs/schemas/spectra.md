@@ -10,15 +10,15 @@ Spectra are described by up to three files: a **signal** file
     `spectra_data.parquet` and **centroid** data goes in
     `spectra_peaks.parquet`, *always*. When a file contains both for the same
     spectrum, both files are present and the metadata row carries both
-    [`MS_1003060_number_of_data_points`](http://purl.obolibrary.org/obo/MS_1003060)
+    [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
     and
-    [`MS_1003059_number_of_peaks`](http://purl.obolibrary.org/obo/MS_1003059) so
+    [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) so
     a reader knows which file(s) to read. A reader exposes a mode flag
     (profile / centroid) indicating which representation the caller wants.
 
     For timsTOF-style data that is centroided in m/z but profiled in ion
     mobility, the consensus is to treat it as centroid for the mass-spectrum
-    dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`MS_1003439_ion_mobility_frame_representation`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
+    dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
 
 ## Spectrum signal data — `spectra_data.parquet`
 
@@ -46,7 +46,7 @@ carefully for profile data.
     centroided views of profile spectra when both modes are stored — **MUST**
     instead be written to [`spectra_peaks.parquet`](#spectrum-peak-data-spectra_peaksparquet).
     The number of points written here for a spectrum **MUST** be recorded in the
-    [`MS_1003060_number_of_data_points`](http://purl.obolibrary.org/obo/MS_1003060)
+    [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
     column of `spectra_metadata.parquet`, to support read planning.
 
 ### Recommended Parquet encodings
@@ -74,7 +74,7 @@ The spectrum peak lists, stored separately from the raw signal in
 `spectrum_time`. Any centroid spectra **MUST** be written here, not to
 `spectra_data.parquet`. The number of peaks written for a spectrum **MUST** be
 recorded in the
-[`MS_1003059_number_of_peaks`](http://purl.obolibrary.org/obo/MS_1003059) column
+[`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) column
 of `spectra_metadata.parquet`, to support read planning.
 
 ## Spectrum metadata — `spectra_metadata.parquet`
@@ -110,7 +110,7 @@ usually makes more sense when the value is usually present.
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031).
-- [**`MS_1000511_ms_level`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
+- [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
   — the MS stage number, or `null` for non-mass spectra.
 - **`data_processing_id`** (string) — the `id` of a `data_processing` that
   governs this spectrum if it deviates from the default in
@@ -130,19 +130,19 @@ usually makes more sense when the value is usually present.
   was learned. Polynomial coefficient terms **MUST** be written in descending power,
   including any zeros.
   :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
-- [**`MS_1000525_spectrum_representation`**](http://purl.obolibrary.org/obo/MS_1000525)
+- [**`spectrum_representation (MS:1000525)`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) — e.g.
   [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" or
   [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum".
-- [**`MS_1000465_scan_polarity`**](http://purl.obolibrary.org/obo/MS_1000465)
+- [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
   (integer) — `1` (positive), `-1` (negative), or `null`.
-- [**`MS_1000559_spectrum_type`**](http://purl.obolibrary.org/obo/MS_1000559)
+- [**`spectrum_type (MS:1000559)`**](http://purl.obolibrary.org/obo/MS_1000559)
   (CURIE) — a child of MS:1000559, e.g. MS1 spectrum
   ([`MS:1000579`](http://purl.obolibrary.org/obo/MS_1000579)), MSn spectrum
   ([`MS:1000580`](http://purl.obolibrary.org/obo/MS_1000580)).
-- [**`MS_1003060_number_of_data_points`**](http://purl.obolibrary.org/obo/MS_1003060)
+- [**`number_of_data_points (MS:1003060)`**](http://purl.obolibrary.org/obo/MS_1003060)
   (integer) — profile points stored in `spectra_data.parquet`.
-- [**`MS_1003059_number_of_peaks`**](http://purl.obolibrary.org/obo/MS_1003059)
+- [**`number_of_peaks (MS:1003059)`**](http://purl.obolibrary.org/obo/MS_1003059)
   (integer) — discrete peaks stored in `spectra_peaks.parquet`.
 - **MAY** supply a child of
   [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
@@ -150,8 +150,8 @@ usually makes more sense when the value is usually present.
 - **MAY** supply a child of
   [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
   one or more times — e.g.
-  [`MS_1000796_spectrum_title`](http://purl.obolibrary.org/obo/MS_1000796).
-- [`MS_1000570_spectra_combination](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+  [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
+- [`spectra_combination (MS:1000570)](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
 ### `scan` (group)
 
@@ -179,8 +179,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
   [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892). See **`scan.ion_mobility_value`** for more details on ion mobility ramps.
 - **`scan_windows`** (list) — the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)
-    - [MS_1000501_scan_window_lower_limit](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
-    - [MS_1000500_scan_window_upper_limit](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
+    - [scan_window_lower_limit (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
+    - [scan_window_upper_limit (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
 - **MAY** supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,

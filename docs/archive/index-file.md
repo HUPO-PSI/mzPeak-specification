@@ -29,83 +29,61 @@ file **MUST** be serialised as UTF-8.
       "column_mapping": [
         {
           "name": "ms level",
-          "path": [
-            "ms_level"
-          ],
+          "path": "ms_level",
           "accession": "MS:1000511",
         },
         {
           "name": "scan polarity",
-          "path": [
-            "scan_polarity"
-          ],
+          "path": "scan_polarity",
           "accession": "MS:1000465",
         },
         {
           "name": "spectrum representation",
-          "path": [
-            "spectrum_representation"
-          ],
+          "path": "spectrum_representation",
           "accession": "MS:1000525",
         },
         {
           "name": "spectrum type",
-          "path": [
-            "spectrum_type"
-          ],
+          "path": "spectrum_type",
           "accession": "MS:1000559",
         },
         {
           "name": "lowest observed m/z",
-          "path": [
-            "lowest_observed_mz"
-          ],
+          "path": "lowest_observed_mz",
           "accession": "MS:1000528",
           "unit": "MS:1000040"
         },
         {
           "name": "highest observed m/z",
-          "path": [
-            "highest_observed_mz"
-          ],
+          "path": "highest_observed_mz",
           "accession": "MS:1000527",
           "unit": "MS:1000040"
         },
         {
           "name": "number of data points",
-          "path": [
-            "number_of_data_points"
-          ],
+          "path": "number_of_data_points",
           "accession": "MS:1003060",
         },
         {
           "name": "number of peaks",
-          "path": [
-            "number_of_peaks"
-          ],
+          "path": "number_of_peaks",
           "accession": "MS:1003059",
         },
         {
           "name": "base peak m/z",
-          "path": [
-            "base_peak_mz"
-          ],
+          "path": "base_peak_mz",
           "accession": "MS:1000504",
           "unit": "MS:1000040"
         },
         {
           "name": "base peak intensity",
-          "path": [
-            "base_peak_intensity"
-          ],
+          "path": "base_peak_intensity",
           "accession": "MS:1000505",
           "unit": "MS:1000131"
         },
         {
           "name": "total ion current",
-          "path": [
-            "total_ion_current"
-          ],
+          "path": "total_ion_current",
           "accession": "MS:1000285",
           "unit": "MS:1000131"
         }
@@ -119,49 +97,35 @@ file **MUST** be serialised as UTF-8.
       "column_mapping": [
         {
           "name": "scan start time",
-          "path": [
-            "scan_start_time"
-          ],
+          "path": "scan_start_time",
           "accession": "MS:1000016",
           "unit": "UO:0000031"
         },
         {
           "name": "preset scan configuration",
-          "path": [
-            "preset_scan_configuration"
-          ],
+          "path": "preset_scan_configuration",
           "accession": "MS:1000616",
         },
         {
           "name": "filter string",
-          "path": [
-            "filter_string"
-          ],
+          "path": "filter_string",
           "accession": "MS:1000512",
         },
         {
           "name": "ion injection time",
-          "path": [
-            "ion_injection_time"
-          ],
+          "path": "ion_injection_time",
           "accession": "MS:1000927",
           "unit": "UO:0000028"
         },
         {
           "name": "scan window lower limit",
-          "path": [
-            "scan_windows",
-            "scan_window_lower_limit"
-          ],
+          "path": "scan_windows.scan_window_lower_limit",
           "accession": "MS:1000501",
           "unit": "MS:1000040"
         },
         {
           "name": "scan window upper limit",
-          "path": [
-            "scan_windows",
-            "scan_window_upper_limit"
-          ],
+          "path": "scan_windows.scan_window_upper_limit",
           "accession": "MS:1000500",
           "unit": "MS:1000040"
         }
@@ -214,6 +178,44 @@ When a column is defined in the appropriate schema, its `path` is pre-defined wi
 `path` being the actual column name. When not defined, the colum name **MUST** start with `opt_`. This
 provision ensures that if we later decide to add a new column to the specification, it will not collide
 with an existing user-defined column name.
+
+### JSON schema
+<a name="column_mapping"></a>
+
+A mapping from a Parquet column to a controlled vocabulary term
+
+**Type:** `object`
+
+#### Properties
+
+| Property | Type | Required | Description |
+|----------|------|:--------:|-------------|
+| `name` | `string` | &nbsp; | The human-readable term name |
+| `path` | `string` | &nbsp; | The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens |
+| `accession` | `string` or `null` | &nbsp; | The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term |
+| `unit` | `string` or `null` | &nbsp; | &nbsp; |
+
+#### Property Details
+
+**`name`** - `string` *(optional)*
+
+The human-readable term name
+
+*Examples:* `"ms level"`, `"filter string"`, `"selected ion m/z"`, `"collision energy"`, `"scan lower limit"`
+
+**`path`** - `string` *(optional)*
+
+The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens
+
+*Examples:* `"ms_level"`, `"isolation_window.target_mz"`, `"activation.collision_energy"`, `"scan_window.scan_lower_limit"`
+
+**`accession`** - `string` or `null` *(optional)*
+
+The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term
+
+**`unit`** - `string` or `null` *(optional)*
+
+
 
 ## File-level metadata
 

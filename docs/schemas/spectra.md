@@ -87,16 +87,7 @@ of `spectra_metadata.parquet`, to support read planning.
 }
 ```
 
-This table uses the
-[packed parallel metadata table](../layouts/metadata-tables.md) schema. Column
-order is generally unspecified, but `spectrum.index`, `scan.source_index`,
-`precursor.source_index`, and `selected_ion.source_index` **MUST** be the first
-column of their respective facets. Where the lists below say **MAY**, that value
-may be stored either as a column or as an entry in the
-[parameters list](../layouts/metadata-tables.md#the-parameters-list) — a column
-usually makes more sense when the value is usually present.
-
-### `spectrum` (group)
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 - **`index`** (uint64) — the ascending 0-based index. **MUST** increment by 1 per
   entry and **SHOULD** be written in time-sorted ascending order. This is the
@@ -153,7 +144,17 @@ usually makes more sense when the value is usually present.
   [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
 - [`spectra_combination (MS:1000570)](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
-### `scan` (group)
+## Spectrum scan metadata — `spectra_metadata_scans.parquet`
+
+```json
+{
+  "name": "spectra_metadata_scans.parquet",
+  "entity_type": "spectrum",
+  "data_kind": "scans"
+}
+```
+
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 A scan or acquisition from the original raw file used to create a spectrum.
 
@@ -179,15 +180,25 @@ A scan or acquisition from the original raw file used to create a spectrum.
   [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892). See **`scan.ion_mobility_value`** for more details on ion mobility ramps.
 - **`scan_windows`** (list) — the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)
-    - [scan_window_lower_limit (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
-    - [scan_window_upper_limit (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
+    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
+    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
 - **MAY** supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,
   once), and [`MS:1000019`](http://purl.obolibrary.org/obo/MS_1000019) (scan law,
   once).
 
-### `precursor` (group)
+## Spectrum precursor metadata — `spectra_metadata_precursors.parquet`
+
+```json
+{
+  "name": "spectra_metadata_scans.parquet",
+  "entity_type": "spectrum",
+  "data_kind": "precursors"
+}
+```
+
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 The method of precursor-ion selection and activation.
 
@@ -202,15 +213,36 @@ The method of precursor-ion selection and activation.
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
       attribute) one or more times; promote to columns when available — e.g.
       isolation-window target m/z, lower offset, upper offset.
+      - [`isolation_window_target` (MS:1000827)](http://purl.obolibrary.org/obo/MS_1000827)
+      - [`isolation_window_lower_offset` (MS:1000828)](http://purl.obolibrary.org/obo/MS_1000828)
+      - [`isolation_window_upper_offset` (MS:1000829)](http://purl.obolibrary.org/obo/MS_1000829)
 - **`activation`** (group) — the activation/dissociation type and energy.
     - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
     - **MAY** supply children of
       [`MS:1000510`](http://purl.obolibrary.org/obo/MS_1000510) (precursor
       activation attribute).
+      - [`collision_energy` (MS:1000045)](http://purl.obolibrary.org/obo/MS_1000045)
+      - [`collision_energy_ramp_start` (MS:1002013)](http://purl.obolibrary.org/obo/MS_1002013)
+      - [`collision_energy_ramp_end` (MS:1002014)](http://purl.obolibrary.org/obo/MS_1002014)
+      - [`supplemental_collision_energy` (MS:1002680)](http://purl.obolibrary.org/obo/MS_1002680)
+      - [`normalized_collision_energy` (MS:1000138)](http://purl.obolibrary.org/obo/MS_1000138)
+      - [`normalized_collision_energy_ramp_start` (MS:1002218)](http://purl.obolibrary.org/obo/MS_1002218)
+      - [`normalized_collision_energy_ramp_end` (MS:1002219)](http://purl.obolibrary.org/obo/MS_1002219)
+      - [`activation_energy` (MS:1000509)](http://purl.obolibrary.org/obo/MS_1000509)
     - **MUST** supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
       (dissociation method) or a child, one or more times.
 
-### `selected_ion` (group)
+## Spectrum selected ion metadata — `spectra_metadata_selected_ions.parquet`
+
+```json
+{
+  "name": "spectra_metadata_selected_ions.parquet",
+  "entity_type": "spectrum",
+  "data_kind": "selected_ions"
+}
+```
+
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 An ion isolated for dissociation.
 
@@ -225,7 +257,17 @@ An ion isolated for dissociation.
   attribute) one or more times — e.g. selected-ion m/z, charge state, intensity.
 
 
-### `product` (group) (optional)
+## Spectrum product selection metadata — `spectra_metadata_products.parquet`
+
+```json
+{
+  "name": "spectra_metadata_products.parquet",
+  "entity_type": "spectrum",
+  "data_kind": "products"
+}
+```
+
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately with a different isolation window. This group is optional and **MAY** be omitted when the relevant data is absent.
 

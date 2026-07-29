@@ -13,9 +13,7 @@
     "metadata": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "version"
-      ],
+      "required": ["version"],
       "properties": {
         "version": {
           "type": "string",
@@ -66,7 +64,13 @@
         },
         "entity_type": {
           "type": "string",
-          "examples": ["spectrum", "chromatogram", "other", "proprietary", "wavelength_spectrum"],
+          "examples": [
+            "spectrum",
+            "chromatogram",
+            "other",
+            "proprietary",
+            "wavelength_spectrum"
+          ],
           "description": "The things being described in one facet or another by this file"
         },
         "data_kind": {
@@ -82,7 +86,7 @@
         },
         "column_mapping": {
           "type": "array",
-          "items": {"$ref": "#/definitions/column_mapping"},
+          "items": { "$ref": "#/definitions/column_mapping" },
           "description": "A list of Parquet column to controlled vocabulary term mappings"
         },
         "parameters": {
@@ -101,19 +105,17 @@
         "name": {
           "type": "string",
           "description": "The human-readable term name",
-          "examples": [
-            "ms level",
-            "filter string",
-            "selected ion m/z"
-          ]
+          "examples": ["ms level", "filter string", "selected ion m/z", "collision energy", "scan window lower limit"]
         },
         "path": {
-          "type": "array",
-          "items": {"type": "string"},
-          "description": "The path in a Parquet schema for the mapped column split at nesting levels, omitting [list, item|element] tokens",
+          "type": "string",
+          "description": "The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens",
+          "pattern": "^(([A-Za-z0-9_]+)(?:\\.([A-Za-z0-9_]+))+)$",
           "examples": [
-            ["isolation_window", "target_mz"],
-            ["activation", "collision_energy"]
+            "ms_level",
+            "isolation_window.target_mz",
+            "activation.collision_energy",
+            "scan_window.scan_window_lower_limit"
           ]
         },
         "accession": {

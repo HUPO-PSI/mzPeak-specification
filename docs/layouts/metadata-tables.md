@@ -5,11 +5,11 @@ Each facet is described by a `data_kind` associated with the `entity_type`. The 
 a metadata table can vary widely based upon context, but they have the following rules:
 
 For `data_kind == metadata`:
-- There **MUST** be an `index` column that is an integer value that **MUST** be unique. It **SHOULD** also be
+- The first column **MUST** be named `index` and be an integer value that **MUST** be unique. It **SHOULD** also be
   sorted. This is akin to a primary key in relational databases.
 
 For all other kinds:
-- There **MUST** be a `source_index` column that is an integer value that *references* the `index` of
+- The first column **MUST** be `source_index` and be an integer value that *references* the `index` of
   the `metadata` table for the instance that this row is associated. There may be zero or more rows
   with the same `source_index` value. This is akin to a foreign key in relational databases.
 - There **MAY** be another column or a set of columns that function as a primary or composite primary key.
@@ -23,6 +23,14 @@ In addition, all `data_kind` must support the following:
   that map a controlled vocabulary term to a column as described in [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section.
 - Additional columns may be defined specifically for a combination of `entity_type` and `data_kind`.
 - If a column value is `null`, treat its value as absent from that row. The `index` or `source_index` columns' values **MUST** not be `null`.
+
+## Column naming
+
+When a column is not otherwise controlled by the schema, it is assumed to map to a parameter. The schemas that follow metadata tables
+in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers **SHOULD**
+use them and readers **SHOULD** expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
+process described below, some readers may be treating mzPeak component files like generic Parquet files, and will expect a stable, consistent
+schema.
 
 ## Examples
 
@@ -161,3 +169,57 @@ stated be named according to the following rules and have a corresponding entry 
      2. If not, provide as succinct unique name in the column name after the `opt_` prefix, with a more complete name defined
         in the column mapping.
 
+#### Traversing a column mapping instruction
+
+Column mappings' `.path` attribute tells the reader where to find the column corresponding to the parameter.
+As described in the [index documentation](../archive/index-file.md#column-mapping), the path skips over the
+layers of the file schema denoting lists and elements. For top-level objects, this is the column name itself.
+
+```json
+{
+  "name": "preset scan configuration",
+  "path": "preset_scan_configuration",
+  "accession": "MS:1000616"
+},
+{
+  "name": "scan window lower limit",
+  "path": "scan_windows.scan_window_lower_limit",
+  "accession": "MS:1000501",
+  "unit": "MS:1000040"
+}
+```
+
+```
+required group scan_schema {
+  optional int64 source_index (Int(bitWidth=64, isSigned=false));
+  optional int64 scan_index (Int(bitWidth=64, isSigned=false));
+  optional float scan_start_time;
+  optional int32 preset_scan_configuration (Int(bitWidth=32, isSigned=false)); <<< first mapping, `preset_scan_configuration`
+  optional binary filter_string (String);
+  optional float ion_injection_time;
+  optional double ion_mobility_value;
+  optional binary ion_mobility_type (String);
+  optional int32 instrument_configuration_id (Int(bitWidth=32, isSigned=false));
+  optional binary spectrum_reference (String);
+  ...
+  optional group scan_windows (List) {
+    repeated group list {
+      optional group item {
+        optional float scan_window_lower_limit; <<< second mapping, `scan_windows.scan_window_lower_limit` skips the `list.item` tokens.
+        optional float scan_window_upper_limit;
+      }
+    }
+  }
+}
+```
+
+##### Example 3: `entity_type=spectrum` `data_kind=scans`
+
+|   source_index |   scan_index |   scan_start_time | *preset_scan_ configuration* <<< | filter_string                                        |   ion_injection_ time |   instrument_ configuration_id | scan_windows |
+|---------------:|-------------:|------------------:|------------------------------:|:-------------------------------------------------------|---------------------:|------------------------------:| --------:|
+|              0 |            0 |        0.004935   |                           1 | FTMS + p ESI Full ms [200.00-2000.00]                    |             68.2275  |                             0 | [{**scan_lower_limit <<<** : 200, scan_upper_limit: 2000}]
+|              1 |            1 |        0.00789667 |                           2 | ITMS + p ESI Full ms [200.00-2000.00]                    |              2.07659 |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
+|              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
+|              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
+
+In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list. This arrangement encourages readers to use some form of tree traversal approach.

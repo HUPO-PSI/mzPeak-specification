@@ -53,3 +53,4 @@ render-jsonschema:
     uv run "script/schema_to_md.py" "schema/sample.json" -o "docs/archive/sample.md"
     uv run "script/schema_to_md.py" "schema/scan_settings_list.json" -o "docs/archive/scan_settings_list.md"
     uv run "script/schema_to_md.py" "schema/ms_run.json" -o "docs/archive/ms_run.md"
+    uv run "script/schema_to_md.py" "schema/mzpeak_index.json" -o "docs/archive/index_file_components.md"

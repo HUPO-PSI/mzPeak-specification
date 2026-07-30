@@ -68,17 +68,23 @@ metadata. mzPeak uses CV terms in three ways:
    `has_value_type`) *or* a CURIE for a child of the column-name term. For
    example:
     - The column [`spectrum_representation (MS:1000525)`](http://purl.obolibrary.org/obo/MS_1000525)
-      holds CURIEs for a child term —
-      [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid
-      spectrum" or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128)
-      "profile spectrum" — as appropriate for the spectrum in that row.
+      holds CURIEs for a child term — [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum"
+      or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
+      in that row. If the CURIE is `null`, then no value is added for that term.
+    - QUESTION: If multiple instances of a particular parent term are needed to describe the same row, e.g.
+      [`dissociation method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044) being used to express
+      [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
+      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679),
+      a column mapped to the term itself may have its own CURIE value, a child term's CURIE value, or `null`
+      to indicate it is present or not without resorting to storing the supplemental dissociation method in the
+      `parameters` list.
     - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
-2. **As structural elements.** In several places — such as the
+1. **As structural elements.** In several places — such as the
    [array index](signal-data.md#the-array-index) — CURIEs reference named
    concepts that explain the semantics of a data structure without changing its
    shape.
-3. **As pluggable metadata carriers** in `parameters` arrays, analogous to
+2. **As pluggable metadata carriers** in `parameters` arrays, analogous to
    `<cvParam/>` in mzML. Every schema facet of a metadata table may carry a
    `parameters` column.
 
@@ -116,7 +122,8 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
       than once in a single row it **MUST** be stored in the `parameters`
       column.
     - Writers **SHOULD** to promote parameters that are present with zero or one times per row
-      to *columns* unless there is ambiguity or insufficient context. This is more space-efficient and enables predicate filtering. Examples where ambiguity might prevent promotion:
+      to *columns* unless there is ambiguity or insufficient context. This is more space-efficient
+      and enables predicate filtering. Examples where ambiguity might prevent promotion:
         - The parameter *MAY* be repeated, but until all records are written, it is impossible to know.
         - The parameter is a user-defined term, leaving it up to the implementation to know whether it may be repeated multiple times for the same row.
         - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
@@ -156,7 +163,7 @@ Recommended physical types:
   especially for strings, where the offset is a *byte* offset, not an item
   offset.
 
-### Column Mapping
+### Column mapping
 
 When a CV-term concept is represented as a column, the column name **SHOULD** unless otherwise
 stated be named according to the following rules and have a corresponding entry in the file's
@@ -175,6 +182,8 @@ Column mappings' `.path` attribute tells the reader where to find the column cor
 As described in the [index documentation](../archive/index-file.md#column-mapping), the path skips over the
 layers of the file schema denoting lists and elements. For top-level objects, this is the column name itself.
 
+Here are two `scans` table column mappings (JSON)
+
 ```json
 {
   "name": "preset scan configuration",
@@ -188,6 +197,8 @@ layers of the file schema denoting lists and elements. For top-level objects, th
   "unit": "MS:1000040"
 }
 ```
+
+The refer to this Parquet schema:
 
 ```
 required group scan_schema {
@@ -213,13 +224,24 @@ required group scan_schema {
 }
 ```
 
+With the table rendered in [example 3](#example-3-entity_typespectrum-data_kindscans).
+
 ##### Example 3: `entity_type=spectrum` `data_kind=scans`
 
 |   source_index |   scan_index |   scan_start_time | *preset_scan_ configuration* <<< | filter_string                                        |   ion_injection_ time |   instrument_ configuration_id | scan_windows |
 |---------------:|-------------:|------------------:|------------------------------:|:-------------------------------------------------------|---------------------:|------------------------------:| --------:|
 |              0 |            0 |        0.004935   |                           1 | FTMS + p ESI Full ms [200.00-2000.00]                    |             68.2275  |                             0 | [{**scan_lower_limit <<<** : 200, scan_upper_limit: 2000}]
 |              1 |            1 |        0.00789667 |                           2 | ITMS + p ESI Full ms [200.00-2000.00]                    |              2.07659 |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
-|              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
-|              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
+|              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_lower_limit**: 210, scan_upper_limit: 1635}]
+|              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_lower_limit**: 220, scan_upper_limit: 1685}]
 
-In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list. This arrangement encourages readers to use some form of tree traversal approach.
+In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
+
+## Column statistics
+
+Parquet can store statistics, including the minimum value, maximum value, and null count at the row group
+and data page level for each column. When present, this makes it easy to determine the minimum and maximum
+value for any given parameter. For instance, inferring the m/z ranges covered by an acquisition can be done
+by reading the minimum [lowest observed m/z (MS:1000528)](http://purl.obolibrary.org/obo/MS_1000528) and
+maximum [highest observed m/z (MS:1000527)](http://purl.obolibrary.org/obo/MS_1000527) statistics without
+needing to traverse the entire list of values in both columns.

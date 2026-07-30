@@ -135,14 +135,20 @@ This table uses the [metadata table](../layouts/metadata-tables.md) schema.
   (integer) — profile points stored in `spectra_data.parquet`.
 - [**`number_of_peaks (MS:1003059)`**](http://purl.obolibrary.org/obo/MS_1003059)
   (integer) — discrete peaks stored in `spectra_peaks.parquet`.
-- **MAY** supply a child of
-  [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
+- **MAY** supply a child of [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
   one or more times — e.g. base peak m/z, total ion current.
-- **MAY** supply a child of
-  [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
+    - [`total_ion_current (MS:1000285)`](http://purl.obolibrary.org/obo/MS_1000285)
+    - [`base_peak_mz (MS:1000504)`](http://purl.obolibrary.org/obo/MS_1000504)
+    - [`base_peak_intensity (MS:1000505)`](http://purl.obolibrary.org/obo/MS_1000505)
+    - [`highest_observed_mz (MS:1000527)`](http://purl.obolibrary.org/obo/MS_1000527)
+    - [`lowest_observed_mz (MS:1000528)`](http://purl.obolibrary.org/obo/MS_1000528)
+    - [`lowest_observed_ion_mobility (MS:1003437)`](http://purl.obolibrary.org/obo/MS_1003437)
+    - [`highest_observed_ion_mobility (MS:1003438)`](http://purl.obolibrary.org/obo/MS_1003438)
+- **MAY** supply a child of [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
   one or more times — e.g.
-  [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
-- [`spectra_combination (MS:1000570)](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+    - [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
+    - [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439)
+- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
 ## Spectrum scan metadata — `spectra_metadata_scans.parquet`
 
@@ -187,6 +193,20 @@ A scan or acquisition from the original raw file used to create a spectrum.
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,
   once), and [`MS:1000019`](http://purl.obolibrary.org/obo/MS_1000019) (scan law,
   once).
+    - [`mass_resolution (MS:1000011)`](http://purl.obolibrary.org/obo/MS_1000011)
+    - [`scan_rate (MS:1000015)`](http://purl.obolibrary.org/obo/MS_1000015)
+    - [`zoom_scan (MS:1000497)`](http://purl.obolibrary.org/obo/MS_1000497)
+    - [`dwell_time (MS:1000502)`](http://purl.obolibrary.org/obo/MS_1000502)
+    - [`filter_string (MS:1000512)`](http://purl.obolibrary.org/obo/MS_1000512)
+    - [`preset_scan_configuration (MS:1000616)`](http://purl.obolibrary.org/obo/MS_1000616)
+    - [`mass_resolving_power (MS:1000800)`](http://purl.obolibrary.org/obo/MS_1000800)
+    - [`analyzer_scan_offset (MS:1000803)`](http://purl.obolibrary.org/obo/MS_1000803)
+    - [`elution_time (MS:1000826)`](http://purl.obolibrary.org/obo/MS_1000826)
+    - [`interchannel_delay (MS:1000880)`](http://purl.obolibrary.org/obo/MS_1000880)
+    - [`ion_injection_time (MS:1000927)`](http://purl.obolibrary.org/obo/MS_1000927)
+    - [`source_offset_voltage (MS:1001879)`](http://purl.obolibrary.org/obo/MS_1001879)
+    - [`first_column_elution_time (MS:1002082)`](http://purl.obolibrary.org/obo/MS_1002082)
+    - [`second_column_elution_time (MS:1002083)`](http://purl.obolibrary.org/obo/MS_1002083)
 
 ## Spectrum precursor metadata — `spectra_metadata_precursors.parquet`
 
@@ -229,6 +249,7 @@ The method of precursor-ion selection and activation.
       - [`normalized_collision_energy_ramp_start` (MS:1002218)](http://purl.obolibrary.org/obo/MS_1002218)
       - [`normalized_collision_energy_ramp_end` (MS:1002219)](http://purl.obolibrary.org/obo/MS_1002219)
       - [`activation_energy` (MS:1000509)](http://purl.obolibrary.org/obo/MS_1000509)
+      - [`electron_beam_energy` (MS:1003410)](http://purl.obolibrary.org/obo/MS_1003410)
     - **MUST** supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
       (dissociation method) or a child, one or more times.
 
@@ -255,6 +276,9 @@ An ion isolated for dissociation.
 - **MUST** supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455){.cvparam} (ion selection
   attribute) one or more times — e.g. selected-ion m/z, charge state, intensity.
+    - [`selected_ion_mz (MS:1000744)`](http://purl.obolibrary.org/obo/MS_1000744)
+    - [`charge_state (MS:1000041)`](http://purl.obolibrary.org/obo/MS_1000041)
+    - [`peak_intensity (MS:1000042)`](http://purl.obolibrary.org/obo/MS_1000042)
 
 
 ## Spectrum product selection metadata — `spectra_metadata_products.parquet`
@@ -269,7 +293,8 @@ An ion isolated for dissociation.
 
 This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
-When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately with a different isolation window. This group is optional and **MAY** be omitted when the relevant data is absent.
+When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately
+with a different isolation window. This table is usually empty or absent
 
 - **`source_index`** (integer) — the spectrum this product belongs to
   (foreign key).
@@ -281,5 +306,8 @@ When describing single reaction monitoring (SRM) or multiple reaction monitoring
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
       attribute) one or more times; promote to columns when available — e.g.
       isolation-window target m/z, lower offset, upper offset.
+        - [`isolation_window_target` (MS:1000827)](http://purl.obolibrary.org/obo/MS_1000827)
+        - [`isolation_window_lower_offset` (MS:1000828)](http://purl.obolibrary.org/obo/MS_1000828)
+        - [`isolation_window_upper_offset` (MS:1000829)](http://purl.obolibrary.org/obo/MS_1000829)
 - **`parameters`** (list) — controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

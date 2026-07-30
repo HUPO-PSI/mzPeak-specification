@@ -39,9 +39,7 @@ unit is up to the writer. For consistency, we recommend using minutes.
 }
 ```
 
-This table uses the [packed parallel metadata table](../layouts/metadata-tables.md) schema.
-
-### `chromatogram` (group)
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 - **`index`** (integer) — the ascending 0-based index, incrementing by 1 per
   entry and **SHOULD** be time-sorted ascending. Primary key for the
@@ -66,52 +64,58 @@ This table uses the [packed parallel metadata table](../layouts/metadata-tables.
   see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
 - [**`number_of_data_points (MS:1003060)`**](http://purl.obolibrary.org/obo/MS_1003060)
   (integer) — data points stored in `chromatograms_data.parquet`.
-- **MAY** supply a child of
-  [`MS:1000808`](http://purl.obolibrary.org/obo/MS_1000808) (chromatogram
-  attribute) one or more times.
+- **MAY** supply a child of [`MS:1000808`](http://purl.obolibrary.org/obo/MS_1000808) (chromatogram attribute)
+  one or more times.
+    - [`chromatogram_title (MS:1000809)`](http://purl.obolibrary.org/obo/MS_1000809)
+    - [`lowest_observed_mz (MS:1000528)`](http://purl.obolibrary.org/obo/MS_1000528)
+    - [`highest_observed_mz (MS:1000527)`](http://purl.obolibrary.org/obo/MS_1000527)
+    - [`lowest_observed_wavelength (MS:1000619)`](http://purl.obolibrary.org/obo/MS_1000619)
+    - [`highest_observed_wavelength (MS:1000618)`](http://purl.obolibrary.org/obo/MS_1000618)
+    - [`lowest_observed_ion_mobility (MS:1003437)`](http://purl.obolibrary.org/obo/MS_1003437)
+    - [`highest_observed_ion_mobility (MS:1003438)`](http://purl.obolibrary.org/obo/MS_1003438)
 
-### `precursor` (group)
+## Chromatogram precursor metadata — `chromatograms_metadata_precursors.parquet`
 
-The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring, this group will be unilaterally `null`.
+```json
+{
+  "name": "chromatograms_metadata_precursors.parquet",
+  "entity_type": "chromatogram",
+  "data_kind": "metadata"
+}
+```
 
-- **`source_index`** (integer) — the chromatogram this precursor belongs to
-  (foreign key).
-- **`precursor_index`** (integer) — the chromatogram the precursor was created
-  from (foreign key). See [spectra](spectra.md#precursor-group) for more details.
-- **`precursor_id`** (string) — the `id` of the chromatogram referenced by
-  `precursor_index`. See [spectra](spectra.md#precursor-group) for more details.
-- **`isolation_window`** (group) — as for
-  [spectra](spectra.md#precursor-group): **MUST** supply children of
-  [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792).
-- **`activation`** (group) — as for [spectra](spectra.md#precursor-group):
-  **MUST** supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
-  (dissociation method) or a child.
+The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring,
+this table will be empty or absent. Its schema is identical to the [spectrum precursor schema](./spectra.md#spectrum-precursor-metadata--spectra_metadata_precursorsparquet)
 
-### `selected_ion` (group)
 
-Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this group will be unilaterally `null`.
 
-- **`source_index`** (integer) / **`precursor_index`** (integer) — foreign keys.
-- **`ion_mobility_value`** (float) / **`ion_mobility_type`** (CURIE) — See the `spectrum` [`scan.ion_mobility_value`](spectra.md#scan-group) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
-  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **MUST** supply a child of
-  [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455) (ion selection
-  attribute) one or more times — selected-ion m/z, charge state, intensity.
+## Chromatogram selected ion metadata — `chromatograms_metadata_selected_ions.parquet`
 
-### `product` (group) (optional)
+```json
+{
+  "name": "chromatograms_metadata_selected_ions.parquet",
+  "entity_type": "chromatogram",
+  "data_kind": "selected_ions"
+}
+```
 
-When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately with a different isolation window. This group is optional and **MAY** be omitted when the relevant data is absent.
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
-- **`source_index`** (integer) — the chromatogram this product belongs to
-  (foreign key).
-- **`product_index`** (integer) — the ascending 0-based index, incrementing by 1 per
-  entry. This number uniquely identifies each product ion selection across all rows.
-- **`isolation_window`** (group) — the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
-    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-    - **MUST** supply children of
-      [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
-      attribute) one or more times; promote to columns when available — e.g.
-      isolation-window target m/z, lower offset, upper offset.
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
-  [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this table will be empty
+or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata--spectra_metadata_selected_ionsparquet).
+
+## Chromatogram product selection metadata — `chromatograms_metadata_products.parquet`
+
+```json
+{
+  "name": "chromatograms_metadata_products.parquet",
+  "entity_type": "chromatogram",
+  "data_kind": "products"
+}
+```
+
+This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+
+When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is
+isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to
+the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata--spectra_metadata_productsparquet).

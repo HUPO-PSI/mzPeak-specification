@@ -427,6 +427,19 @@ value was absent. Writers using null marking **SHOULD** use `null` only for the
 first sorting dimension and its associated intensity value; all other columns
 should be written as-is.
 
+!!! warning "Readers: do not dispatch on the `transform` accession"
+
+    Determine which array is governed by the delta model from **`sorting_rank`
+    0**, not from the `transform` accession. Existing files — including the
+    reference implementation's own example files — carry the **opposite**
+    assignment to the one described above: `MS:1003901` on the m/z array and
+    `MS:1003902` on the intensity array. A reader that keys null reconstruction
+    off the accession will therefore run the *intensity* array through the m/z
+    interpolator on those files and emit negative intensities.
+
+    `sorting_rank` 0 is the one signal the controlled vocabulary, this
+    specification, and existing writers all agree on.
+
 ## Why a top-level node?
 
 **Couldn't we just unwrap the top-level `point`/`chunk` struct and move on?**

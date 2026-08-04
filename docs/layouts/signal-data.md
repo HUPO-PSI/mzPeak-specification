@@ -274,10 +274,65 @@ model can be fit anyway, so the minuscule angle change is effectively lossless.
 The model parameters learned for each entry **MUST** be stored in that entry's
 row in the associated metadata table, as `mz_delta_model`.
 
-!!! question "Open item — generalise `mz_delta_model`"
-    Should `mz_delta_model` become a CV parameter and be dissociated from m/z
-    specifically, so the same mechanism can serve other coordinate axes? This is
-    likely desirable.
+### Parametric axis reconstruction
+
+The same per-row model generalises beyond null marking: an entity **MAY** store a
+coordinate axis as a compact **integer ordinal** and record, in its metadata row,
+the model that maps that ordinal back to the physical coordinate. This is the
+natural representation for time-of-flight (TOF) grids, where the detector axis is
+an integer clock tick and m/z is a calibrated function of it — storing the integer
+ordinal keeps the dense, regular axis that compresses to a few bits per point and
+avoids baking one particular vendor calibration irreversibly into the data.
+
+When this encoding is used:
+
+- the coordinate array holds an integer ordinal `i` in place of the float
+  coordinate; its [array-index](#the-array-index) entry carries a `transform` CURIE
+  naming the reconstruction model, so a reader resolves it **via the array index**,
+  not by column name;
+- the model coefficients are stored once **per entity row**, as `mz_delta_model`
+  (TOF calibrations drift scan to scan, so coefficients are per-spectrum, not
+  per-run);
+- the reader reconstructs the coordinate as `coord = f_model(i)`.
+
+| `model` | reconstruction | typical source |
+| :-- | :-- | :-- |
+| `spacing` | local-δ / polynomial spacing for null-marked points (above) | profile null marking |
+| `linear` | `coord = a + b·i` | uniform grid (Agilent profile `m/z = m/z_min + i·Δ`) |
+| `sqrt_linear` | `coord = (c0 + c1·i)²` | TOF — `√(m/z)` linear in the clock tick (Agilent quadratic, SCIEX/ZenoTOF) |
+
+Each model family is named by a `transform` CURIE — a child of
+[`MS:1003820`](http://purl.obolibrary.org/obo/MS_1003820) — recorded on the ordinal
+array's [array-index](#the-array-index) entry; `mz_delta_model` then carries that
+family's coefficients per row. The proposed children of `MS:1003820` are a
+*delta-spacing model* (`spacing`), a *linear axis model* (`linear`), and a
+*square-root-linear axis model* (`sqrt_linear`); their accessions are minted via a
+PSI-MS CV pull request, and `mz_delta_model` is inflected to its CV-named column
+form at the same time (a tracked breaking change). The mechanism here does not
+depend on those accessions landing first.
+
+**Lossless gating.** A writer **MUST** store an entity under a parametric model only
+when every point reconstructs within a stated tolerance (for m/z, 5 ppm is typical).
+Entities that do not lie on the lattice — sparse or fragment spectra — **MUST**
+instead be stored as exact float coordinates in the data facet; a reader
+distinguishes the two by the presence of the model. A single archive **MAY** mix
+both, spectrum by spectrum.
+
+**Dense-grid sub-mode.** When the grid is fully dense — every ordinal from `0` to
+`N−1` present, `N` being the entity's point count — the ordinal `i` equals the row
+position within the entity, so the ordinal array **MAY** be omitted entirely. The
+entity then stores only its intensity array plus the per-row model, and the reader
+reconstructs `coord = f_model(k)` for `k = 0 … N−1`. The array-index entry for the
+omitted axis still declares its reconstruction `transform`, so a reader knows the
+coordinate column is implicit.
+
+**Reading is fail-closed.** A reconstruction `transform` *changes how the stored
+integers are interpreted*: read as raw values they are detector ordinals, not
+coordinates. A reader that does not implement the named model **MUST NOT** return the
+stored integers as the coordinate — it **MUST** skip the affected entities or raise
+an error, never silently mis-read ordinals as m/z (see
+[Conformance](../conformance.md#conformant-reader)). This is the deliberate exception
+to the general rule that unrecognised content is ignored without error.
 
 <div class="mzp-figure" markdown>
 ![Reconstruction-error plot for a Thermo dataset: m/z deviation after null marking is negligible across the mass range.](../assets/img/thermo_null_marking_err.png)

@@ -30,22 +30,22 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "ms level",
           "path": "ms_level",
-          "accession": "MS:1000511",
+          "accession": "MS:1000511"
         },
         {
           "name": "scan polarity",
           "path": "scan_polarity",
-          "accession": "MS:1000465",
+          "accession": "MS:1000465"
         },
         {
           "name": "spectrum representation",
           "path": "spectrum_representation",
-          "accession": "MS:1000525",
+          "accession": "MS:1000525"
         },
         {
           "name": "spectrum type",
           "path": "spectrum_type",
-          "accession": "MS:1000559",
+          "accession": "MS:1000559"
         },
         {
           "name": "lowest observed m/z",
@@ -62,12 +62,12 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "number of data points",
           "path": "number_of_data_points",
-          "accession": "MS:1003060",
+          "accession": "MS:1003060"
         },
         {
           "name": "number of peaks",
           "path": "number_of_peaks",
-          "accession": "MS:1003059",
+          "accession": "MS:1003059"
         },
         {
           "name": "base peak m/z",
@@ -104,12 +104,12 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "preset scan configuration",
           "path": "preset_scan_configuration",
-          "accession": "MS:1000616",
+          "accession": "MS:1000616"
         },
         {
           "name": "filter string",
           "path": "filter_string",
-          "accession": "MS:1000512",
+          "accession": "MS:1000512"
         },
         {
           "name": "ion injection time",

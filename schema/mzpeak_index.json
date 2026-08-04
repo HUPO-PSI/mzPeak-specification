@@ -110,7 +110,7 @@
         "path": {
           "type": "string",
           "description": "The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens",
-          "pattern": "^(([A-Za-z0-9_]+)(?:\\.([A-Za-z0-9_]+))+)$",
+          "pattern": "^(([A-Za-z0-9_]+)(?:\\.([A-Za-z0-9_]+))*)$",
           "examples": [
             "ms_level",
             "isolation_window.target_mz",

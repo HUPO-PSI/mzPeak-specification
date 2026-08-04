@@ -101,6 +101,7 @@
     "column_mapping": {
       "type": "object",
       "description": "A mapping from a Parquet column to a controlled vocabulary term",
+      "required": ["path"],
       "properties": {
         "name": {
           "type": "string",
@@ -121,10 +122,15 @@
         "accession": {
           "type": ["string", "null"],
           "description": "The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term",
+          "pattern": "\\S+:\\S+",
+          "format": "curie",
           "default": null
         },
         "unit": {
           "type": ["string", "null"],
+          "description": "The unit of the mapped column's values, denoted using a CURIE for a child of UO:0000000|unit in the Unit Ontology or an equivalent PSI-MS unit term; null when the column is unitless.",
+          "pattern": "\\S+:\\S+",
+          "format": "curie",
           "default": null
         }
       }

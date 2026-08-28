@@ -153,14 +153,14 @@ Recommended physical types:
   or 64-bit, as needed to cover the value's domain.
 - **Indices or identifiers represented as integers** — prefer unsigned 32- or
   64-bit. Dictionary encoding reduces most cases to ~8 bits per variant on disk
-  anyway.
+  anyway if the number of unique values is relatively small.
 - **Floating-point values** — prefer 64-bit doubles unless precision is truly of
   no concern. For repetitive values (e.g. collision energy), dictionary encoding
   drops the on-disk cost well below 32 bits per value.
-- **Strings and lists** — prefer 64-bit offsets ("large strings"/"large lists"),
-  but write code that supports both 32- and 64-bit offsets. This matters
-  especially for strings, where the offset is a *byte* offset, not an item
-  offset.
+- **Strings and lists** — prefer 64-bit offsets ("large strings"/"large lists")
+  when defining the embedded Arrow schema, but write code that supports both 32-
+  and 64-bit offsets. This matters especially for strings, where the offset is a
+  *byte* offset, not an item offset.
 
 ### Column mapping
 
@@ -194,12 +194,6 @@ Here are two `scans` table column mappings (JSON)
   "path": "scan_windows.scan_window_lower_limit",
   "accession": "MS:1000501",
   "unit": "MS:1000040"
-},
-{
-  "name": "supplemental collisional dissociation",
-  "path": "activation.opt_supplemental_collisional_dissociation",
-  "accession": "MS:1002679",
-  "term_marker": true
 }
 ```
 
@@ -242,10 +236,21 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 
 In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
+##### Example 4: `entity_type=spectrum` `data_kind=precursors`
+
+```json
+{
+  "name": "supplemental collisional dissociation",
+  "path": "activation.opt_supplemental_collisional_dissociation",
+  "accession": "MS:1002679",
+  "term_marker": true
+}
+```
+
 ## Column statistics
 
 Parquet can store statistics, including the minimum value, maximum value, and null count at the row group
-and data page level for each column. When present, this makes it easy to determine the minimum and maximum
+and data page level for each column. Writers **MUST** include them. This makes it easy to determine the minimum and maximum
 value for any given parameter. For instance, inferring the m/z ranges covered by an acquisition can be done
 by reading the minimum [lowest observed m/z (MS:1000528)](http://purl.obolibrary.org/obo/MS_1000528) and
 maximum [highest observed m/z (MS:1000527)](http://purl.obolibrary.org/obo/MS_1000527) statistics without

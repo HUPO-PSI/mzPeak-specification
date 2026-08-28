@@ -61,8 +61,8 @@ coarser.
 ### Index levels
 
 When writing an mzPeak archive, the writer **MUST** write a
-[page index](https://parquet.apache.org/docs/file-format/pageindex/). Most
-libraries that write Parquet support writing the page index even if they do not
-themselves use it when reading. The page index records per-page value ranges,
+[page index](https://parquet.apache.org/docs/file-format/pageindex/) and column
+statistics. Most libraries that write Parquet support writing the page index even if
+they do not themselves use it when reading. The page index records per-page value ranges,
 which is what makes predicate-driven reads (for example, "only pages whose
 `spectrum_index` covers 5000–5100") efficient.

@@ -70,14 +70,17 @@ metadata. mzPeak uses CV terms in three ways:
     - The column [`spectrum_representation (MS:1000525)`](http://purl.obolibrary.org/obo/MS_1000525)
       holds CURIEs for a child term — [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum"
       or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
-      in that row. If the CURIE is `null`, then no value is added for that term.
-    - If multiple instances of a particular parent term with `has_value_type` are needed to describe the
+      in that row. If the CURIE is `null`, then no value is added for that term. These [column mappings](#column-mapping)
+      **MUST** set `term_marker` to `true` and use a string or large string value type for storage. For standardized columns
+      defined in this document, the `term_marker` *MAY* be omitted.
+    - If multiple instances of a particular parent term without a `has_value_type` relationship are needed to describe the
       same row, e.g. [`dissociation method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044) being used to
       express [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
-      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679),
-      a column mapped to the term itself may have a boolean value where `true` indices the presence of the value-less
-      term and `false` or `null` indicate its absence instead of storing the second occurrence in the `parameters` list.
-      These [column mappings](#column-mapping) **MUST** set `term_marker` to `true`.
+      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679). To map
+      both terms to columns, the second term may be use a column mapped to the term itself may have a boolean value where
+      `true` indices the presence of the value-less term and `false` or `null` indicate its absence instead of storing
+      the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
+      to `true` and use a boolean data type for storage.
     - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
 1. **As structural elements.** In several places — such as the
@@ -197,13 +200,13 @@ Here are two `scans` table column mappings (JSON)
 }
 ```
 
-The refer to this Parquet schema:
+They refer to this Parquet schema:
 
 ```
 required group scan_schema {
   optional int64 source_index (Int(bitWidth=64, isSigned=false));
   optional int64 scan_index (Int(bitWidth=64, isSigned=false));
-  optional float scan_start_time;
+  optional double scan_start_time;
   optional int32 preset_scan_configuration (Int(bitWidth=32, isSigned=false)); <<< first mapping, `preset_scan_configuration`
   optional binary filter_string (String);
   optional float ion_injection_time;
@@ -236,16 +239,53 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 
 In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
-##### Example 4: `entity_type=spectrum` `data_kind=precursors`
+##### Example 4: `entity_type=spectrum` `data_kind=metadata`
+
+This example returns to the main spectrum metadata table, adding an example `term_marker` column.
+The `opt_calibration_spectrum` column is mapped to the term [`MS:1000928|calibration spectrum`](http://purl.obolibrary.org/obo/MS_1000928).
+When the column contains the value `true`, this term *MUST* be present in that row's spectrum, otherwise
+it *MUST* be absent, not indicated through any other method. In this example, the denoted spectra
+are used solely to measure the lock mass for post-acquisition mass calibration, and contain no analytes of
+interest otherwise and could be ignored by another piece of software not interested in calibration spectra.
 
 ```json
-{
-  "name": "supplemental collisional dissociation",
-  "path": "activation.opt_supplemental_collisional_dissociation",
-  "accession": "MS:1002679",
-  "term_marker": true
-}
+[
+  {
+    "name": "ms level",
+    "path": "ms_level",
+    "accession": "MS:1000511"
+  },
+  {
+    "name": "scan polarity",
+    "path": "scan_polarity",
+    "accession": "MS:1000465"
+  },
+  {
+    "name": "spectrum representation",
+    "path": "spectrum_representation",
+    "accession": "MS:1000525"
+  },
+  {
+    "name": "spectrum type",
+    "path": "spectrum_type",
+    "accession": "MS:1000559"
+  },
+  {
+    "name": "calibration spectrum",
+    "path": "opt_calibration_spectrum",
+    "accession": "MS:1000928",
+    "term_marker": true
+  }
+]
 ```
+
+|   index | id                          |   ms_level |      time |   scan_polarity | spectrum_representation   | opt_calibration_spectrum   |
+|--------:|:----------------------------|-----------:|----------:|----------------:|:--------------------------|:---------------------------|
+|       0 | merged=1 function=3 block=1 |          1 | 0.0270333 |               1 | MS:1000128                | True                       |
+|       1 | merged=2 function=1 block=1 |          1 | 0.03705   |               1 | MS:1000128                | False                      |
+|       2 | merged=3 function=2 block=1 |          2 | 0.0456167 |               1 | MS:1000128                | False                      |
+|       3 | merged=4 function=1 block=2 |          1 | 0.0542    |               1 | MS:1000128                | False                      |
+|       4 | merged=5 function=2 block=2 |          2 | 0.0627667 |               1 | MS:1000128                | False                      |
 
 ## Column statistics
 

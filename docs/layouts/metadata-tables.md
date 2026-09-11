@@ -77,7 +77,7 @@ metadata. mzPeak uses CV terms in three ways:
       same row, e.g. [`dissociation method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044) being used to
       express [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
       [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679). To map
-      both terms to columns, the second term may be use a column mapped to the term itself may have a boolean value where
+      both terms to columns, the second term may use a column mapped to the term itself may have a boolean value where
       `true` indices the presence of the value-less term and `false` or `null` indicate its absence instead of storing
       the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
       to `true` and use a boolean data type for storage.
@@ -171,12 +171,20 @@ When a CV-term concept is represented as a column, the column name **SHOULD** un
 stated be named according to the following rules and have a corresponding entry in the file's
 [file index](../archive/index-file.md)'s column mappings.
 
-1. If defined by the schema, match the *expected* name, often derived from the CV-term's name.
+1. If defined by the schema in this standard, match the *expected* name, often derived from the CV-term's name.
 2. Otherwise, begin with the prefix `opt_` followed by a unique name that is descriptive of the value being stored.
      1. If the value is a CV-term, the term's name with non-identifier-safe characters (`/[^a-zA-Z0-9_\\-]+/`) replaced
       with `_`
      2. If not, provide as succinct unique name in the column name after the `opt_` prefix, with a more complete name defined
         in the column mapping.
+
+#### For Writers: Matching Rules
+
+Some column mappings produce wide rules matching multiple terms, while others match a narrow set of terms. While it is not
+reasonable to define a complete topological sorting of column mapping rules, writers are *encouraged* to match narrow column
+mappings to controlled vocabulary terms before matching wider rules. Care is needed when dealing with overlapping term trees
+such as with [`MS:1000044|dissociation method`](http://purl.obolibrary.org/obo/MS_1000044). See [Example 5](#example-5-entity_typespectrum-data_kindprecursor) for
+what this might look like.
 
 #### Traversing a column mapping instruction
 
@@ -263,12 +271,14 @@ interest otherwise and could be ignored by another piece of software not interes
   {
     "name": "spectrum representation",
     "path": "spectrum_representation",
-    "accession": "MS:1000525"
+    "accession": "MS:1000525",
+    "term_marker": true
   },
   {
     "name": "spectrum type",
     "path": "spectrum_type",
-    "accession": "MS:1000559"
+    "accession": "MS:1000559",
+    "term_marker": true
   },
   {
     "name": "calibration spectrum",
@@ -286,6 +296,52 @@ interest otherwise and could be ignored by another piece of software not interes
 |       2 | merged=3 function=2 block=1 |          2 | 0.0456167 |               1 | MS:1000128                | False                      |
 |       3 | merged=4 function=1 block=2 |          1 | 0.0542    |               1 | MS:1000128                | False                      |
 |       4 | merged=5 function=2 block=2 |          2 | 0.0627667 |               1 | MS:1000128                | False                      |
+
+##### Example 5: `entity_type=spectrum` `data_kind=precursor`
+
+This example visits a subset of the precursor metadata table, showing examples of `term_marker` columns denoting child terms
+in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_suppl_beam_disc`. The
+former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000422|beam-type collision-induced dissociation`
+and `MS:1000598|electron transfer dissociation`. The latter marks which rows have the `MS:1002678|supplemental beam-type collision-induced dissociation`
+in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of `MS:1000044`, it needs to be defined using `term_marker`
+with a boolean value to avoid having two columns tied to `MS:1000044` directly. This also lets the reader now quickly filter on rows which contain
+a supplemental dissociation method directly. Without it the supplemental dissociation method term would need to be stored in the `parameters` list, and
+be invisible to most basic query mechanisms. Some but not all query engines support list traversal, but such operations are more complicated to specify
+and have to deal with the less efficient storage model of the `parameters` list in any case. Both of these columns are nested under the `activation.`
+prefix, which is a `group` in the Parquet schema. This is an organizational nicety for Parquet, but when translated to Arrow, this produces a `struct` type
+column with multiple children. Care **MUST** be taken to support these when reading column statistics.
+
+```json
+[
+  {
+    "name": "dissociation method",
+    "path": "activation.dissociation_method",
+    "accession": "MS:1000044",
+    "term_marker": true
+  },
+  {
+    "name": "spectrum type",
+    "path": "activation.collision_energy",
+    "accession": "MS:1000045",
+    "unit": "UO:0000266"
+  },
+  {
+    "name": "supplemental beam-type collision-induced dissociation",
+    "path": "activation.opt_MS_1002678_suppl_beam_disc",
+    "accession": "MS:1002678",
+    "term_marker": true
+  }
+]
+```
+
+|   source_index |   precursor_index | activation. dissociation_method  |  activation. collision_energy |   activation. opt_MS_1002678_suppl_beam_disc |
+|---------------:|------------------:|:---------------------------------|------------------------------:| ---------------------------------------------:|
+|           6705 |              6683 | MS:1000422                       |                       28      | False
+|           6706 |              6683 | MS:1000598                       |                       33.0785 | True
+|           6707 |              6683 | MS:1000133                       |                       30      | False
+|           6708 |              6683 | MS:1000598                       |                       33.0785 | True
+|           6709 |              6683 | MS:1000133                       |                       30      | False
+
 
 ## Column statistics
 

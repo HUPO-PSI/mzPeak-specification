@@ -70,14 +70,17 @@ metadata. mzPeak uses CV terms in three ways:
     - The column [`spectrum_representation (MS:1000525)`](http://purl.obolibrary.org/obo/MS_1000525)
       holds CURIEs for a child term — [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum"
       or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
-      in that row. If the CURIE is `null`, then no value is added for that term.
-    - If multiple instances of a particular parent term with `has_value_type` are needed to describe the
+      in that row. If the CURIE is `null`, then no value is added for that term. These [column mappings](#column-mapping)
+      **MUST** set `term_marker` to `true` and use a string or large string value type for storage. For standardized columns
+      defined in this document, the `term_marker` *MAY* be omitted.
+    - If multiple instances of a particular parent term without a `has_value_type` relationship are needed to describe the
       same row, e.g. [`dissociation method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044) being used to
       express [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
-      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679),
-      a column mapped to the term itself may have a boolean value where `true` indices the presence of the value-less
-      term and `false` or `null` indicate its absence instead of storing the second occurrence in the `parameters` list.
-      These [column mappings](#column-mapping) **MUST** set `term_marker` to `true`.
+      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679). To map
+      both terms to columns, the second term may use a column mapped to the term itself may have a boolean value where
+      `true` indices the presence of the value-less term and `false` or `null` indicate its absence instead of storing
+      the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
+      to `true` and use a boolean data type for storage.
     - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
 1. **As structural elements.** In several places — such as the
@@ -153,14 +156,14 @@ Recommended physical types:
   or 64-bit, as needed to cover the value's domain.
 - **Indices or identifiers represented as integers** — prefer unsigned 32- or
   64-bit. Dictionary encoding reduces most cases to ~8 bits per variant on disk
-  anyway.
+  anyway if the number of unique values is relatively small.
 - **Floating-point values** — prefer 64-bit doubles unless precision is truly of
   no concern. For repetitive values (e.g. collision energy), dictionary encoding
   drops the on-disk cost well below 32 bits per value.
-- **Strings and lists** — prefer 64-bit offsets ("large strings"/"large lists"),
-  but write code that supports both 32- and 64-bit offsets. This matters
-  especially for strings, where the offset is a *byte* offset, not an item
-  offset.
+- **Strings and lists** — prefer 64-bit offsets ("large strings"/"large lists")
+  when defining the embedded Arrow schema, but write code that supports both 32-
+  and 64-bit offsets. This matters especially for strings, where the offset is a
+  *byte* offset, not an item offset.
 
 ### Column mapping
 
@@ -168,12 +171,20 @@ When a CV-term concept is represented as a column, the column name **SHOULD** un
 stated be named according to the following rules and have a corresponding entry in the file's
 [file index](../archive/index-file.md)'s column mappings.
 
-1. If defined by the schema, match the *expected* name, often derived from the CV-term's name.
+1. If defined by the schema in this standard, match the *expected* name, often derived from the CV-term's name.
 2. Otherwise, begin with the prefix `opt_` followed by a unique name that is descriptive of the value being stored.
      1. If the value is a CV-term, the term's name with non-identifier-safe characters (`/[^a-zA-Z0-9_\\-]+/`) replaced
       with `_`
      2. If not, provide as succinct unique name in the column name after the `opt_` prefix, with a more complete name defined
         in the column mapping.
+
+#### For Writers: Matching Rules
+
+Some column mappings produce wide rules matching multiple terms, while others match a narrow set of terms. While it is not
+reasonable to define a complete topological sorting of column mapping rules, writers are *encouraged* to match narrow column
+mappings to controlled vocabulary terms before matching wider rules. Care is needed when dealing with overlapping term trees
+such as with [`MS:1000044|dissociation method`](http://purl.obolibrary.org/obo/MS_1000044). See [Example 5](#example-5-entity_typespectrum-data_kindprecursor) for
+what this might look like.
 
 #### Traversing a column mapping instruction
 
@@ -194,22 +205,16 @@ Here are two `scans` table column mappings (JSON)
   "path": "scan_windows.scan_window_lower_limit",
   "accession": "MS:1000501",
   "unit": "MS:1000040"
-},
-{
-  "name": "supplemental collisional dissociation",
-  "path": "activation.opt_supplemental_collisional_dissociation",
-  "accession": "MS:1002679",
-  "term_marker": true
 }
 ```
 
-The refer to this Parquet schema:
+They refer to this Parquet schema:
 
 ```
 required group scan_schema {
   optional int64 source_index (Int(bitWidth=64, isSigned=false));
   optional int64 scan_index (Int(bitWidth=64, isSigned=false));
-  optional float scan_start_time;
+  optional double scan_start_time;
   optional int32 preset_scan_configuration (Int(bitWidth=32, isSigned=false)); <<< first mapping, `preset_scan_configuration`
   optional binary filter_string (String);
   optional float ion_injection_time;
@@ -242,10 +247,106 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 
 In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
+##### Example 4: `entity_type=spectrum` `data_kind=metadata`
+
+This example returns to the main spectrum metadata table, adding an example `term_marker` column.
+The `opt_calibration_spectrum` column is mapped to the term [`MS:1000928|calibration spectrum`](http://purl.obolibrary.org/obo/MS_1000928).
+When the column contains the value `true`, this term *MUST* be present in that row's spectrum, otherwise
+it *MUST* be absent, not indicated through any other method. In this example, the denoted spectra
+are used solely to measure the lock mass for post-acquisition mass calibration, and contain no analytes of
+interest otherwise and could be ignored by another piece of software not interested in calibration spectra.
+
+```json
+[
+  {
+    "name": "ms level",
+    "path": "ms_level",
+    "accession": "MS:1000511"
+  },
+  {
+    "name": "scan polarity",
+    "path": "scan_polarity",
+    "accession": "MS:1000465"
+  },
+  {
+    "name": "spectrum representation",
+    "path": "spectrum_representation",
+    "accession": "MS:1000525",
+    "term_marker": true
+  },
+  {
+    "name": "spectrum type",
+    "path": "spectrum_type",
+    "accession": "MS:1000559",
+    "term_marker": true
+  },
+  {
+    "name": "calibration spectrum",
+    "path": "opt_calibration_spectrum",
+    "accession": "MS:1000928",
+    "term_marker": true
+  }
+]
+```
+
+|   index | id                          |   ms_level |      time |   scan_polarity | spectrum_representation   | opt_calibration_spectrum   |
+|--------:|:----------------------------|-----------:|----------:|----------------:|:--------------------------|:---------------------------|
+|       0 | merged=1 function=3 block=1 |          1 | 0.0270333 |               1 | MS:1000128                | True                       |
+|       1 | merged=2 function=1 block=1 |          1 | 0.03705   |               1 | MS:1000128                | False                      |
+|       2 | merged=3 function=2 block=1 |          2 | 0.0456167 |               1 | MS:1000128                | False                      |
+|       3 | merged=4 function=1 block=2 |          1 | 0.0542    |               1 | MS:1000128                | False                      |
+|       4 | merged=5 function=2 block=2 |          2 | 0.0627667 |               1 | MS:1000128                | False                      |
+
+##### Example 5: `entity_type=spectrum` `data_kind=precursor`
+
+This example visits a subset of the precursor metadata table, showing examples of `term_marker` columns denoting child terms
+in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_suppl_beam_disc`. The
+former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000422|beam-type collision-induced dissociation`
+and `MS:1000598|electron transfer dissociation`. The latter marks which rows have the `MS:1002678|supplemental beam-type collision-induced dissociation`
+in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of `MS:1000044`, it needs to be defined using `term_marker`
+with a boolean value to avoid having two columns tied to `MS:1000044` directly. This also lets the reader now quickly filter on rows which contain
+a supplemental dissociation method directly. Without it the supplemental dissociation method term would need to be stored in the `parameters` list, and
+be invisible to most basic query mechanisms. Some but not all query engines support list traversal, but such operations are more complicated to specify
+and have to deal with the less efficient storage model of the `parameters` list in any case. Both of these columns are nested under the `activation.`
+prefix, which is a `group` in the Parquet schema. This is an organizational nicety for Parquet, but when translated to Arrow, this produces a `struct` type
+column with multiple children. Care **MUST** be taken to support these when reading column statistics.
+
+```json
+[
+  {
+    "name": "dissociation method",
+    "path": "activation.dissociation_method",
+    "accession": "MS:1000044",
+    "term_marker": true
+  },
+  {
+    "name": "spectrum type",
+    "path": "activation.collision_energy",
+    "accession": "MS:1000045",
+    "unit": "UO:0000266"
+  },
+  {
+    "name": "supplemental beam-type collision-induced dissociation",
+    "path": "activation.opt_MS_1002678_suppl_beam_disc",
+    "accession": "MS:1002678",
+    "term_marker": true
+  }
+]
+```
+
+|   source_index |   precursor_index | activation. dissociation_method  |  activation. collision_energy |   activation. opt_MS_1002678_suppl_beam_disc |
+|---------------:|------------------:|:---------------------------------|------------------------------:| ---------------------------------------------:|
+|           6705 |              6683 | MS:1000422                       |                       28      | False
+|           6706 |              6683 | MS:1000598                       |                       33.0785 | True
+|           6707 |              6683 | MS:1000133                       |                       30      | False
+|           6708 |              6683 | MS:1000598                       |                       33.0785 | True
+|           6709 |              6683 | MS:1000133                       |                       30      | False
+
+
 ## Column statistics
 
 Parquet can store statistics, including the minimum value, maximum value, and null count at the row group
-and data page level for each column. When present, this makes it easy to determine the minimum and maximum
+and data page level for each column. Writers **MUST** include them. This makes it easy to determine the minimum and maximum
 value for any given parameter. For instance, inferring the m/z ranges covered by an acquisition can be done
 by reading the minimum [lowest observed m/z (MS:1000528)](http://purl.obolibrary.org/obo/MS_1000528) and
 maximum [highest observed m/z (MS:1000527)](http://purl.obolibrary.org/obo/MS_1000527) statistics without

@@ -155,7 +155,7 @@ TODO: write more here regarding compression vs. random access granularity. Lots 
 
 #### Index levels
 
-When writing an mzPeak archive, the writer **MUST** write a page index. Most libraries that write Parquet support writing the page index, even if they do not directly support reading informed by the page index.
+When writing an mzPeak archive, the writer **MUST** write a page index and row group statistics *unless explicitly noted*. Most libraries that write Parquet support writing the page index, even if they do not directly support reading informed by the page index.
 
 TODO: write more here
 

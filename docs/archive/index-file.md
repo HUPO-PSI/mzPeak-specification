@@ -232,6 +232,10 @@ below:
 - [`scan_settings_list`](./scan_settings_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/scan_settings_list.json)
 - [`run`](./ms_run.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/ms_run.json)
 
+An archive that follows a profile declares it in `metadata`. The
+[Imaging profile](../profiles/imaging.md) is declared by setting `metadata.imaging.is_imaging` to
+`true`.
+
 !!! question "Open item — cleartext vs. encryptable metadata"
     Anything in `mzpeak_index.json` is necessarily cleartext to all readers
     unless ZIP encryption is used — and ZIP encryption is known to be flawed and

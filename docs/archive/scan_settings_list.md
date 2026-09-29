@@ -16,7 +16,7 @@ Like targeted MS, DIA methods may define their windows scheme with terms like ch
 
 ### Imaging MS
 
-The presence of the imaging mass spectrometry controlled vocabulary and the `imaging` key in the [`mzpeak_index.json#metadata`](/docs/archive/index-file.md). Imaging-specific parameters **SHOULD** be added to a [`scan_settings`](#scan_settings) entry's `parameters` list.
+An imaging archive describes its pixel grid in the `parameters` list of one [`scan_settings`](#scan_settings) entry. The [Imaging profile](../profiles/imaging.md#grid-geometry) states which terms are required.
 
 ```json
 {
@@ -24,19 +24,19 @@ The presence of the imaging mass spectrometry controlled vocabulary and the `ima
   "parameters": [
     {
       "accession": "IMS:1000401",
-      "name": "top down",
+      "name": "top down"
     },
     {
       "accession": "IMS:1000413",
-      "name": "flyback",
+      "name": "flyback"
     },
     {
       "accession": "IMS:1000480",
-      "name": "horizontal line scan",
+      "name": "horizontal line scan"
     },
     {
       "accession": "IMS:1000491",
-      "name": "linescan left right",
+      "name": "linescan left right"
     },
     {
       "accession": "IMS:1000042",
@@ -73,12 +73,10 @@ The presence of the imaging mass spectrometry controlled vocabulary and the `ima
       "value": 100.0
     }
   ],
-  "source_file_refs": [],
+  "source_file_references": [],
   "targets": []
 }
 ```
-
-Specifics are yet to be determined.
 
 
 **Type:** `array`

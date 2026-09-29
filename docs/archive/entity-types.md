@@ -34,8 +34,8 @@ being specified.
     for it.
 
 !!! info "Imaging MS and regions of interest"
-    Imaging MS is currently handled via pixel coordinates in the
-    [spectrum metadata](../schemas/spectra.md) table. **Regions of interest** can
+    Imaging MS is handled via pixel positions in the scan metadata table, as set
+    out in the [Imaging profile](../profiles/imaging.md). **Regions of interest** can
     be layered on top as spatial-annotation polygons (for example, feature-
     extraction bounding boxes). Parquet was chosen over ZARR for long-term
     stability and cross-language support.

@@ -237,6 +237,130 @@ same array type, array name, data type, unit, and data-processing ID as the
     The start point is *included* in the chunk-values array — it is a specific
     component of the Numpress-encoded bytes.
 
+### Grid encoding
+
+> Chunk-encoding CV term: [`MS:1003826` — coordinate grid encoding](http://purl.obolibrary.org/obo/MS_1003826)
+
+This uses a pluggable coordinate model that maps *real* value to and from unsigned integer coordinates using
+a pair of equations and a set of grid parameters. To store grid-encoded arrays for the chunk dimension, an
+extra column group `<array_name>_grid` is added. Like in the [Numpress linear encoding](#numpress-linear-encoding) case, the `<array_name>_chunk_values` column is populated with an empty list when the chunked dimension is grid-encoded. Other arrays may be grid encoded using the same methods described here, such as an IM-MS spectrum's ion mobility array, if desirable. Only one distinction is made in the encoding of the grid indices, seen later in this section. When a grid model is used, it is encoded as a group/struct with the schema:
+
+```
+optional group <array_name>_grid {
+    required binary grid_type (String);
+    required group parameters (List) {
+        repeated group list {
+            required double item;
+        }
+    }
+    required group indices (List) {
+        repeated group list {
+            required int32 item (Int(bitWidth=32, isSigned=false));
+        }
+    }
+}
+```
+
+The `grid_type` column in the group is a string that contains the CV term CURIE for the model type deriving
+from `MS:1003822|grid coordinate interpolation`, telling the reader how to use the other columns.  Currently,
+there are two "open" grid model types, [`MS:1003824|linear grid interpolation`](http://purl.obolibrary.org/obo/MS_1003824)
+which uses a scaled simple least squares model and [`MS:1003825|square root grid interpolation`](http://purl.obolibrary.org/obo/MS_1003825)
+which does the same, but using the square root of real coordinates. The latter is a better theoretical fit for
+time-of-flight mass analyzers, though it often lacks essential parameters from the hardware to be as accurate as
+vendor proprietary models. There are provisions for adding vendor models or approximations of them to the
+vocabulary.
+
+The `parameters` column is a list of 64-bit floats that will be used to parameterize the grid model. The
+order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general. These parameters are used in index/coordinate conversion.
+
+The `indices` column is a list of 32-bit (unsigned) integers that are mapped to the real 64-bit float coordinates
+being encoded. These are produced for writing by using the grid model to convert real-valued coordinates *to* grid
+indices. When reading, the grid model is used to convert *from* indices back to their equivalent real-valued
+coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available, or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index **MUST** be included in the `indices` column's array. The chunk dimension's `indices` column **MUST** be delta-encoded, this is done to improve compressibility of a sorted array of indices.
+
+It must be noted that *unless* using a vendor-defined encoding, this is likely to be a lossy transformation.
+The user **SHOULD** be able to set an error threshold for using the grid encodings. A model that would have errors exceeding the given threshold **SHOULD** fall back to use a different encoding. The linear grid can be
+an order of magnitude less accurate than `MS-Numpress linear prediction` on profile data, but 30% smaller when
+both are Zstandard compressed. On time-of-flight mass analyzers, the square root grid is marginally less accurate but
+produces better compression, 50% smaller than `MS-Numpress linear prediction` on the same profile data. This is because its
+grid indices are more consistently spaced relative to the real data. Additionally, on quantities with compressed dynamic
+ranges like ion mobility, the linear grid is equal to or more accurate than `MS-Numpress linear prediction` while still being smaller.
+
+#### Parquet column encoding for grid encoding columns
+
+- The `grid_type` column should be encoded using `RLE_DICTIONARY`, the default behavior
+- The `parameters` column's bit-level will vary from model to model, `RLE_DICTIONARY` is usually best still.
+- The `indices` column, benefits from `BYTE_STREAM_SPLIT` most of the time, at least for the sorted dimension. However, when one index in particular dominates the result, such as when delta encoding profile data with consistent spacing or repeated values, `RLE_DICTIONARY` may still outperform it be a large margin.
+
+TODO: Collect a larger corpus of data to plot this accuracy claim.
+
+??? example "A worked example"
+
+    The equations for [`MS:1003824|linear grid interpolation`](http://purl.obolibrary.org/obo/MS_1003824) are given
+    with coefficients intercept $a$, slope $b$ and scale $s$:
+
+    *from index*: $f(i) = (a + b × i)×(1/s)$
+
+    *to index*: $g(v) = (v × s - a)×(1/b)$
+
+    or in Python
+
+    ```python
+    class LinearGrid:
+        intercept: float
+        slope: float
+        scale: float
+
+        def from_index(
+            self, index: int | npt.NDArray[np.uint32]
+        ) -> float | npt.NDArray[np.float64]:
+            value = (self.intercept + index * self.slope) / self.scale
+            if isinstance(value, np.ndarray):
+                return value.astype(np.float64)
+            return value
+
+        def to_index(
+            self, value: float | npt.NDArray[np.float64]
+        ) -> int | npt.NDArray[np.uint32]:
+            value = (value * self.scale - self.intercept) / self.slope
+            if isinstance(value, np.ndarray):
+                return (value + 0.5).astype(np.uint32)
+            return int(value + 0.5)
+    ```
+
+
+    Given $a=95.0$, $b=3.75e-7$ and $s=1.0$ we can compute the index `2190583200` maps to the coordinate `916.4687` using
+    the *from index* equation, $(95.0 + 2190583200×3.75e-7)×(1/1)$. Conversely, the *to index* equation, $(916.4687×1 - 95.0)/3.75e-7$.
+
+    The model [`MS:1003824|linear grid interpolation`](http://purl.obolibrary.org/obo/MS_1003824) can be learned from the raw
+    data directly using simple linear regression:
+
+    ```python
+    def fit(values: npt.NDArray[np.float64], low: float, high: float, scale: float = 1.0):
+        # The maximum value a 32-bit unsigned integer can take on
+        slots = 4294967295
+        # The spacing between points on a grid from *low* to *high* with the *scale* multiplier
+        # is given by the total distance between those two scaled points divided by the total
+        # number of positions along a grid storable in a 32-bit integer.
+        step_size = (high * scale - low * scale) / slots
+
+        values = values * scale
+        # The initial grid indices for these observed values
+        indices = ((values - (low * scale)) / step_size).astype(np.uint32)
+
+        x_mean = indices.mean()
+        y_mean = values.mean()
+        # Regress values on the initial indices
+        x_sub_mean = indices - x_mean
+        y_sub_mean = values - y_mean
+
+        slope = x_sub_mean.dot(y_sub_mean) / x_sub_mean.dot(x_sub_mean)
+        intercept = y_mean - slope * x_mean
+        return np.array([intercept, slope, scale])
+    ```
+
+
+
 ## Opaque array transforms for *other* dimensions
 
 Sometimes we prefer to store data in arrays other than the main axis lossily in non-uniform, unaligned, or otherwise

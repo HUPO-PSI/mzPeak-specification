@@ -24,8 +24,10 @@ A conformant archive **MUST**:
 2. reference only present, valid Parquet files whose Arrow schema matches their
    `entity_type`/`data_kind`;
 3. declare in `metadata.cv_list` every CV prefix used anywhere, with `uri` and `version`;
-4. use exactly one signal layout per data/peak file (`point` or `chunk`), identified by the
-   array-index `prefix`;
+4. use exactly one signal layout per `entity_type` (`point` or `chunk`), identified by the
+   array-index `prefix` — every signal file for that entity (e.g. `spectra_data.parquet` and
+   `spectra_peaks.parquet`, which share one `spectrum_array_index`) **MUST** declare the same
+   layout family;
 5. satisfy the [semantic invariants](#validation).
 
 Additional members and metadata keys are permitted and MUST NOT cause rejection.
@@ -65,8 +67,9 @@ A conformant reader **MUST**:
 - the sorting-rank-0 coordinate array is ascending;
 - every non-null foreign key resolves to an existing key/id;
 - chunks of an entity are ascending by `chunk_start` and non-overlapping;
-- within an entity, all `array_index` entries share one layout family — either every entry
-  is `point` or every entry is one of the `chunk_*` formats; the two **MUST NOT** be mixed;
+- within an `entity_type`, all `array_index` entries share one layout family — either every
+  entry is `point` or every entry is one of the `chunk_*` formats; the two **MUST NOT** be
+  mixed, including across that entity's separate data and peak files;
 - time columns (for example `spectrum.time` and `wavelength_spectrum_time`) are expressed in
   [minutes](http://purl.obolibrary.org/obo/UO_0000031);
 - each signal Parquet file carries a [page index](https://parquet.apache.org/docs/file-format/pageindex/);

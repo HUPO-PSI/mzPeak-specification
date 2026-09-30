@@ -172,6 +172,7 @@ nav:
       - Chromatograms: schemas/chromatograms.md
       - Wavelength Spectra: schemas/wavelength-spectra.md
   - Conformance: conformance.md
+  - Imaging Profile: profiles/imaging.md
   - Implementations: implementations.md
   - Tools: tools.md
   - Reference:

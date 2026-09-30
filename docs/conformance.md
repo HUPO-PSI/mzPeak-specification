@@ -36,7 +36,8 @@ A conformant writer **MUST**:
 
 - produce a conformant archive;
 - write a Parquet **page index** for the index/coordinate columns;
-- declare every CV used (version-pinned) in `cv_list`;
+- declare every CV used in `cv_list`, with a `uri` that identifies a fixed release or snapshot
+  and the matching `version`;
 - record an array index sufficient to reconstruct every array **without parsing column names**.
 
 ## Conformant reader
@@ -100,9 +101,11 @@ secret key.
 
 ## Conformance classes
 
-**Core** — satisfies every MUST above. **Profiles** (OPTIONAL, e.g. *Imaging*) register through
-the index extension mechanism and add requirements; a Core reader MUST still read Core content
-and ignore profile content it does not implement.
+**Core** — satisfies every MUST above. **Profiles** are optional and add requirements for one kind
+of data. An archive declares a profile in the `metadata` of `mzpeak_index.json`; the
+[Imaging profile](profiles/imaging.md) is declared by setting `metadata.imaging.is_imaging` to
+`true`. A Core reader MUST still read Core content and ignore profile content it does not
+implement.
 
 ## Demonstrating compliance
 

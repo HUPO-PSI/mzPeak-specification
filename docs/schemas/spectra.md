@@ -188,6 +188,9 @@ A scan or acquisition from the original raw file used to create a spectrum.
   - (group)
     - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
     - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
+- **`position_x`** (`IMS:1000050`), **`position_y`** (`IMS:1000051`), **`position_z`**
+  (`IMS:1000052`) (integer) — the pixel position of this scan in an imaging archive. The
+  [Imaging profile](../profiles/imaging.md#pixel-positions) requires `position_x` and `position_y`.
 - **MAY** supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,

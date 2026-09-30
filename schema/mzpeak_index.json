@@ -63,7 +63,17 @@
             "coordinate_base": {
               "type": "integer",
               "const": 1,
-              "description": "The origin of the position columns. Positions count from 1."
+              "description": "Always 1: positions count from 1. Kept for readers written against earlier drafts."
+            },
+            "position_offset": {
+              "type": "object",
+              "description": "The constant subtracted from each source position, per axis, when the source counted positions from another origin. Absent when nothing was shifted.",
+              "required": ["x", "y"],
+              "properties": {
+                "x": { "type": "integer" },
+                "y": { "type": "integer" },
+                "z": { "type": "integer" }
+              }
             },
             "pixel_count": {
               "type": "object",
@@ -78,11 +88,11 @@
             "pixel_count_source": {
               "type": "string",
               "enum": ["declared", "observed_max"],
-              "description": "Whether pixel_count was copied from the source or derived from the positions."
+              "description": "declared when the source declared the counts; observed_max when the writer derived them from the largest positions because the source declared none."
             },
             "mz_range": {
               "type": "object",
-              "description": "The m/z range over the MS1 spectra.",
+              "description": "The m/z range over the MS1 spectra; absent when there are none.",
               "required": ["min", "max"],
               "properties": {
                 "min": { "type": "number" },
@@ -113,7 +123,7 @@
         "media_type": { "type": "string", "examples": ["image/tiff"] },
         "width": { "type": "integer", "minimum": 1, "description": "Width in image pixels." },
         "height": { "type": "integer", "minimum": 1, "description": "Height in image pixels." },
-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 of the member, for readers that handle images without the index. The member's Core checksum in files[] still applies." },
         "size_bytes": { "type": "integer", "minimum": 0 },
         "role": {
           "type": "string",
@@ -124,7 +134,7 @@
         "source_name": { "type": "string", "description": "The file the image was taken from." },
         "affine": {
           "type": "object",
-          "description": "A display hint mapping 0-based image pixels to 1-based MS pixels: x_ms = a*col + b*row + c, y_ms = d*col + e*row + f.",
+          "description": "Positions the image for display. Maps 0-based image pixel centres to 1-based MS pixel centres: x_ms = a*col + b*row + c, y_ms = d*col + e*row + f.",
           "required": ["matrix"],
           "properties": {
             "matrix": {

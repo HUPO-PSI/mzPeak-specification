@@ -43,12 +43,21 @@ Pixel positions are columns of the
   unsigned.
 - Each column **MUST** have a [column mapping](../layouts/metadata-tables.md#column-mapping) entry
   naming its term. The column names are those given above, not `opt_` names.
-- Several scans **MAY** share one position, for example the scans of an ion-mobility frame.
+- Several scans **MAY** share one position, for example an MS1 and an MS2 spectrum acquired at
+  the same pixel.
 
 **Positions define the image.** Pixel (1, 1) is the top-left corner; `position_x` increases to
 the right and `position_y` downward. Terms that describe how the instrument scanned the sample,
 such as scan pattern or line scan direction, are a record of the acquisition. A reader
 **MUST NOT** use them to place pixels.
+
+**Pixels and spectra.** Two scans belong to the same pixel exactly when their positions are
+equal. A spectrum belongs to a pixel when every one of its positioned scans has that position.
+A spectrum whose positioned scans have different positions, such as a spectrum summed over
+several pixels (`MS:1000571` sum of spectra), belongs to no single pixel: a reader **MUST NOT**
+take one scan's position as the spectrum's, and **MUST NOT** count a spectrum once per scan
+when it places intensities. Scan positions are the authoritative record; a pixel table, if one
+is defined later, will be derived from them and optional.
 
 ## Grid geometry
 

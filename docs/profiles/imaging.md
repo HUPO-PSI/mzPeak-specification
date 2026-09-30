@@ -118,7 +118,7 @@ repeats them, and it **MAY** be partial.
 
 An archive **MAY** carry optical, histological or derived images, each as its own member under
 `images/`, copied verbatim. TIFF is recommended. Each member is listed in `files` with
-`entity_type` and `data_kind` set to `other`, and described by one entry of
+`entity_type` `image` and `data_kind` `other`, and described by one entry of
 `metadata.imaging.images`:
 
 | Field | Meaning |

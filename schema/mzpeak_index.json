@@ -92,7 +92,7 @@
             },
             "mz_range": {
               "type": "object",
-              "description": "The m/z range over the MS1 spectra; absent when there are none.",
+              "description": "The range of the m/z values stored for the MS1 spectra that have a position, after any transform; absent when there are none.",
               "required": ["min", "max"],
               "properties": {
                 "min": { "type": "number" },

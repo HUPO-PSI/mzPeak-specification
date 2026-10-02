@@ -119,7 +119,7 @@ authoritative: where a value appears both here and there, the two **MUST** be eq
 | `position_offset` | `{x, y[, z]}`, the constant subtracted from each source position; absent when nothing was shifted. |
 | `pixel_count` | `{x, y[, z]}`, the pixel counts of the grid, equal to the scan settings. |
 | `pixel_count_source` | `declared` when the source declared the counts; `observed_max` when the writer derived them from the largest positions because the source declared none. |
-| `mz_range` | `{min, max}` over the MS1 spectra; absent when there are none. |
+| `mz_range` | `{min, max}` of the m/z values stored for the MS1 spectra that have a position, after any transform (zero-run stripping, grid encoding); absent when there are none. |
 | `images` | The embedded images, see below. |
 
 ## Embedded images

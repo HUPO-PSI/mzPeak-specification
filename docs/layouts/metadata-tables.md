@@ -131,7 +131,7 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
         - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
 
 !!! question "Open item - auxiliary data arrays"
-    Whether `auxiliary_data_array` are subjecto to parameter-to-column promotion if they are recurring.
+    Whether `auxiliary_data_array` are subject to parameter-to-column promotion if they are recurring.
     Technically they are under the current wording, but they are already a special case escape hatch and
     complicated enough to parse.
 

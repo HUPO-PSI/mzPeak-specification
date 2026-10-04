@@ -139,7 +139,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 | `components` | `array` of [`component_type`](#component_type) | Yes | &nbsp; |
 | `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. |
 | `id` | `integer` | Yes | A unique identifier for this instrument configuration. |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
 
 #### Property Details
 
@@ -153,7 +153,7 @@ The identifier for a software that was associated with the data acquisition proc
 
 A unique identifier for this instrument configuration.
 
-**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this configuration, like the instrument model and serial number
 
@@ -172,7 +172,7 @@ Describes an instrument component like the ion source, mass analyzer, or detecto
 |----------|------|:--------:|-------------|
 | `component_type` | `enum` | Yes | The kind of component this is |
 | `order` | `integer` | Yes | The order in which the analytes travels through the component |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing this component, like the particular hardware type or components |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this component, like the particular hardware type or components |
 
 #### Property Details
 
@@ -186,7 +186,7 @@ The kind of component this is
 
 The order in which the analytes travels through the component
 
-**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this component, like the particular hardware type or components
 

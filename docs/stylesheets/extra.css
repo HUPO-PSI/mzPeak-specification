@@ -215,3 +215,7 @@
 .md-typeset dl dt {
   font-weight: 700;
 }
+
+img.panel-image {
+  border-radius: 12px;
+}

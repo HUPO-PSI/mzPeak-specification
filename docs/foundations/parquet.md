@@ -49,9 +49,17 @@ into **pages**, the smallest unit of compression and encoding. This hierarchy is
 what lets a reader retrieve a narrow slice of a large file: it can locate the
 row group and pages that hold the rows of interest and read only those.
 
-Choosing row-group and page sizes trades compression ratio against random-access
-granularity — larger groups compress better but make fine-grained reads
-coarser.
+Choosing row group and page sizes trades compression ratio against random-access
+granularity — larger data pages compress better but make fine-grained reads
+coarser. Larger row groups take (substantially) more memory to write as all constituent
+data pages have to be buffered before columns are written out all at once, and can
+cause some dictionaries to exceed their default size limits.
+
+Recommendations
+- When size is not a substantial issue:
+  - 1 MB of data per data page
+- When size is important
+  - 8MB of data per data page
 
 !!! info "Open item — tuning guidance"
     Concrete recommendations for balancing compression against random-access

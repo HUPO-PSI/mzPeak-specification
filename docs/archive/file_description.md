@@ -23,13 +23,13 @@ When converting derived files, they **SHOULD** be included in the list as additi
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `contents` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Parameters describing the contents of the file, such as types of spectra. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#fileContent> |
+| `contents` | `array` of [`param`](param.md) | Yes | Parameters describing the contents of the file, such as types of spectra. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#fileContent> |
 | `source_files` | `array` of [`source_file`](#source_file) | Yes | List of all files used as data sources for this mzPeak file. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#sourceFileList> |
 | `contacts` | `array` of [`contact`](#contact) | &nbsp; | Persons or entities responsible for the data contained here. |
 
 ## Property Details
 
-**`contents`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+**`contents`** - `array` of [`param`](param.md) *(required)*
 
 Parameters describing the contents of the file, such as types of spectra. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#fileContent>
 
@@ -59,7 +59,7 @@ A data file that was read in order to produce this mzPeak file. Analogous to <ht
 | `id` | `string` | Yes | A unique identifier for this source file. |
 | `name` | `string` | Yes | The name of the source file, not including parent directory |
 | `location` | `string` | Yes | The path to the source file, URI encoded. This may include file:// protocols and UNC paths |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Additional parameters describing this source file, like checksums, nativeID format, or file format |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this source file, like checksums, nativeID format, or file format |
 
 #### Property Details
 
@@ -75,7 +75,7 @@ The name of the source file, not including parent directory
 
 The path to the source file, URI encoded. This may include file:// protocols and UNC paths
 
-**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this source file, like checksums, nativeID format, or file format
 
@@ -94,7 +94,7 @@ A person or entity that is responsible for some portion of the data or processin
 |----------|------|:--------:|-------------|
 | `contact_name` | `string` | &nbsp; | The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586) |
 | `contact_affiliation` | `string` | &nbsp; | The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590) |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | Yes | Parameters describing the contact, such as name, organization, email, website, or address. |
+| `parameters` | `array` of [`param`](param.md) | Yes | Parameters describing the contact, such as name, organization, email, website, or address. |
 
 #### Property Details
 
@@ -106,7 +106,7 @@ The name of the contact person. This is equivalent to `MS:1000586|contact name` 
 
 The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590)
 
-**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(required)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Parameters describing the contact, such as name, organization, email, website, or address.
 

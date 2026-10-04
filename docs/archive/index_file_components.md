@@ -38,7 +38,7 @@ A single file in the mzPeak archive of a certain type
 | `entity_type` | `string` | Yes | The things being described in one facet or another by this file |
 | `data_kind` | `string` | Yes | The facet of the thing being described in this file |
 | `column_mapping` | `array` of [`column_mapping`](#column_mapping) | &nbsp; | A list of Parquet column to controlled vocabulary term mappings |
-| `parameters` | `array` of [`param`](/mzPeak-specification/archive/param) | &nbsp; | A list of parameters describing the file stored in the mzPeak archive itself |
+| `parameters` | `array` of [`param`](param.md) | &nbsp; | A list of parameters describing the file stored in the mzPeak archive itself |
 
 #### Property Details
 
@@ -62,7 +62,7 @@ The facet of the thing being described in this file
 
 A list of Parquet column to controlled vocabulary term mappings
 
-**`parameters`** - `array` of [`param`](/mzPeak-specification/archive/param) *(optional)*
+**`parameters`** - `array` of [`param`](param.md) *(optional)*
 
 A list of parameters describing the file stored in the mzPeak archive itself
 

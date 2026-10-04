@@ -243,7 +243,16 @@ same array type, array name, data type, unit, and data-processing ID as the
 
 This uses a pluggable coordinate model that maps *real* value to and from unsigned integer coordinates using
 a pair of equations and a set of grid parameters. To store grid-encoded arrays for the chunk dimension, an
-extra column group `<array_name>_grid` is added. Like in the [Numpress linear encoding](#numpress-linear-encoding) case, the `<array_name>_chunk_values` column is populated with an empty list when the chunked dimension is grid-encoded. Other arrays may be grid encoded using the same methods described here, such as an IM-MS spectrum's ion mobility array, if desirable. Only one distinction is made in the encoding of the grid indices, seen later in this section. When a grid model is used, it is encoded as a group/struct with the schema:
+extra column group `<array_name>_grid` is added. Like in the [Numpress linear encoding](#numpress-linear-encoding)
+case, the `<array_name>_chunk_values` column is populated with an empty list when the chunked dimension is
+grid-encoded. The array index entry for `<array_name>_grid` column **MUST** have `buffer_format` `chunk_transform` and
+the same array type, array name, data type, unit, and data-processing ID as the `_chunk_values` column, and the
+`transform` field **MUST** be `MS:1003826`. The grid encoding is **incompatible with [null marking](signal-data.
+md#null-marking)** as to avoid the complication of stacking encodings. A parallel intensity array may still be null marked.
+Other arrays may be grid encoded using the same methods described here, such as an IM-MS spectrum's ion mobility array, if
+desirable. In this case the array index entry should either define the data type, unit and array type for the column,
+or copy from another column defining the same array type. Only one distinction is made in the encoding of the grid indices,
+seen later in this section. When a grid model is used, it is encoded as a group/struct with the schema:
 
 ```
 optional group <array_name>_grid {
@@ -271,20 +280,27 @@ vendor proprietary models. There are provisions for adding vendor models or appr
 vocabulary.
 
 The `parameters` column is a list of 64-bit floats that will be used to parameterize the grid model. The
-order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general. These parameters are used in index/coordinate conversion.
+order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the
+same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general.
+These parameters are used in index/coordinate conversion.
 
 The `indices` column is a list of 32-bit (unsigned) integers that are mapped to the real 64-bit float coordinates
 being encoded. These are produced for writing by using the grid model to convert real-valued coordinates *to* grid
 indices. When reading, the grid model is used to convert *from* indices back to their equivalent real-valued
-coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available, or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index **MUST** be included in the `indices` column's array. The chunk dimension's `indices` column **MUST** be delta-encoded, this is done to improve compressibility of a sorted array of indices.
+coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
+or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index **MUST** be
+included in the `indices` column's array. The chunk dimension's `indices` column **MUST** be delta-encoded, this is
+done to improve compressibility of a sorted array of indices.
 
 It must be noted that *unless* using a vendor-defined encoding, this is likely to be a lossy transformation.
-The user **SHOULD** be able to set an error threshold for using the grid encodings. A model that would have errors exceeding the given threshold **SHOULD** fall back to use a different encoding. The linear grid can be
+The user **SHOULD** be able to set an error threshold for using the grid encodings. A model that would have errors
+exceeding the given threshold **SHOULD** fall back to use a different encoding. The linear grid can be
 an order of magnitude less accurate than `MS-Numpress linear prediction` on profile data, but 30% smaller when
 both are Zstandard compressed. On time-of-flight mass analyzers, the square root grid is marginally less accurate but
-produces better compression, 50% smaller than `MS-Numpress linear prediction` on the same profile data. This is because its
-grid indices are more consistently spaced relative to the real data. Additionally, on quantities with compressed dynamic
-ranges like ion mobility, the linear grid is equal to or more accurate than `MS-Numpress linear prediction` while still being smaller.
+often produces better compression, 50% smaller than `MS-Numpress linear prediction` on the same profile data. This is
+because its grid indices are more consistently spaced relative to the real data. Additionally, on quantities with
+compressed dynamic ranges like ion mobility, the linear grid is equal to or more accurate than `MS-Numpress linear
+prediction` while still being smaller.
 
 #### Parquet column encoding for grid encoding columns
 
@@ -379,6 +395,14 @@ the array index **MUST** be the *decoded* array's real type. Column names
 ??? question "Transform name or accession code?"
     We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314) instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
 
+
+## Encoding Strategies Quick Reference
+
+![](../assets/img/chunk_encoding_processes.svg){: .panel-image }
+
+## Decoding Strategies Quick Reference
+
+![](../assets/img/chunk_decoding_processes.svg){: .panel-image }
 
 ## Reading a single entry from the chunked encoding
 

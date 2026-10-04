@@ -25,8 +25,8 @@ other values are arranged — *sorting rank 0*. Any arrays that are shorter or
 longer than this axis **SHOULD** be stored as auxiliary arrays instead.
 
 !!! warning "Re-sort unsorted ranked arrays"
-    When writing, if an array that has a sorting rank is not sorted, the entry's
-    data arrays **MUST** be re-sorted accordingly. Failing to do so introduces
+    When writing, if an array that has a sorting rank is not sorted with respect to its rank,
+    the entry's data arrays **MUST** be re-sorted accordingly. Failing to do so introduces
     integrity errors.
 
 ## The Array Index

@@ -117,7 +117,7 @@
             },
             "transform": {
                 "type": ["string", "null"],
-                "description": "A transformation that may be applied to this array such as zero trimming and null marking or Numpress compression, denoted as a CURIE from the PSI-MS controlled vocabulary. Some values are only usable with the chunked layout.",
+                "description": "A transformation that may be applied to this array such as zero trimming and null marking or Numpress compression, denoted as a CURIE from the PSI-MS controlled vocabulary. Some values are only usable with the chunked layout. A reconstruction-model transform (a child of MS:1003820) is interpretation-changing: the stored values are integer ordinals and the true coordinate is recovered via the per-row mz_delta_model. Such transforms are fail-closed — a reader that does not implement the named model MUST NOT read the array's raw values as the coordinate (see Conformance).",
                 "default": null
             }
         }

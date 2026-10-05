@@ -30,7 +30,8 @@ jobs:
       - name: drawio
         run: |
           wget https://github.com/jgraph/drawio-desktop/releases/download/v31.7.0/drawio-amd64-31.7.0.deb -O drawio-amd64.deb
-          apt install drawio-amd64.deb
+          debfile=`realpath drawio-amd64.deb`
+          sudo apt install $debfile
           bash scripts/drawio2svg.sh docs/assets/img/*.drawio
 
       - name: Build site

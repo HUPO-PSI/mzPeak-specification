@@ -10,7 +10,7 @@ the main axis and the source index. The top-level schema node is named `chunk`,
 and the entity index column **MUST** be its first column.
 
 <div class="mzp-figure" markdown>
-<img src="../../assets/img/chunked_layout.png" alt="Chunked-layout schema: a top-level chunk group holding spectrum_index, mz_chunk_start and mz_chunk_end bounds, an encoded mz_chunk_values list, a chunk_encoding column, and an intensity list, with one table row per chunk." height="520"/>
+<img src="../../assets/img/chunked_layout.svg" alt="Chunked-layout schema: a top-level chunk group holding spectrum_index, mz_chunk_start and mz_chunk_end bounds, an encoded mz_chunk_values list, a chunk_encoding column, and an intensity list, with one table row per chunk." height="520"/>
 </div>
 
 <table class="chunk-table" markdown="0">
@@ -395,6 +395,15 @@ the array index **MUST** be the *decoded* array's real type. Column names
 ??? question "Transform name or accession code?"
     We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314) instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
 
+### Opaque transforms and the array index
+
+When *writing* a file with an opaque transform on a column, the writer **MUST** ensure
+that the necessary additional column to store the transformed value is present in the schema.
+If the writer expects the untransformed column to be present as well, this column **SHOULD**
+be present, and it **MUST** the `<array_name>_chunk_values` column must always be present in
+the schema. There **MUST** be an array index entry for each column. The transformed array index
+entry **MUST** set the appropriate CURIE in the `.transform` field, and the untransformed array
+entry is left `null`. Non-opaque transforms like null marking do not require this extra step.
 
 ## Encoding Strategies Quick Reference
 

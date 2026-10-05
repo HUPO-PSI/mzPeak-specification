@@ -115,12 +115,11 @@ This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 - **`auxiliary_arrays`** (list) — structures describing arrays that did not fit
   the [arrays-and-columns](../layouts/signal-data.md#arrays-and-columns)
   constraints. These may be large; load eagerly with care.
-- **`mz_delta_model`** (list of float64) — parameters of the m/z delta model used
+- [**`coordinate_spacing_model`**](http://purl.obolibrary.org/obo/MS_1003820) (list of float64) — parameters of the m/z delta model used
   to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is
   no fixed length requirement, and this value **MAY** be `null` or empty if no model
   was learned. Polynomial coefficient terms **MUST** be written in descending power,
   including any zeros.
-  :octicons-tasklist-16: Add CV term name (<http://purl.obolibrary.org/obo/MS_1003820>)
 - [**`spectrum_representation (MS:1000525)`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) — e.g.
   [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" or

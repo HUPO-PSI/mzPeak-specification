@@ -87,6 +87,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
 - **`source_index`** (uint64) — the spectrum this scan belongs to (foreign key).
 - **`instrument_configuration_id`** (integer) — the `instrument_configuration`
   governing this scan referenced by `id`.
+- [**`scan_start_time`**](http://purl.obolibrary.org/obo/MS_1000016) (float64) — The [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+  denotes the time that an analyzer started a scan, relative to the start of the run.
 - **`parameters`** (list).
 - **`scan_windows`** (list) — the list of windows in the main axis (wavelength array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)

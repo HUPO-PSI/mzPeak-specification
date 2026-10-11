@@ -175,6 +175,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
   source file in `file_description.source_files`. This might happen when summing and
   averaging spectra to improve signal quality (e.g. building a consensus spectrum), or
   when collating spectra across ion mobility measurements into an ion mobility frame.
+- [**`scan_start_time`**](http://purl.obolibrary.org/obo/MS_1000016) (float64) — The [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+  denotes the time that an analyzer started a scan, relative to the start of the run.
 - **`instrument_configuration_id`** (integer) — the `instrument_configuration`
   governing this scan referenced by `id`.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see

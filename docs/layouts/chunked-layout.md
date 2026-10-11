@@ -40,7 +40,7 @@ so they can be byte-shuffled for further compression.
 
 ## Column naming rules
 
-1. **`<entity>_index`** (integer) — the index key for the entity this chunk
+1. **`<entity_type>_index`** (integer) — the index key for the entity this chunk
    belongs to.
 2. **`<array_name>_chunk_start`** (float64) — the first coordinate value in the
    chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_start`.
@@ -56,6 +56,13 @@ so they can be byte-shuffled for further compression.
 All other columns are expected to be `list` arrays whose names are simply their
 `array_name` (with `buffer_format` `chunk_secondary`), or surrogate arrays with
 `buffer_format` `chunk_transform`.
+
+## Parallel time index
+
+In addition to the `<entity_type>_index` column, the writer *MAY* include a parallel
+`<entity_type>_time` column which **MUST** store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
+for chromatograms or traces. This column is not part of the array index.
 
 ## Splitting data into chunks
 

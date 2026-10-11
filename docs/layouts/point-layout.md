@@ -6,7 +6,7 @@ with an arbitrary number of columns. The entity index column **MUST** be the
 first column under `point`.
 
 <div class="mzp-figure" markdown>
-<img src="../../assets/img/point_layout.png" alt="Point-layout schema: a single top-level point group holding a repeated spectrum_index column alongside parallel mz and intensity columns, with one table row per data point." height="520"/>
+<img src="../../assets/img/point_layout.svg" alt="Point-layout schema: a single top-level point group holding a repeated spectrum_index column alongside parallel mz and intensity columns, with one table row per data point." height="520"/>
 </div>
 
 <table class="point-table" markdown="0">

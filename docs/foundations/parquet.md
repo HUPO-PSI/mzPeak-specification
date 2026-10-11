@@ -58,7 +58,7 @@ cause some dictionaries to exceed their default size limits.
 Recommendations
 - When size is not a substantial issue:
   - 1 MB of data per data page
-- When size is important
+- When size is important:
   - 8MB of data per data page
 
 !!! info "Open item — tuning guidance"

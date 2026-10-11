@@ -219,9 +219,8 @@ The CURIE for the controlled vocabulary term, or null if no controlled vocabular
 
 ## File-level metadata
 
-File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` *and* in the
-metadata Parquet files' key–value pairs, as JSON encoded according to the schemas
-below:
+File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` encoded according to the schemas
+below.
 
 - [`cv_list`](./cv_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
 - [`file_description`](./file_description.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/file_description.json)

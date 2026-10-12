@@ -201,7 +201,7 @@ A mapping from a Parquet column to a controlled vocabulary term
 
 The human-readable term name
 
-*Examples:* `"ms level"`, `"filter string"`, `"selected ion m/z"`, `"collision energy"`, `"scan lower limit"`
+*Examples:* `"ms level"`, `"filter string"`, `"selected ion m/z"`, `"collision energy"`, `"scan window lower limit"`
 
 **`path`** - `string` *(optional)*
 

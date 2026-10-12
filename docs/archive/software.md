@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\software.json ->
+
 # mzPeak metadata software list
 
 Describe the JSON format of software list

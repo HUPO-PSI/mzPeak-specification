@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\instrument_configuration.json ->
+
 # mzPeak metadata instrument configurations
 
 Describe the JSON format of instrument configurations used to acquire a mass spectrometry experiment

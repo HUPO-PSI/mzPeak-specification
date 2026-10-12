@@ -38,7 +38,7 @@ column is part of the Parquet schema and must always exist with a homogeneous
 value type (or be `null`) for each row.
 
 The array index is stored in the Parquet metadata of the
-[`data arrays`](../archive/data-kinds.md) or
+[`data_arrays`](../archive/data-kinds.md) or
 [`peaks`](../archive/data-kinds.md) files under
 `<entity_type>_array_index` — e.g. `spectrum_array_index` for spectra or
 `chromatogram_array_index` for chromatograms.
@@ -150,7 +150,7 @@ broadly.
 
 ### Numerical precision
 
-There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles **SHOULD** still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers! It is the writer's prerogotive to choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
+There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles **SHOULD** still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers! It is the writer's prerogative to choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
 
 Opting for lossy compression like MS-Numpress carries its own precision costs. See [(4)](../reference/references.md) for more details.
 
@@ -272,10 +272,10 @@ only three points — including the two zero-intensity flanks — no meaningful 
 model can be fit anyway, so the minuscule angle change is effectively lossless.
 
 The model parameters learned for each entry **MUST** be stored in that entry's
-row in the associated metadata table, as `mz_delta_model`.
+row in the associated metadata table, as `coordinate_spacing_model`.
 
-!!! question "Open item — generalise `mz_delta_model`"
-    Should `mz_delta_model` become a CV parameter and be dissociated from m/z
+!!! question "Open item — generalise `coordinate_spacing_model`"
+    Should `coordinate_spacing_model` become a CV parameter and be dissociated from m/z
     specifically, so the same mechanism can serve other coordinate axes? This is
     likely desirable.
 

@@ -84,11 +84,11 @@ SHA-1 or MD5 for integrity checks, and while these are suitable for detecting bi
 to exploitation. SHA-512 is quantum-resistant, has no known exploitation, and is very, very hard to introduce collisions
 for. An mzPeak file may be checked for integrity by rehashing each contained file and confirming the hex-digested checksum,
 stored in lowercase without separators, matches the value shown in the `mzpeak_index.json` file for that file. For encrypted
-Parquet files, this should hashing should be done on the encrypted bytes. Files not described in `mzpeak_index.json` are not governed
+Parquet files, this hashing should be done on the encrypted bytes. Files not described in `mzpeak_index.json` are not governed
 by this specification and should not be tested. Additionally, the entire ZIP archive for packed archives should not be hashed
 because the packed and unpacked versions of the same mzPeak file are equally valid.
 
-Nothing prevents a malicious user from replacing a file and editting the `mzpeak_index.json` to show the new file's checksum.
+Nothing prevents a malicious user from replacing a file and editing the `mzpeak_index.json` to show the new file's checksum.
 For basic integrity testing, this mzPeak file would appear correct. For these scenarios, see the [Provenance](#provenance) section
 below.
 

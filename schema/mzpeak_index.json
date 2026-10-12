@@ -69,7 +69,7 @@
     "file": {
       "type": "object",
       "description": "A single file in the mzPeak archive of a certain type",
-      "required": ["name", "entity_type", "data_kind"],
+      "required": ["name", "entity_type", "data_kind", "checksum"],
       "properties": {
         "name": {
           "type": "string",
@@ -116,7 +116,7 @@
           "description": "A list of parameters describing the file stored in the mzPeak archive itself"
         },
         "checksum": {
-          "type": ["string", "null"],
+          "type": ["string"],
           "description": "The 128 byte SHA-512 hex digest of the entire file, excluding any ZIP-related headers or padding, rendered without byte separators and all alphabetic characters lowercase.",
           "examples": [
             "b3350bbd8ff55e3aca1f3e3b0e20da79b8ffcf7a8a0de1dad09b51fc7ad6c01dcd6179e76d7dd06a1a6d7162edd3e2d0be790b2b9bb35b7bd4113952b7fe665d",

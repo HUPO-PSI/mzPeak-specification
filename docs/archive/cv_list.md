@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\cv_list.json ->
+
 # mzPeak controlled vocabulary list
 
 Describe the JSON format of the controlled vocabulary list, analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#cvList>

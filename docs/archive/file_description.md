@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\file_description.json ->
+
 # mzPeak metadata file description
 
 Describe the JSON format of the file description section

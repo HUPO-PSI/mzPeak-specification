@@ -19,8 +19,7 @@ The signal data is encoded using either
 [point layout](../layouts/point-layout.md) or
 [chunked layout](../layouts/chunked-layout.md). The entity index column **MUST**
 be named `chromatogram_index`. The default primary axis is a
-[`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595), though the
-unit is up to the writer. For consistency, we recommend using minutes.
+[`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595). For consistency, the units *SHOULD* be minutes.
 
 ### Recommended Parquet encodings
 
@@ -29,7 +28,7 @@ unit is up to the writer. For consistency, we recommend using minutes.
 | `chromatogram_index` | [delta encoding](https://parquet.apache.org/docs/file-format/data-pages/encodings/#delta-encoding-delta_binary_packed--5) |
 | time arrays | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling) |
 
-## Chromatogram metadata — `chromatograms_metadata.parquet`
+## Chromatogram metadata - `chromatograms_metadata.parquet`
 
 ```json
 {
@@ -85,7 +84,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 ```
 
 The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring,
-this table will be empty or absent. Its schema is identical to the [spectrum precursor schema](./spectra.md#spectrum-precursor-metadata--spectra_metadata_precursorsparquet)
+this table will be empty or absent. Its schema is identical to the [spectrum precursor schema](./spectra.md#spectrum-precursor-metadata-spectra_metadata_precursorsparquet)
 
 
 
@@ -102,7 +101,7 @@ this table will be empty or absent. Its schema is identical to the [spectrum pre
 This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this table will be empty
-or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata--spectra_metadata_selected_ionsparquet).
+or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata-spectra_metadata_selected_ionsparquet).
 
 ## Chromatogram product selection metadata — `chromatograms_metadata_products.parquet`
 
@@ -118,4 +117,4 @@ This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is
 isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to
-the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata--spectra_metadata_productsparquet).
+the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet).

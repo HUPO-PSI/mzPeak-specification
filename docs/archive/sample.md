@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\sample.json ->
+
 # mzPeak metadata sample list
 
 Describe the JSON format of the sample list. Multiple samples can be present in a single run in scenarios like multiplexing or pooling.

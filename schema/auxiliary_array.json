@@ -60,7 +60,7 @@
       },
       "description": "Additional parameters describing this data array"
     },
-    "data_processing_ref": {
+    "data_processing_id": {
       "type": "string",
       "description": "The identifier for the data processing pipeline that created this array."
     }

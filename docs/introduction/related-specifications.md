@@ -7,7 +7,7 @@ and used in conjunction with — several existing and emerging community models:
   universal mechanism for referring to a specific spectrum in public
   repositories. mzPeak uses USIs in the `scan.spectrum_reference` field for
   spectra drawn from external sources (see
-  [Spectrum metadata](../schemas/spectra.md#scan-group)).
+  [Spectrum metadata](../schemas/spectra.md#spectrum-scan-metadata-spectra_metadata_scansparquet)).
 - **[mzML](https://www.psidev.info/mzML)** — the current PSI recommendation for
   storing raw or processed mass spectrometry data. mzPeak draws on the mzML data
   model and re-uses concepts such as controlled vocabularies where feasible.

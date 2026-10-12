@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\data_processing.json ->
+
 # mzPeak metadata data processing method list
 
 Describe the JSON format of data processing method list

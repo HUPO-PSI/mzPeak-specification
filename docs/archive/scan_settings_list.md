@@ -1,10 +1,12 @@
+<!-- Automatically generated from schema\scan_settings_list.json ->
+
 # mzPeak metadata scan settings list
 
 The list of scan settings pre-configuring acquisition settings. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.>
 
 ## Use cases
 
-This is used primarily used for high-level configuration of data-independent acquisition strategies like targeted MS, SWATH, and the like. Additionally used for imaging MS to define the spatial scanning parameters.
+This is primarily used for high-level configuration of data-independent acquisition strategies like targeted MS, SWATH, and the like. Additionally used for imaging MS to define the spatial scanning parameters.
 
 ### Targeted MS
 

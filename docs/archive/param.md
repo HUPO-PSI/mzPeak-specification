@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\param.json ->
+
 # mzPeak metadata JSON parameter
 
 Describe the JSON format of controlled vocabulary or user-defined parameters.

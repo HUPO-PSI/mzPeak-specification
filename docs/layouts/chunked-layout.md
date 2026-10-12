@@ -45,7 +45,7 @@ so they can be byte-shuffled for further compression.
 2. **`<array_name>_chunk_start`** (float64) — the first coordinate value in the
    chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_start`.
 3. **`<array_name>_chunk_end`** (float64) — the last coordinate value in the
-   chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_end`.
+   chunk, exclusive. Its array-index `buffer_format` **MUST** be `chunk_end`.
 4. **`<array_name>_chunk_values`** (list) — the encoded coordinates from
    `array_name` according to `chunk_encoding`. Its array-index `buffer_format`
    **MUST** be `chunk_values`.

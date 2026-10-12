@@ -1,3 +1,5 @@
+<!-- Automatically generated from schema\ms_run.json ->
+
 # mzPeak metadata MS run
 
 Describe the JSON format of the run-level metadata section, analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#run>

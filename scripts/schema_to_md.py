@@ -23,7 +23,7 @@ def resolve_ref(ref: str, root: dict) -> dict:
 def ref_name(ref: str) -> str:
     if ref.startswith("http"):
         token = ref.rsplit('/', 1)[-1].replace(".json", '')
-        return f"/mzPeak-specification/archive/{token.lower()}", token
+        return f"{token.lower()}.md", token
     else:
         token = ref.rsplit("/", 1)[-1]
         return '#' + token, token
@@ -193,6 +193,7 @@ def main():
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         md = schema_to_markdown(schema)
         if outfh:
+            outfh.write(f"<!-- Automatically generated from {schema_path} ->\n\n")
             outfh.write(md)
             print(f"Written to {args.output}")
         else:

@@ -30,7 +30,7 @@ When a column is not otherwise controlled by the schema, it is assumed to map to
 in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers **SHOULD**
 use them and readers **SHOULD** expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
 process described below, some readers may be treating mzPeak component files like generic Parquet files, and will expect a stable, consistent
-schema.
+schema. Column names should be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_\\-]+/` with a space, prefixing non-standardized names with `opt_`.
 
 ## Examples
 
@@ -38,7 +38,7 @@ schema.
 
 This is the primary metadata table for mass spectra. There is an `index` column that uniquely identifies rows.
 
-|   **index** | id                                         |   ms_level |       time |   scan_polarity | spectrum_representation   | spectrum_type   |   lowest_observed_mz |   highest_observed_mz |   number_of_data_points |   number_of_peaks |   base_peak_mz |   base_peak_intensity |   total_ion_current | data_processing_id   | parameters   | auxiliary_arrays   |   number_of_auxiliary_arrays | mz_delta_model                                    |
+|   **index** | id                                         |   ms_level |       time |   scan_polarity | spectrum_representation   | spectrum_type   |   lowest_observed_mz |   highest_observed_mz |   number_of_data_points |   number_of_peaks |   base_peak_mz |   base_peak_intensity |   total_ion_current | data_processing_id   | parameters   | auxiliary_arrays   |   number_of_auxiliary_arrays | coordinate_spacing_model                            |
 |--------:|:-------------------------------------------|-----------:|-----------:|----------------:|:--------------------------|:----------------|---------------------:|----------------------:|------------------------:|------------------:|---------------:|----------------------:|--------------------:|:---------------------|:-------------|:-------------------|-----------------------------:|:--------------------------------------------------|
 |       0 | controllerType=0 controllerNumber=1 scan=1 |          1 | 0.004935   |               1 | MS:1000128                | MS:1000579      |              200     |               1999.99 |                   13589 |               null |        810.415 |           1.47122e+06 |         7.12632e+07 |                      | []           | []                 |                            0 | [-2.21139275e-08  9.69754604e-11  6.05422863e-09] |
 |       1 | controllerType=0 controllerNumber=1 scan=2 |          1 | 0.00789667 |               1 | MS:1000128                | MS:1000579      |              200.091 |               2000    |                   18177 |               null |        810.545 |      183839           |         1.29013e+07 |                      | []           | []                 |                            0 | [0.09090909]                                      |
@@ -78,7 +78,7 @@ metadata. mzPeak uses CV terms in three ways:
       express [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
       [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679). To map
       both terms to columns, the second term may use a column mapped to the term itself may have a boolean value where
-      `true` indices the presence of the value-less term and `false` or `null` indicate its absence instead of storing
+      `true` indicates the presence of the value-less term and `false` or `null` indicate its absence instead of storing
       the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
       to `true` and use a boolean data type for storage.
     - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
@@ -123,7 +123,7 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
 !!! note "Naming and column promotion"
     - Parquet columns **MUST** be uniquely named, so if the same parameter appears more
       than once in a single row it **MUST** be stored in the `parameters` column.
-    - Writers **SHOULD** to promote parameters that are present with zero or one times per row
+    - Writers **SHOULD** promote parameters that are present with zero or one times per row
       to *columns* unless there is ambiguity or insufficient context. This is more space-efficient
       and enables predicate filtering. Examples where ambiguity might prevent promotion:
         - The parameter *MAY* be repeated, but until all records are written, it is impossible to know.

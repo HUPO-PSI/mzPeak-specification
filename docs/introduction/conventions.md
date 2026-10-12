@@ -12,7 +12,7 @@ of the form `MS:1000511`, optionally with their names appended after a `|`, e.g.
 [PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms). When a
 term name is *inflected* into a Parquet column name, it appears in `code` font,
 e.g. `MS_1000511_ms_level` — see
-[Column Name Inflection](../layouts/metadata-tables.md#column-name-inflection).
+[Column Naming](../layouts/metadata-tables.md#column-naming).
 
 ## Code samples
 

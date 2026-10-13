@@ -129,16 +129,23 @@ file, and metadata model.
 
 ## Anatomy of an archive
 
+![An overview diagram of an mzPeak archive](assets/img/archive-layout.svg)
+
 An mzPeak archive (`.mzpeak`) is a small set of named files:
 
 | File | Contents |
 | :--- | :--- |
-| `mzpeak_index.json` | Manifest describing every file in the archive by entity type and data kind. |
-| `spectra_metadata.parquet` | Spectrum-level and file-level metadata (descriptions, scans, precursors, selected ions). |
-| `spectra_data.parquet` | Spectrum **profile** signal data, in point or chunked layout. |
-| `spectra_peaks.parquet` *(optional)* | Spectrum **centroid** signal, stored separately from profile data. |
-| `chromatograms_metadata.parquet` | Chromatogram-level and file-level metadata. |
-| `chromatograms_data.parquet` | Chromatogram signal data, in point or chunked layout. |
+| `mzpeak_index.json` | Manifest describing every file in the archive by entity type and data kind |
+| `spectra_metadata.parquet` | Spectrum-level metadata descriptions |
+| `spectra_metadata_scans.parquet` | Scan level descriptions for mass spectra |
+| `spectra_metadata_precursors.parquet` | Precursor descriptions for mass spectra |
+| `spectra_metadata_selected_ions.parquet` | Selected ions descriptions for mass spectra |
+| `spectra_data.parquet` | Spectrum **profile** signal data, in point or chunked layout |
+| `spectra_peaks.parquet` *(optional)* | Spectrum **centroid** signal, stored separately from profile data |
+| `chromatograms_metadata.parquet` | Chromatogram-level metadata descriptions |
+| `chromatograms_metadata_precursors.parquet` | Precursor descriptions for chromatograms |
+| `chromatograms_metadata_selected_ions.parquet` | Selected ion descriptions for chromatograms |
+| `chromatograms_data.parquet` | Chromatogram signal data, in point or chunked layout |
 
 Additional Parquet files may be added to cover further modalities (for example
 [wavelength spectra](schemas/wavelength-spectra.md)) as the format grows.

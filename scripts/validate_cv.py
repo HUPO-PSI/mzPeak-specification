@@ -19,13 +19,12 @@ Full hierarchy validation would require an OLS/OBO lookup.
 import json
 import re
 import sys
-
 from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from psims.document import VocabularyResolver, CV
+from psims.document import CV, VocabularyResolver
 
 # ---------------------------------------------------------------------------
 # Path resolution

@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Translate a JSON Schema file to Markdown documentation."""
-import sys
-import json
 import argparse
+import json
 import re
-
-from urllib.request import urlopen
-from pathlib import Path
 from io import FileIO
+from pathlib import Path
+from urllib.request import urlopen
+
 
 def resolve_ref(ref: str, root: dict) -> dict:
     if not ref.startswith("#"):
@@ -145,7 +144,7 @@ def schema_to_markdown(schema: dict) -> str:
     if desc := schema.get("description"):
         lines += [detect_link(desc), ""]
 
-    if meta := schema.get("$meta"):
+    if meta := schema.get("$meta"):  # noqa: SIM102
         if summary_uri := meta["summary"]:
             lines += [detect_link(urlopen(summary_uri).read().replace(b"\r", b"").decode('utf8')), ""]
 

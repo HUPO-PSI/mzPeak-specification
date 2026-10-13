@@ -1,8 +1,8 @@
 # Overview
 
 mzPeak is an open, next-generation file format for mass spectrometry data.
-Advances in MS instrumentation — higher resolution, faster scan rates, greater
-sensitivity, and the growing use of ion mobility and imaging — have sharply
+Advances in MS instrumentation - higher resolution, faster scan rates, greater
+sensitivity, and the growing use of ion mobility and imaging - have sharply
 increased the volume and dimensionality of the data produced in proteomics,
 metabolomics, and lipidomics. Established open formats such as mzML and imzML
 increasingly struggle with the resulting file sizes, data-access patterns, and
@@ -14,9 +14,9 @@ are set out in the accompanying white paper
 [Motivation](motivation.md).
 
 The format takes a hybrid approach: an archive of
-[Apache Parquet](https://parquet.apache.org/) tables — packaged in an
+[Apache Parquet](https://parquet.apache.org/) tables - packaged in an
 uncompressed ZIP container, or an unpacked directory, together with a small JSON
-index — that stores numerical signal data as compact, columnar binary while
+index - that stores numerical signal data as compact, columnar binary while
 keeping metadata both human- and machine-readable and anchored in the
 [PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms).
 Building on the widely available Apache Parquet and Apache
@@ -35,25 +35,27 @@ user metadata. For the conventions used in the normative text, see
 
 ## Components of an archive
 
-- **`mzpeak_index.json`** — definition of the files present in the archive,
+![An overview diagram of an mzPeak archive](../assets/img/archive-layout.svg)
+
+- **`mzpeak_index.json`** - definition of the files present in the archive,
   encoded as JSON. Resolving files by controlled terms is easier than matching
   file names. See [The Index File](../archive/index-file.md).
-- **`spectra_metadata.parquet`** — spectrum-level and file-level metadata,
-  including spectrum descriptions, scans, precursors, and selected ions, using
-  [packed parallel tables](../layouts/metadata-tables.md).
-- **`spectra_data.parquet`** — spectrum **profile** signal data, in
-  [point layout](../layouts/point-layout.md) or
-  [chunked layout](../layouts/chunked-layout.md), which have different size and
-  random-access characteristics.
-- **`spectra_peaks.parquet`** *(optional)* — spectrum **centroids**, stored
-  explicitly separately from the profile signal in `spectra_data.parquet`. This
-  is how mzPeak holds both profile and centroid versions of the same spectra.
-  This file may not always be present.
-- **`chromatograms_metadata.parquet`** — chromatogram-level and file-level
-  metadata, including chromatogram descriptions, precursors, and selected ions.
-- **`chromatograms_data.parquet`** — chromatogram signal data, in point or
-  chunked layout. Intensity measures with different units may be stored in
-  parallel.
+- **`spectra_metadata.parquet`** - spectrum-level descriptions using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`spectra_metadata_scans.parquet`** - spectrum-level descriptions of scans using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`spectra_metadata_precursors.parquet`** - spectrum-level descriptions of precursors using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`spectra_metadata_selected_ions.parquet`** - spectrum-level description of selected ions using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`spectra_data.parquet`** - spectrum **profile** signal data, in [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md),
+  which have different size and random-access characteristics.
+- **`spectra_peaks.parquet`** *(optional)* - spectrum **centroids**, stored explicitly separately from the profile signal in `spectra_data.parquet`. This
+  is how mzPeak holds both profile and centroid versions of the same spectra. This file may not always be present. It may use either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md) as well.
+- **`chromatograms_metadata.parquet`** - chromatogram-level description metadata using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`chromatograms_metadata_precursors.parquet`** - chromatogram-level description of precursors using the [metadata table](../layouts/metadata-tables.md) layout.
+- **`chromatograms_metadata_selected_ions.parquet`** - chromatogram-level description of selected ions the [metadata table](../layouts/metadata-tables.md) layout.
+- **`chromatograms_data.parquet`** - chromatogram signal data, in point or chunked layout. Intensity measures with different units may be stored in parallel. May use either of the [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md)
 
 Other Parquet files may be added to cover additional modalities as needed, such
 as [wavelength spectra](../schemas/wavelength-spectra.md).
+
+### Reading the *n*th spectrum
+
+![](../assets/img/reading-from-0.svg)

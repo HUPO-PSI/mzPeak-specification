@@ -46,15 +46,15 @@ user metadata. For the conventions used in the normative text, see
 - **`spectra_metadata_selected_ions.parquet`** - spectrum-level description of selected ions using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`spectra_data.parquet`** - spectrum **profile** signal data, in [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md),
   which have different size and random-access characteristics.
-- **`spectra_peaks.parquet`** *(optional)* - spectrum **centroids**, stored explicitly separately from the profile signal in `spectra_data.parquet`. This
+- **`spectra_peaks.parquet`** - spectrum **centroids**, stored explicitly separately from the profile signal in `spectra_data.parquet`. This
   is how mzPeak holds both profile and centroid versions of the same spectra. This file may not always be present. It may use either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md) as well.
 - **`chromatograms_metadata.parquet`** - chromatogram-level description metadata using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_metadata_precursors.parquet`** - chromatogram-level description of precursors using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_metadata_selected_ions.parquet`** - chromatogram-level description of selected ions the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_data.parquet`** - chromatogram signal data, in point or chunked layout. Intensity measures with different units may be stored in parallel. May use either of the [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md)
 
-Other Parquet files may be added to cover additional modalities as needed, such
-as [wavelength spectra](../schemas/wavelength-spectra.md).
+Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files
+of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md).
 
 ### Reading the *n*th spectrum
 

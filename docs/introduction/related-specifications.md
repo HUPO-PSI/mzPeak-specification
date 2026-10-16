@@ -13,11 +13,10 @@ and used in conjunction with — several existing and emerging community models:
   model and re-uses concepts such as controlled vocabularies where feasible.
 - **[SDRF (Sample and Data Relationship Format)](https://www.psidev.info/sdrf-sample-data-relationship-format)**
   — a representation of sample metadata. SDRF known at acquisition time may be
-  carried alongside the data in an mzPeak archive.
+  carried alongside the data in an mzPeak archive with the `other` `entity_type` and `data_kind`.
 - **[imzML](https://github.com/imzML/imzML/)** — the mzML-derived standard for
   mass-spectrometry imaging. mzPeak addresses imaging within the same archive via
-  spatial coordinates in the spectrum metadata (see
-  [Entity Types](../archive/entity-types.md)).
+  spatial coordinates in the scan metadata (see [Entity Types](../archive/entity-types.md)).
 
 ## Controlled vocabularies
 

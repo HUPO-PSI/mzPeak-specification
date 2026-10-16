@@ -1,18 +1,9 @@
 <mxfile host="65bd71144e">
     <diagram id="5CvExwPNzixoOJXJUFPb" name="Page-1">
-        <mxGraphModel dx="909" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
+        <mxGraphModel dx="1301" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-4" connectable="0" parent="1" style="group;fontSize=18;" value="" vertex="1">
-                    <mxGeometry height="116.13374999999999" width="222.35294117647058" x="503.5294117647059" y="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-2" parent="ot1kZrcZ3gKVQDu4J1aV-4" style="whiteSpace=wrap;html=1;fillColor=#AD84BF;strokeColor=light-dark(#1A1A1A,#121212);rotation=359;fontSize=14;" value="" vertex="1">
-                    <mxGeometry height="10.514166666666668" width="44.47058823529412" as="geometry"/>
-                </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-1" parent="ot1kZrcZ3gKVQDu4J1aV-4" style="whiteSpace=wrap;html=1;fillColor=#9673A6;strokeColor=light-dark(#1A1A1A,#121212);fontColor=light-dark(#FFFFFF,#121212);fontSize=18;" value="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;font style=&quot;font-size: 25px; line-height: 110%;&quot;&gt;&lt;b&gt;mzPeak&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;font style=&quot;font-size: 25px; line-height: 110%;&quot;&gt;&lt;b&gt;Archive&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
-                    <mxGeometry height="109.94666666666667" width="222.35294117647058" y="6.187083333333323" as="geometry"/>
-                </mxCell>
                 <mxCell id="ot1kZrcZ3gKVQDu4J1aV-8" edge="1" parent="1" source="ot1kZrcZ3gKVQDu4J1aV-5" style="edgeStyle=none;html=1;fontSize=14;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="ot1kZrcZ3gKVQDu4J1aV-7" value="">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="614.71" y="340" as="targetPoint"/>
@@ -43,7 +34,7 @@
                 <mxCell id="ot1kZrcZ3gKVQDu4J1aV-9" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;fontSize=17;" value="spectra_data.parquet" vertex="1">
                     <mxGeometry height="77.5" width="190.58823529411765" x="519.4117647058823" y="454.5833333333333" as="geometry"/>
                 </mxCell>
-                <mxCell id="8beNYW4tP_k_WBM8A2Ct-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=17;" value="Identify available files." vertex="1">
+                <mxCell id="8beNYW4tP_k_WBM8A2Ct-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=17;" value="Identify available files from the index file." vertex="1">
                     <mxGeometry height="38.75" width="190.58823529411765" x="717.9411764705883" y="238.875" as="geometry"/>
                 </mxCell>
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontSize=17;" value="Read all metadata columns from row with &lt;b&gt;index &lt;/b&gt;= &lt;i&gt;n&lt;/i&gt;" vertex="1">
@@ -113,8 +104,17 @@
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-21" edge="1" parent="1" source="ot1kZrcZ3gKVQDu4J1aV-5" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.513;entryY=-0.1;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=14;" target="8beNYW4tP_k_WBM8A2Ct-15">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
+                <mxCell id="8p74Fv1XxixQ7TEV_-L6-1" edge="1" parent="1" source="8beNYW4tP_k_WBM8A2Ct-23" style="edgeStyle=none;html=1;" target="ot1kZrcZ3gKVQDu4J1aV-1" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=17;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Open archive to read spectrum &lt;i style=&quot;&quot;&gt;n&lt;/i&gt;&lt;/font&gt;" vertex="1">
                     <mxGeometry height="30" width="168.53" x="740" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-2" parent="1" style="whiteSpace=wrap;html=1;fillColor=#5D48F9;strokeColor=light-dark(#1A1A1A,#121212);rotation=359;fontSize=14;" value="" vertex="1">
+                    <mxGeometry height="10.514166666666668" width="44.47058823529412" x="503.5294117647059" y="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-1" parent="1" style="whiteSpace=wrap;html=1;fillColor=light-dark(#442eea, #9577a3);strokeColor=light-dark(#1A1A1A,#121212);fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=18;" value="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;b style=&quot;font-size: 25px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;mzPeak&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px; line-height: 110%;&quot;&gt;&lt;b style=&quot;color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;Archive&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="109.94666666666667" width="222.35294117647058" x="503.5294117647059" y="86.18708333333332" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

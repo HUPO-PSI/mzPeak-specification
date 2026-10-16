@@ -29,7 +29,7 @@
       "type": "string",
       "description": "The default data processing identifier, as drawn from https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json"
     },
-    "default_instrument_id": {
+    "default_instrument_configuration_id": {
       "type": "integer",
       "description": "The default instrument configuration, as drawn from https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json"
     },

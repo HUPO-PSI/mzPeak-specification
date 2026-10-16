@@ -67,7 +67,7 @@ metadata. mzPeak uses CV terms in three ways:
    either the defined value of the term's expected type (e.g. via
    `has_value_type`) *or* a CURIE for a child of the column-name term. For
    example:
-    - The column [`spectrum_representation (MS:1000525)`](http://purl.obolibrary.org/obo/MS_1000525)
+    - The column [`spectrum_representation` (MS:1000525)](http://purl.obolibrary.org/obo/MS_1000525)
       holds CURIEs for a child term — [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum"
       or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
       in that row. If the CURIE is `null`, then no value is added for that term. These [column mappings](#column-mapping)
@@ -81,7 +81,7 @@ metadata. mzPeak uses CV terms in three ways:
       `true` indicates the presence of the value-less term and `false` or `null` indicate its absence instead of storing
       the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
       to `true` and use a boolean data type for storage.
-    - The column [`ms_level (MS:1000511)`](http://purl.obolibrary.org/obo/MS_1000511)
+    - The column [`ms_level` (MS:1000511)](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
 1. **As structural elements.** In several places — such as the
    [array index](signal-data.md#the-array-index) — CURIEs reference named

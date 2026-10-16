@@ -87,7 +87,7 @@ of `spectra_metadata.parquet`, to support read planning.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 - **`index`** (uint64) — the ascending 0-based index. **MUST** increment by 1 per
   entry and **SHOULD** be written in time-sorted ascending order. This is the
@@ -159,7 +159,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) schema.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 A scan or acquisition from the original raw file used to create a spectrum.
 
@@ -222,9 +222,14 @@ A scan or acquisition from the original raw file used to create a spectrum.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-The method of precursor-ion selection and activation.
+The method of precursor-ion selection and activation. This table describes the spectrum its `source_index` references and *originates* from the
+spectrum its `precursor_index` references. When higher MS*n* is done, the writer **MUST** replicate the chain of selected ions from previous MS
+levels using the same `source_index` but each previous MS level's `precursor_index`. If file does not contain the precursor spectrum, the
+`precursor_index` **MUST** be `null`. Precursors **SHOULD** be stored in descending MS level order.
+
+![Selected ion to precursor linkage](../assets/img/precursor-linkage.svg)
 
 - **`source_index`** (uint64) — the spectrum index this precursor belongs to (foreign
   key).
@@ -267,14 +272,17 @@ The method of precursor-ion selection and activation.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-An ion isolated for dissociation.
+An ion isolated for dissociation. This table follows the same relationship as the [precursor table](#spectrum-precursor-metadata-spectra_metadata_precursorsparquet).
+In addition, there **MAY** be multiple selected ions from the same precursor selection with co-isolation. If this is
+the case, writers **SHOULD** write the `selected_ion_index` column to allow unique referencing to each selected ion.
 
 - **`source_index`** (uint64) — the spectrum this selected ion belongs to
   (foreign key).
 - **`precursor_index`** (uint64) — the spectrum the selected ion was created from
-  (foreign key).
+  (foreign key). This **MAY** be `null` when the precursor spectrum is not included in the written file.
+- **`selected_ion_index`** (uint64) — optional index value unique to this selected ion.
 - **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE) — See the [`scan.ion_mobility_value`](#spectrum-scan-metadata-spectra_metadata_scansparquet) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
 - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **MUST** supply a child of
@@ -295,7 +303,7 @@ An ion isolated for dissociation.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately
 with a different isolation window. This table is usually empty or absent

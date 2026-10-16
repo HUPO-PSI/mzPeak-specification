@@ -35,7 +35,7 @@ Additional members and metadata keys are permitted and MUST NOT cause rejection.
 A conformant writer **MUST**:
 
 - produce a conformant archive;
-- write a Parquet **page index** for the index/coordinate columns;
+- write a Parquet **page index** for the index/coordinate columns and column statistics for row groups;
 - declare every CV used in `cv_list`, with a `uri` that identifies a fixed release or snapshot
   and the matching `version`;
 - record an array index sufficient to reconstruct every array **without parsing column names**.

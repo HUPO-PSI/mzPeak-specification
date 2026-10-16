@@ -1,13 +1,13 @@
 <mxfile host="65bd71144e">
     <diagram id="lDOdV7Y_nF71a2EzuaUY" name="Page-1">
-        <mxGraphModel dx="1546" dy="1122" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+        <mxGraphModel dx="1106" dy="561" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="KyZwLOXY_ZhpyHsyEcbb-153" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BD90D1;strokeColor=light-dark(#1A1A1A,#121212);strokeWidth=2;rotation=1;" value="" vertex="1">
+                <mxCell id="KyZwLOXY_ZhpyHsyEcbb-153" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6652FF;strokeColor=light-dark(#1A1A1A,#121212);strokeWidth=2;rotation=1;" value="" vertex="1">
                     <mxGeometry height="20" width="120" x="41" y="16" as="geometry"/>
                 </mxCell>
-                <mxCell id="KyZwLOXY_ZhpyHsyEcbb-1" parent="1" style="swimlane;fillColor=#9673A6;strokeColor=#1A1A1A;strokeWidth=2;fontSize=14;" value="mzPeak Archive" vertex="1">
+                <mxCell id="KyZwLOXY_ZhpyHsyEcbb-1" parent="1" style="swimlane;fillColor=#442EEA;strokeColor=#1A1A1A;strokeWidth=2;fontSize=14;fontColor=#FFFFFF;" value="mzPeak Archive" vertex="1">
                     <mxGeometry height="800" width="1030" x="39" y="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="KyZwLOXY_ZhpyHsyEcbb-5" parent="KyZwLOXY_ZhpyHsyEcbb-1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="mzpeak_index.json" vertex="1">

@@ -28,8 +28,8 @@ At the end of a Parquet file is a footer containing user-defined metadata along
 with the file's schema, offsets, and search indices. This user-defined metadata
 is stored as key–value pairs, which makes it well suited to carrying
 light-weight, immediately useful metadata that does not make sense to force into
-the data columns. mzPeak uses this footer extensively — most notably for the
-[array index](../layouts/signal-data.md#the-array-index).
+the data columns. mzPeak uses this footer to record facet-level metadata - most
+notably for the [array index](../layouts/signal-data.md#the-array-index).
 
 ## The columnar data
 
@@ -50,21 +50,23 @@ what lets a reader retrieve a narrow slice of a large file: it can locate the
 row group and pages that hold the rows of interest and read only those.
 
 Choosing row group and page sizes trades compression ratio against random-access
-granularity — larger data pages compress better but make fine-grained reads
-coarser. Larger row groups take (substantially) more memory to write as all constituent
-data pages have to be buffered before columns are written out all at once, and can
+granularity - larger data pages compress better but make fine-grained reads
+coarser as shown in the image below. Reading spectrum 5 requires decoding and decompressing
+the ion mobility values for spectra 0-10, and the m/z values for spectra 0-7. Larger row
+groups take (substantially) more memory to write as all constituent data pages have
+to be buffered before columns are written out all at once, and can
 cause some dictionaries to exceed their default size limits.
 
 Recommendations
 - When size is not a substantial issue:
   - 1 MB of data per data page
+  - 1 million rows per row group
 - When size is important:
   - 8MB of data per data page
+  - 4-8 million rows per row group
 
-!!! info "Open item — tuning guidance"
-    Concrete recommendations for balancing compression against random-access
-    granularity (row-group size, page size, dictionary page size) are still
-    being collected and will be expanded in a future revision.
+![](../assets/img/datapage.svg)
+
 
 ### Index levels
 

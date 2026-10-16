@@ -220,14 +220,18 @@ $$
 
 ??? example "Python — fitting the weighted least-squares spacing model"
     ```python
-    class DeltaCurveRegressionModel:
-        beta: np.ndarray
+    import numpy as np
+    from numpy import typing as npt
+    from scipy.linalg import solve_triangular
 
-        def __init__(self, beta: np.ndarray):
+    class DeltaCurveRegressionModel:
+        beta: npt.NDArray
+
+        def __init__(self, beta: npt.NDArray):
             self.beta = beta
 
         @classmethod
-        def fit(cls, mz_array, delta_array, weights=None, threshold=None, rank=2):
+        def fit(cls, mz_array: npt.NDArray, delta_array: npt.NDArray, weights: npt.NDArray | None = None, threshold: float| None = None, rank: int=2):
             if weights is None:
                 weights = np.ones(len(mz_array))
 
@@ -274,11 +278,6 @@ model can be fit anyway, so the minuscule angle change is effectively lossless.
 The model parameters learned for each entry **MUST** be stored in that entry's
 row in the associated metadata table, as `coordinate_spacing_model`.
 
-!!! question "Open item — generalise `coordinate_spacing_model`"
-    Should `coordinate_spacing_model` become a CV parameter and be dissociated from m/z
-    specifically, so the same mechanism can serve other coordinate axes? This is
-    likely desirable.
-
 <div class="mzp-figure" markdown>
 ![Reconstruction-error plot for a Thermo dataset: m/z deviation after null marking is negligible across the mass range.](../assets/img/thermo_null_marking_err.png)
 ![Reconstruction-error plot for a Sciex dataset using delta encoding plus null marking, showing the small m/z deviation introduced.](../assets/img/sciex_null_marking_delta_encoding_error.png)
@@ -298,6 +297,11 @@ equivalent to how a Parquet column chunk would represent them.
 
 ??? example "Python — masking positions that are two zeros in a row"
     ```python
+    from collections.abc import Sequence
+    from numbers import Number
+    import numpy as np
+    from numpy import typing as npt
+
     def is_zero_pair_mask(data: Sequence[Number]) -> "np.typing.NDArray[np.bool_]":
         '''Create a boolean mask for positions composed of two zeroes in a row.'''
         n = len(data)
@@ -337,6 +341,11 @@ from the single non-null value of a segment that has only one.
 
 ??? example "Python — filling *null*-marked values"
     ```python
+    from collections.abc import Sequence
+    from numbers import Number
+    import numpy as np
+    from numpy import typing as npt
+
     def find_pairs(mask: Sequence[bool]) -> Sequence[int]:
         """
         Construct index ranges between pairs of ``True`` values in ``mask``.
@@ -366,7 +375,7 @@ from the single non-null value of a segment that has only one.
         return indices
 
 
-    def estimate_median_delta(data: Sequence[Number]) -> tuple[Number, np.typing.NDArray]:
+    def estimate_median_delta(data: Sequence[Number]) -> tuple[Number, npt.NDArray]:
         """Find the 2nd median of ``np.diff(data)`` — a crude spacing estimate."""
         deltas = np.diff(data)
         median = np.median(deltas)
@@ -375,14 +384,8 @@ from the single non-null value of a segment that has only one.
         return median, deltas_below
 
 
-    def fill_nulls(data: pa.Array, common_delta: DeltaModelBase) -> "np.typing.NDArray":
-        """Fill ``null`` values using ``common_delta`` or a locally estimated median delta."""
-        if not isinstance(common_delta, DeltaModelBase):
-            if isinstance(common_delta, Number):
-                common_delta = ConstantDeltaModel(common_delta)
-            else:
-                common_delta = DeltaCurveRegressionModel(np.asarray(common_delta))
-
+    def fill_nulls(data: pa.Array, common_spacing: DeltaCurveRegressionModel) -> npt.NDArray:
+        """Fill ``null`` values using ``common_spacing`` or a locally estimated median delta."""
         pair_indices = find_pairs(data.is_null())
 
         chunks = []
@@ -395,9 +398,9 @@ from the single non-null value of a segment that has only one.
                 # A singleton point with one or two sides to pad
                 if n == 2:
                     if np.isnan(chunk[0]):
-                        chunk[0] = chunk[1] - common_delta(chunk[1])
+                        chunk[0] = chunk[1] - common_spacing.predict(chunk[1])
                     else:
-                        chunk[1] = chunk[0] + common_delta(chunk[0])
+                        chunk[1] = chunk[0] + common_spacing.predict(chunk[0])
                 elif n == 3:
                     dx = common_delta(chunk[1])
                     chunk[0] = chunk[1] - dx

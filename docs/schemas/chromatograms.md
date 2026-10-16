@@ -38,7 +38,7 @@ be named `chromatogram_index`. The default primary axis is a
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 - **`index`** (integer) — the ascending 0-based index, incrementing by 1 per
   entry and **SHOULD** be time-sorted ascending. Primary key for the
@@ -98,7 +98,7 @@ this table will be empty or absent. Its schema is identical to the [spectrum pre
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this table will be empty
 or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata-spectra_metadata_selected_ionsparquet).
@@ -113,7 +113,7 @@ or absent. Its schema is identical to the [spectrum selected ion schema](./spect
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is
 isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to

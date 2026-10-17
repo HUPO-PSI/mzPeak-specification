@@ -56,6 +56,23 @@ user metadata. For the conventions used in the normative text, see
 Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files
 of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md).
 
+### How file-level metadata is cross-referenced
+
+The index file stores file-level metadata that describes the entire run, a heterogenous collection of entities with small multiplicity but
+high levels of nesting. This information is inexpensive to parse and can be useful for quickly determining if an mzPeak archive has facets
+of interest before committing to parsing one or more of the Parquet tables.
+
+<figure markdown="block">
+![How the file-level metadata is cross-referenced](../assets/img/index-relation.svg)
+<caption>
+How the file-level metadata is cross-referenced
+</caption>
+</figure>
+
+Some Parquet tables reference file-level metadata, like the `spectra_metadata_scans.parquet` table shown above referencing
+the `instrument_configuration_list` in the file-level metadata to say which instrument configuration was used to acquire a
+particular scan.
+
 ### Reading the *n*th spectrum
 
 ![](../assets/img/reading-from-0.svg)

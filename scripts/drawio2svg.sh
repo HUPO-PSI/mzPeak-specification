@@ -49,11 +49,15 @@ for in in "$@"; do
         continue
     fi
     out="${in%.drawio}.svg"
-    if "$bin" --export --format svg --border "$border" "${embed[@]}" --output "$out" "$in"; then
-        echo "wrote $out"
+    if [[ ! -f $out || $out -ot $in ]]; then
+        if "$bin" --export --format svg --border "$border" "${embed[@]}" --output "$out" "$in"; then
+            echo "wrote $out"
+        else
+            echo "failed: $in" >&2
+            status=1
+        fi
     else
-        echo "failed: $in" >&2
-        status=1
+        echo "$in unchanged, skipping generating $out"
     fi
 done
 exit $status

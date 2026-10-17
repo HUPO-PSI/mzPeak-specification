@@ -20,7 +20,7 @@ differently, conversion between them is straightforward.
 ## The metadata key–value pairs
 
 <figure class="mzp-figure" markdown>
-![Parquet file layout schematic](https://parquet.apache.org/images/FileLayout.gif)
+![Parquet file layout schematic from https://parquet.apache.org/images/FileLayout.gif](../assets/img/ParquetFileLayout.gif)
 <figcaption>The Parquet file layout: row groups of column chunks, followed by a footer containing the schema, offsets, indices, and user metadata.</figcaption>
 </figure>
 
@@ -34,9 +34,10 @@ notably for the [array index](../layouts/signal-data.md#the-array-index).
 ## The columnar data
 
 Parquet is a strongly typed binary columnar format with layered, blocked
-compression that permits a degree of random access.
+compression that permits a degree of random access. It is often used in
+concert with Apache Arrow's in-memory structured columnar format.
 
-!!! warning "Support both 32-bit and 64-bit collection types"
+!!! warning "Support both 32-bit and 64-bit collection types in Arrow"
     Because some languages have no concept of 64-bit addresses, all
     implementations **MUST** handle both the `large_*` and non-`large_*`
     variants of collection types: `list`, `string`, and `binary`.
@@ -58,20 +59,31 @@ to be buffered before columns are written out all at once, and can
 cause some dictionaries to exceed their default size limits.
 
 Recommendations
-- When size is not a substantial issue:
-  - 1 MB of data per data page
-  - 1 million rows per row group
-- When size is important:
-  - 8MB of data per data page
-  - 4-8 million rows per row group
 
-![](../assets/img/datapage.svg)
+When size is not a substantial issue:
+
+- 1 MB of data per data page
+- 1 million rows per row group
+
+When size is important:
+
+- 8MB of data per data page
+- 4-8 million rows per row group
+
+<figure class="mzp-figure" markdown>
+<img src="../../assets/img/datapage.svg" width="100%" />
+<figcaption>
+  The data pages of a row group over different columns show how differences in item size cause different numbers
+  of entries to co-locate in the same data page. Increasing the page size increases the number of entries per page
+  and the cost to decompress any single page.
+</figcaption>
+</figure>
 
 
 ### Index levels
 
 When writing an mzPeak archive, the writer **MUST** write a
-[page index](https://parquet.apache.org/docs/file-format/pageindex/) and column
+[page index](https://parquet.apache.org/docs/file-format/pageindex/) and  row group-level column
 statistics. Most libraries that write Parquet support writing the page index even if
 they do not themselves use it when reading. The page index records per-page value ranges,
 which is what makes predicate-driven reads (for example, "only pages whose

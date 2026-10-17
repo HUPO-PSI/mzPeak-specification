@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="J5Sm-OOxI0WpfitTJvG3" name="Page-1">
-        <mxGraphModel dx="768" dy="390" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
+        <mxGraphModel dx="768" dy="321" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -13,20 +13,14 @@
                 <mxCell id="vzk46LWd9ennDwfvJ9_P-4" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#FF0000;size=20;dashed=1;dashPattern=8 8;" value="dictionary&lt;div&gt;page of ion mobility (IM) array&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="10" y="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="vzk46LWd9ennDwfvJ9_P-5" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#FF0000;size=0;strokeWidth=2;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k&lt;/i&gt;-&lt;i&gt;k+&lt;/i&gt;1000)&lt;/div&gt;&lt;div&gt;spectra 0-10&lt;/div&gt;" vertex="1">
+                <mxCell id="vzk46LWd9ennDwfvJ9_P-5" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#FF0000;size=0;strokeWidth=2;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k&lt;/i&gt;-&lt;i&gt;k+&lt;/i&gt;2000)&lt;/div&gt;&lt;div&gt;spectra 0-17&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="97" y="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="vzk46LWd9ennDwfvJ9_P-6" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;1000-&lt;i&gt;k+&lt;/i&gt;2000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 11-25&lt;/span&gt;&lt;/div&gt;" vertex="1">
+                <mxCell id="vzk46LWd9ennDwfvJ9_P-6" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+2&lt;/i&gt;000-&lt;i&gt;k+&lt;/i&gt;4000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 18-30&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="183" y="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="vzk46LWd9ennDwfvJ9_P-7" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;2000-&lt;i&gt;k+&lt;/i&gt;3000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 25-30&lt;/span&gt;&lt;/div&gt;" vertex="1">
+                <mxCell id="vzk46LWd9ennDwfvJ9_P-7" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;4000-&lt;i&gt;k+&lt;/i&gt;6000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 31-40&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="267" y="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="vzk46LWd9ennDwfvJ9_P-15" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;3000-&lt;i&gt;k+&lt;/i&gt;4000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 25-30&lt;/span&gt;&lt;/div&gt;" vertex="1">
-                    <mxGeometry height="90" width="80" x="352" y="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="vzk46LWd9ennDwfvJ9_P-16" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;size=0;" value="data page of IM&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;4000-&lt;i&gt;k+&lt;/i&gt;5000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 31-40&lt;/span&gt;&lt;/div&gt;" vertex="1">
-                    <mxGeometry height="90" width="80" x="437" y="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="vzk46LWd9ennDwfvJ9_P-17" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#FF0000;size=0;strokeWidth=2;" value="data page of m/z&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k&lt;/i&gt;-&lt;i&gt;k+&lt;/i&gt;1000)&lt;/div&gt;&lt;div&gt;spectra 0-7&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="10" y="130" as="geometry"/>
@@ -46,8 +40,23 @@
                 <mxCell id="vzk46LWd9ennDwfvJ9_P-22" parent="vzk46LWd9ennDwfvJ9_P-2" style="shape=card;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;size=0;" value="data page of m/z&lt;div&gt;values&lt;/div&gt;&lt;div&gt;(&lt;i&gt;k+&lt;/i&gt;5000-&lt;i&gt;k+&lt;/i&gt;6000)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;spectra 36-40&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="90" width="80" x="437" y="130" as="geometry"/>
                 </mxCell>
+                <mxCell id="LV2W5QzuSmmtYeZOusyw-1" parent="vzk46LWd9ennDwfvJ9_P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;spacing=0;" value="&lt;div&gt;Different encodings and value sizes can cause more or fewer values to be stored in the same data page. Dictionary encoding always requires reading the dictionary page&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="90" width="175" x="355" y="30" as="geometry"/>
+                </mxCell>
                 <mxCell id="vzk46LWd9ennDwfvJ9_P-3" parent="vzk46LWd9ennDwfvJ9_P-1" style="swimlane;whiteSpace=wrap;html=1;" value="Row Group 1" vertex="1">
                     <mxGeometry height="70" width="520" x="20" y="324" as="geometry"/>
+                </mxCell>
+                <mxCell id="LV2W5QzuSmmtYeZOusyw-3" parent="vzk46LWd9ennDwfvJ9_P-3" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=light-dark(#000000,#000000);size=20;" value="" vertex="1">
+                    <mxGeometry height="30" width="80" x="8" y="33" as="geometry"/>
+                </mxCell>
+                <mxCell id="LV2W5QzuSmmtYeZOusyw-4" parent="vzk46LWd9ennDwfvJ9_P-3" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=light-dark(#000000,#000000);size=0;" value="" vertex="1">
+                    <mxGeometry height="30" width="80" x="98" y="33" as="geometry"/>
+                </mxCell>
+                <mxCell id="LV2W5QzuSmmtYeZOusyw-5" parent="vzk46LWd9ennDwfvJ9_P-3" style="shape=card;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=light-dark(#000000,#000000);size=0;" value="" vertex="1">
+                    <mxGeometry height="30" width="80" x="188" y="33" as="geometry"/>
+                </mxCell>
+                <mxCell id="LV2W5QzuSmmtYeZOusyw-6" parent="vzk46LWd9ennDwfvJ9_P-3" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;...&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="30" width="60" x="288" y="33" as="geometry"/>
                 </mxCell>
                 <mxCell id="vzk46LWd9ennDwfvJ9_P-23" parent="vzk46LWd9ennDwfvJ9_P-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Pages read for spectrum 5" vertex="1">
                     <mxGeometry height="30" width="153" x="52" y="27" as="geometry"/>

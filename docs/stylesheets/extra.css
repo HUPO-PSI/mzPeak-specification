@@ -179,16 +179,26 @@
   max-width: 100%;
 }
 
+figure.mzp-figure.wide {
+  margin: 1em !important;
+  width: 100%;
+}
+
+figure.mzp-figure.narrow {
+  margin: 2em 25% !important;
+}
+
 /* Schematic figures sit on white regardless of theme so diagrams stay legible */
 .mzp-figure img {
   background: #ffffff;
-  padding: 1em;
+  padding: 0px;
   border-radius: 0.4rem;
+  width: 100%;
 }
 /* Tall portrait diagrams declare an explicit height attribute; Material forces
    height:auto so they blow up to full width. Cap them and keep aspect ratio. */
 .mzp-figure img[height] {
-  max-height: 28rem;
+  max-height: 32rem;
   width: auto;
 }
 

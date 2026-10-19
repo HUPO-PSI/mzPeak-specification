@@ -1,24 +1,20 @@
 # Spectra
 
 Spectra are described by up to three files: a **signal** file
-(`spectra_data.parquet`), an optional **peaks** file
-(`spectra_peaks.parquet`), and a **metadata** file
-(`spectra_metadata.parquet`).
+(`spectra_data.parquet`), an optional **peaks** file (`spectra_peaks.parquet`),
+and a set of **metadata** files described below.
 
-!!! abstract "Profile vs. centroid — where each goes"
-    By consensus at HUPO-PSI 2026, **profile** data goes in
-    `spectra_data.parquet` and **centroid** data goes in
-    `spectra_peaks.parquet`, *always*. When a file contains both for the same
-    spectrum, both files are present and the metadata row carries both
-    [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
-    and
-    [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) so
-    a reader knows which file(s) to read. A reader exposes a mode flag
-    (profile / centroid) indicating which representation the caller wants.
+## Signal data disposition
 
-    For timsTOF-style data that is centroided in m/z but profiled in ion
-    mobility, the consensus is to treat it as centroid for the mass-spectrum
-    dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
+When writing signal data, **profile** data goes in `spectra_data.parquet` and **centroid** data goes in
+`spectra_peaks.parquet`, *always*. When a file contains both for the same spectrum, both files are present.
+The `spectrum_metadata.parquet` row carries both a [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
+and a [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) column so a reader knows which file(s) to
+read. Absence of either of these columns implies that that modality does not exist. A reader **SHOULD** allow the caller to
+indicating which representation the it wants.
+
+For timsTOF-style data that is centroid in m/z but profiled in ion mobility, the consensus is to treat it as centroid
+for the mass-spectrum dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
 
 ## Spectrum signal data - `spectra_data.parquet`
 
@@ -43,7 +39,7 @@ carefully for profile data.
 
 !!! warning "Profile only"
     Only **profile** spectra are written here. Centroid spectra — including
-    centroided views of profile spectra when both modes are stored — **MUST**
+    centroid views of profile spectra when both modes are stored — **MUST**
     instead be written to [`spectra_peaks.parquet`](#spectrum-peak-data-spectra_peaksparquet).
     The number of points written here for a spectrum **MUST** be recorded in the
     [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
@@ -57,6 +53,9 @@ carefully for profile data.
 | `spectrum_time` | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) |
 | m/z arrays | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling), or [RLE dictionary](https://parquet.apache.org/docs/file-format/data-pages/encodings/#dictionary-encoding-plain_dictionary--2-and-rle_dictionary--8) when there is ion-mobility data. |
 | ion-mobility arrays | [RLE dictionary](https://parquet.apache.org/docs/file-format/data-pages/encodings/#dictionary-encoding-plain_dictionary--2-and-rle_dictionary--8); byte shuffling tends not to help. Consider increasing the dictionary page size. |
+| intensity arrays | When stored as integers as some instruments do, [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling) can efficiently reduce size, but shows limited benefit for floating point storage |
+
+When grid encoding is used on any array, [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) on the grid indices is usually the best choice.
 
 ## Spectrum peak data - `spectra_peaks.parquet`
 
@@ -115,11 +114,11 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 - **`auxiliary_arrays`** (list) — structures describing arrays that did not fit
   the [arrays-and-columns](../layouts/signal-data.md#arrays-and-columns)
   constraints. These may be large; load eagerly with care.
-- [**`coordinate_spacing_model`**](http://purl.obolibrary.org/obo/MS_1003820) (list of float64) — parameters of the m/z delta model used
-  to reconstruct [null-marked data](../layouts/signal-data.md#null-marking). There is
-  no fixed length requirement, and this value **MAY** be `null` or empty if no model
-  was learned. Polynomial coefficient terms **MUST** be written in ascending power,
-  including any zeros.
+- [**`polynomial_delta_coordinate_interpolation`**](http://purl.obolibrary.org/obo/MS_1003821) (list of float64) —
+  parameters of the m/z delta model used to reconstruct [null-marked data](../layouts/signal-data.md#null-marking).
+  There is no fixed length requirement, and this value **MAY** be `null` or empty if no model
+  was learned. Polynomial coefficient terms **MUST** be written in ascending power, including any
+  zeros.
 - [**`spectrum_representation (MS:1000525)`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) — e.g.
   [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" or

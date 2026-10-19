@@ -6,7 +6,7 @@ a metadata table can vary widely based upon context, but they have the following
 
 For `data_kind == metadata`:
 - The first column **MUST** be named `index` and be an integer value that **MUST** be unique. It **SHOULD** also be
-  sorted. This is akin to a primary key in relational databases.
+  sorted and incremented by 1 for each new entity. This is akin to a primary key in relational databases.
 
 For all other kinds:
 - The first column **MUST** be `source_index` and be an integer value that *references* the `index` of
@@ -46,17 +46,17 @@ This is the primary metadata table for mass spectra. There is an `index` column 
 |       3 | controllerType=0 controllerNumber=1 scan=4 |          2 | 0.0228383  |               1 | MS:1000127                | MS:1000580      |              236.047 |               1636.43 |                     null |              1006 |        780.536 |       29161.9         |    441570           |                      | []           | []                 |                            0 |                                                   |
 |       4 | controllerType=0 controllerNumber=1 scan=5 |          2 | 0.034925   |               1 | MS:1000127                | MS:1000580      |              203.222 |               1412.57 |                     null |               837 |        578.986 |        8601.8         |    114332           |                      | []           | []                 |                            0 |                                                   |
 
-### Example 2: `entity_type=spectrum` `data_kind=selected_ion`
+### Example 2: `entity_type=spectrum` `data_kind=selected_ions`
 
 This is a secondary metadata file, it has `source_index` column. This identifies the `index` value of the `spectrum` row in the table above in [Example 1](#example-1-entity_typespectrum-data_kindmetadata). It has a second key, `precursor_index` denoting the index of the precursor spectrum that the selected ion was isolated in. When there is only one selected ion per spectrum, this will look unique, but this isn't guaranteed!
 
-|   source_index |   precursor_index |   selected_ion_mz |   charge_state |        intensity |   ion_mobility_value | ion_mobility_type   | parameters   |
-|---------------:|------------------:|------------------:|---------------:|-----------------:|---------------------:|:--------------------|:-------------|
-|              2 |                 1 |           810.789 |            null |      1.99404e+06 |                  null |                     | []           |
-|              3 |                 1 |           837.345 |            null | 999937           |                  null |                     | []           |
-|              4 |                 1 |           725.362 |            null | 313667           |                  null |                     | []           |
-|              5 |                 1 |           558.869 |            null | 202178           |                  null |                     | []           |
-|              6 |                 1 |           812.325 |            null |      1.16189e+06 |                  null |                     | []           |
+|   source_index |   precursor_index | selected_ion_index |   selected_ion_mz |   charge_state |        intensity |   ion_mobility_value | ion_mobility_type   | parameters   |
+|---------------:|------------------:|------------------:|------------------:|---------------:|-----------------:|---------------------:|:--------------------|:-------------|
+|              2 |                 1 |                 0 |           810.789 |            null |      1.99404e+06 |                  null |                     | []           |
+|              3 |                 1 |                 1 |           837.345 |            null | 999937           |                  null |                     | []           |
+|              4 |                 1 |                 2 |           725.362 |            null | 313667           |                  null |                     | []           |
+|              5 |                 1 |                 3 |           558.869 |            null | 202178           |                  null |                     | []           |
+|              6 |                 1 |                 4 |           812.325 |            null |      1.16189e+06 |                  null |                     | []           |
 
 ## Controlled Vocabulary Terms
 
@@ -72,24 +72,26 @@ metadata. mzPeak uses CV terms in three ways:
       or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
       in that row. If the CURIE is `null`, then no value is added for that term. These [column mappings](#column-mapping)
       **MUST** set `term_marker` to `true` and use a string or large string value type for storage. For standardized columns
-      defined in this document, the `term_marker` *MAY* be omitted.
+      defined in this document, the `term_marker` **MAY** be omitted.
     - If multiple instances of a particular parent term without a `has_value_type` relationship are needed to describe the
-      same row, e.g. [`dissociation method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044) being used to
-      express [`electron transfer dissociation` (MS:1000598)](http://purl.obolibrary.org/obo/MS_1000598) but also
-      [`supplemental collision-induced dissociation` (MS:1002679)](http://purl.obolibrary.org/obo/MS_1002679). To map
-      both terms to columns, the second term may use a column mapped to the term itself may have a boolean value where
-      `true` indicates the presence of the value-less term and `false` or `null` indicate its absence instead of storing
-      the second occurrence in the `parameters` list. These [column mappings](#column-mapping) **MUST** set `term_marker`
-      to `true` and use a boolean data type for storage.
+      same row. Map both terms to columns, use a column mapped to the second term itself with a boolean value. A `true` value there
+      indicates the presence of the value-less term and `false` or `null` indicate its absence. These [column mappings](#column-mapping)
+      **MUST** set `term_marker` to `true`.
+          - This is useful for cases like [`dissociation_method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044)
+            being used to express the primary dissociation method [`MS:1000598|electron transfer dissociation`](http://purl.obolibrary.org/obo/MS_1000598)
+            but also need to record a supplementary dissociation method [`MS:1002679|supplemental collision-induced dissociation`](http://purl.obolibrary.org/obo/MS_1002679).
     - The column [`ms_level` (MS:1000511)](http://purl.obolibrary.org/obo/MS_1000511)
       holds an integer value.
-1. **As structural elements.** In several places — such as the
+2. **As structural elements.** In several places — such as the
    [array index](signal-data.md#the-array-index) — CURIEs reference named
    concepts that explain the semantics of a data structure without changing its
    shape.
-2. **As pluggable metadata carriers** in `parameters` arrays, analogous to
+3. **As pluggable metadata carriers** in `parameters` arrays, analogous to
    `<cvParam/>` in mzML. Every schema facet of a metadata table may carry a
-   `parameters` column.
+   `parameters` column. Writers **MUST NOT** write the same parameter to both
+   the `parameters` list and as a column to avoid differences in interpretation
+   depending upon which copy is promoted, or if the two values would need to be
+   considered in combination to understand the semantics.
 
 ### The `parameters` list
 
@@ -97,17 +99,17 @@ The `parameters` column may be present in any `struct`-like group of a metadata 
 **MUST** be a list of the following schema:
 
 ```
-optional group field_id=-1 parameters (List) {
+group field_id=-1 parameters (List) {
   repeated group field_id=-1 list {
-    optional group field_id=-1 item {
-      optional group field_id=-1 value {
+    group field_id=-1 item {
+      group field_id=-1 value {
         optional int64   field_id=-1 integer;
         optional double  field_id=-1 float;
         optional binary  field_id=-1 string (String);
         optional boolean field_id=-1 boolean;
       }
       optional binary field_id=-1 accession (String);
-      optional binary field_id=-1 name (String);
+      binary field_id=-1 name (String);
       optional binary field_id=-1 unit (String);
     }
   }
@@ -115,9 +117,16 @@ optional group field_id=-1 parameters (List) {
 ```
 
 The `parameters.list.item.value` group has a slot for each data type, so a
-parameter can take exactly one of these value types; unused slots **MUST** be
-`null`. A parameter **MAY** carry a unit, given as a CV-term CURIE in
-`parameters.list.item.unit`. As with mzML's `<userParam/>`, an *uncontrolled*
+parameter can take exactly one of these value types. Unused slots **MUST** be
+`null`. A small number of PSI-MS-defined parameters may have carry a list of
+values instead of a scalar. When list-valued parameters are **NOT** promoted to columns,
+their values **MUST** be serialized as JSON strings. Parquet's `variant` type is
+still experimental and not widely supported. As the `variant` type's support matures,
+value storage for parameters may change to use it in the future.
+
+A parameter **MAY** carry a unit, given as a CV-term CURIE in
+`parameters.list.item.unit`. Units are currently drawn from the Unit Ontology (UO) and the
+PSI-MS controlled vocabulary. As with mzML's `<userParam/>`, an *uncontrolled*
 parameter may be stored simply by leaving `parameters.list.item.accession` empty.
 
 !!! note "Naming and column promotion"
@@ -130,14 +139,13 @@ parameter may be stored simply by leaving `parameters.list.item.accession` empty
         - The parameter is a user-defined term, leaving it up to the implementation to know whether it may be repeated multiple times for the same row.
         - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
 
-!!! question "Open item - auxiliary data arrays"
-    Whether `auxiliary_data_array` are subject to parameter-to-column promotion if they are recurring.
-    Technically they are under the current wording, but they are already a special case escape hatch and
-    complicated enough to parse.
-
-!!! question "Open item — lists and maps"
-    Whether `parameters` values should also support list- or map-valued types is
-    still under discussion.
+<figure class="mzp-figure narrow" markdown>
+![A flowchart for deciding when to promote a parameter](../assets/img/parameter_promotion.svg)
+<figcaption>
+When writing a parameter, the writer may apply this sequence of steps to decide when to promote
+a parameter to a column.
+</figcaption>
+</figure>
 
 ### Typing parameter values
 
@@ -183,7 +191,7 @@ stated be named according to the following rules and have a corresponding entry 
 Some column mappings produce wide rules matching multiple terms, while others match a narrow set of terms. While it is not
 reasonable to define a complete topological sorting of column mapping rules, writers are *encouraged* to match narrow column
 mappings to controlled vocabulary terms before matching wider rules. Care is needed when dealing with overlapping term trees
-such as with [`MS:1000044|dissociation method`](http://purl.obolibrary.org/obo/MS_1000044). See [Example 5](#example-5-entity_typespectrum-data_kindprecursor) for
+such as with [`MS:1000044|dissociation method`](http://purl.obolibrary.org/obo/MS_1000044). See [Example 5](#example-5-entity_typespectrum-data_kindprecursors) for
 what this might look like.
 
 #### Traversing a column mapping instruction
@@ -212,7 +220,7 @@ They refer to this Parquet schema:
 
 ```
 required group scan_schema {
-  optional int64 source_index (Int(bitWidth=64, isSigned=false));
+  int64 source_index (Int(bitWidth=64, isSigned=false));
   optional int64 scan_index (Int(bitWidth=64, isSigned=false));
   optional double scan_start_time;
   optional int32 preset_scan_configuration (Int(bitWidth=32, isSigned=false)); <<< first mapping, `preset_scan_configuration`
@@ -240,10 +248,10 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 
 |   source_index |   scan_index |   scan_start_time | *preset_scan_ configuration* <<< | filter_string                                        |   ion_injection_ time |   instrument_ configuration_id | scan_windows |
 |---------------:|-------------:|------------------:|------------------------------:|:-------------------------------------------------------|---------------------:|------------------------------:| --------:|
-|              0 |            0 |        0.004935   |                           1 | FTMS + p ESI Full ms [200.00-2000.00]                    |             68.2275  |                             0 | [{**scan_lower_limit <<<** : 200, scan_upper_limit: 2000}]
-|              1 |            1 |        0.00789667 |                           2 | ITMS + p ESI Full ms [200.00-2000.00]                    |              2.07659 |                             1 | [{**scan_lower_limit**: 200, scan_upper_limit: 2000}]
-|              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_lower_limit**: 210, scan_upper_limit: 1635}]
-|              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_lower_limit**: 220, scan_upper_limit: 1685}]
+|              0 |            0 |        0.004935   |                           1 | FTMS + p ESI Full ms [200.00-2000.00]                    |             68.2275  |                             0 | [{**scan_window_lower_limit <<<** : 200, scan_window_upper_limit: 2000}]
+|              1 |            1 |        0.00789667 |                           2 | ITMS + p ESI Full ms [200.00-2000.00]                    |              2.07659 |                             1 | [{**scan_window_lower_limit**: 200, scan_window_upper_limit: 2000}]
+|              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_window_lower_limit**: 210, scan_window_upper_limit: 1635}]
+|              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_window_lower_limit**: 220, scan_window_upper_limit: 1685}]
 
 In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
@@ -297,19 +305,19 @@ interest otherwise and could be ignored by another piece of software not interes
 |       3 | merged=4 function=1 block=2 |          1 | 0.0542    |               1 | MS:1000128                | False                      |
 |       4 | merged=5 function=2 block=2 |          2 | 0.0627667 |               1 | MS:1000128                | False                      |
 
-##### Example 5: `entity_type=spectrum` `data_kind=precursor`
+##### Example 5: `entity_type=spectrum` `data_kind=precursors`
 
-This example visits a subset of the precursor metadata table, showing examples of `term_marker` columns denoting child terms
+This example visits a subset of the precursor metadata table for a triggered EThcD run. It shows examples of `term_marker` columns denoting child terms
 in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_suppl_beam_disc`. The
-former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000422|beam-type collision-induced dissociation`
-and `MS:1000598|electron transfer dissociation`. The latter marks which rows have the `MS:1002678|supplemental beam-type collision-induced dissociation`
-in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of `MS:1000044`, it needs to be defined using `term_marker`
-with a boolean value to avoid having two columns tied to `MS:1000044` directly. This also lets the reader now quickly filter on rows which contain
-a supplemental dissociation method directly. Without it the supplemental dissociation method term would need to be stored in the `parameters` list, and
-be invisible to most basic query mechanisms. Some but not all query engines support list traversal, but such operations are more complicated to specify
-and have to deal with the less efficient storage model of the `parameters` list in any case. Both of these columns are nested under the `activation.`
-prefix, which is a `group` in the Parquet schema. This is an organizational nicety for Parquet, but when translated to Arrow, this produces a `struct` type
-column with multiple children. Care **MUST** be taken to support these when reading column statistics.
+former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000133|collision-induced dissociation`, `MS:1000422|
+beam-type collision-induced dissociation` and `MS:1000598|electron transfer dissociation`, the primary dissociation method. The latter marks which rows have the
+`MS:1002678|supplemental beam-type collision-induced dissociation` in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of
+`MS:1000044`, it needs to be defined using `term_marker` with a boolean value to avoid having two columns tied to `MS:1000044` directly. This also lets the reader
+now quickly filter on rows which contain a supplemental dissociation method directly. Without it the supplemental dissociation method term would need to be stored in
+the `parameters` list, and be invisible to most basic query mechanisms. Some but not all query engines support list traversal, but such operations are more
+complicated to specify and have to deal with the less efficient storage model of the `parameters` list in any case. Both of these columns are nested under the
+`activation.` prefix, which is a `group` in the Parquet schema. This is an organizational nicety for Parquet, but when translated to Arrow, this produces a `struct`
+type column with multiple children. Care **MUST** be taken to support these when reading column statistics.
 
 ```json
 [
@@ -320,7 +328,7 @@ column with multiple children. Care **MUST** be taken to support these when read
     "term_marker": true
   },
   {
-    "name": "spectrum type",
+    "name": "collision energy",
     "path": "activation.collision_energy",
     "accession": "MS:1000045",
     "unit": "UO:0000266"

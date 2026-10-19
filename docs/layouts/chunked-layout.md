@@ -227,7 +227,7 @@ This uses the MS-Numpress linear-prediction method
 ([10.1074/mcp.O114.037879](https://www.mcponline.org/article/S1535-9476(20)33083-8/fulltext))
 to compress the chunk values as raw bytes. Numpress produces a buffer of an
 8-byte fixed point, a 4-byte value 0, a 4-byte value 1, and then 2-byte residuals
-for all subsequent values. The array is therefore, by definition, not alignable
+for all subsequent values. The array is therefore, by definition, not align-able
 to a 4- or 8-byte type. It also has no concept of nullity, which makes it
 **incompatible with [null marking](signal-data.md#null-marking)**.
 
@@ -235,7 +235,7 @@ To store Numpress-linear-encoded arrays, an extra column
 `<array_name>_numpress_linear_bytes` is added alongside the
 `<array_name>_chunk_values` column. It is a list of byte arrays
 (`large_list<u8>` in Arrow parlance — **not** `large_binary`; see the
-[discussion of string-type "optimisation"](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
+[discussion of string-type "optimization"](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
 Its array-index entry **MUST** have `buffer_format` `chunk_transform` and the
 same array type, array name, data type, unit, and data-processing ID as the
 `_chunk_values` column. The `transform` field **MUST** be `MS:1002312`.
@@ -243,6 +243,11 @@ same array type, array name, data type, unit, and data-processing ID as the
 !!! note
     The start point is *included* in the chunk-values array — it is a specific
     component of the Numpress-encoded bytes.
+
+!!! warning
+    MS-Numpress linear encoding prevents Parquet encodings from helping to make
+    the data more compressible. Compare against the [delta chunk encoding](#delta-encoding) with [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) Parquet column encoding
+    before assuming Numpress will always be better.
 
 ### Grid encoding
 
@@ -386,7 +391,7 @@ TODO: Collect a larger corpus of data to plot this accuracy claim.
 
 ## Opaque array transforms for *other* dimensions
 
-Sometimes we prefer to store data in arrays other than the main axis lossily in non-uniform, unaligned, or otherwise
+Sometimes we prefer to store data in arrays other than the main axis loss-ily in non-uniform, unaligned, or otherwise
 non-standard types that have no physical representation in Parquet. MS-Numpress's
 short logged float (SLOF) and positive-integer encodings are good examples. While
 Numpress-linear handles the coordinate dimension, opaque transforms can also

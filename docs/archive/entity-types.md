@@ -9,6 +9,7 @@ the right reader API. There are currently four controlled values:
 | `spectrum` | Mass spectra — entities occurring at a single point in time (or as close to that as framed or cycled acquisition allows), with a mass-related coordinate such as m/z or neutral mass. |
 | `chromatogram` | Measurements *over time* — chromatograms and, for now, diagnostic traces (see below). |
 | `wavelength spectrum` | Like `spectrum`, but the coordinate is an electromagnetic wavelength. Analyzers measuring wavelength are far more heterogeneous than mass analyzers. Time series over wavelength may instead be stored as `chromatogram` entries. |
+| `image` | An image embedded in an imaging archive, see the [Imaging profile](../profiles/imaging.md#embedded-images). Not a Parquet table. |
 | `other` | None of the above — something not yet covered by this living specification. |
 
 Any value outside this list is treated as `other`.

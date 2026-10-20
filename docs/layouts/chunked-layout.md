@@ -425,7 +425,7 @@ entry is left `null`. Non-opaque transforms like null marking do not require thi
 
 ![](../assets/img/chunk_decoding_processes.svg){: .panel-image }
 
-## Reading a single entry from the chunked encoding
+## Reading a single entry from the chunked layout
 
 To read a single entry (spectrum, chromatogram, …) stored in chunks:
 
@@ -438,12 +438,9 @@ To read a single entry (spectrum, chromatogram, …) stored in chunks:
    the pages that contain that index.
 2. Read the selected row group (or page row range) and filter to rows whose
    `<entity_type>_index` equals the entry's index.
-3. Optionally, sort the rows by their `chunk_start` value — usually ascending for
-   the quantity being measured.
-4. Process each selected row, decoding its `chunk_values` according to
-   `chunk_encoding` and any `transform` in the array index. Unpack the
-   `chunk_secondary` columns and apply any transforms, accumulating each column's
-   arrays across rows. Some transforms require additional information from the
-   entity's metadata table.
+3. Process each selected row, decoding its `chunk_values` according to
+   `chunk_encoding` and any `transform` in the array index.
+4. Unpack the `chunk_secondary` columns and apply any transforms, accumulating
+   each column's arrays across rows. Some transforms require additional information from the entity's metadata table.
 5. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
    decode them from the metadata table.

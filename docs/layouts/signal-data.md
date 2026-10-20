@@ -27,7 +27,12 @@ longer than this axis **SHOULD** be stored as auxiliary arrays instead.
 !!! warning "Re-sort unsorted ranked arrays"
     When writing, if an array that has a sorting rank is not sorted with respect to its rank,
     the entry's data arrays **MUST** be re-sorted accordingly. Failing to do so introduces
-    integrity errors.
+    integrity errors. This often occurs with ion mobility-mass spectrometry data.
+
+    To sort along multiple dimensions, the writer **SHOULD** first arrange dimensions by ascending
+    sorting rank, then proceed to sort by the lowest rank dimension, and break ties in rank *i* with
+    rank *i+1*, until no ties remain or there are no higher sorting ranks. If no higher sorting ranks
+    are available to break ties, then all orderings of tied coordinates are equally valid.
 
 ## The Array Index
 
@@ -448,22 +453,3 @@ should be written as-is.
 <figure class="mzp-figure wide">
 <img src="../../assets/img/null_marking_decoding.svg" />
 </figure>
-
-## Why a top-level node?
-
-**Couldn't we just unwrap the top-level `point`/`chunk` struct and move on?**
-
-Perhaps, but keeping a top-level node open three doors:
-
-1. **Clear schema signalling.** When you see `point` at the root of the schema
-   you know this is a [point-layout](point-layout.md) file, not a
-   [chunked-layout](chunked-layout.md) one.
-2. **Unaligned proprietary data.** A specialized writer or reader might embed
-   information not directly connected to the primary schema's addressable unit
-   (a spectrum, a data point). The top-level node leaves a place for that.
-3. **Future table packing.** Early in mzPeak's design we tried to pack tables
-   together as much as possible (as in the
-   [packed parallel tables](metadata-tables.md) layout), but that proved very
-   inefficient to *write* despite being no slower to *read* — possibly an
-   implementation detail rather than a Parquet limitation. Keeping a top-level
-   node leaves the door open to revisit this without a schema-breaking change.

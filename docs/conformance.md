@@ -13,7 +13,7 @@ There is no required order of files in an mzPeak archive. As a matter of course 
 
 ### Unpacked archives
 
-The same requirements apply to an unpacked archive. There is no "ordering" on the host file system. File systems versioning is not considered here, but it is usually preferrable to use the latest version of the files in the unpacked archive.
+The same requirements apply to an unpacked archive. There is no "ordering" on the host file system. File systems versioning is not considered here, but it is usually preferable to use the latest version of the files in the unpacked archive.
 
 ## Conformant archive
 

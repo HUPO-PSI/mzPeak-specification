@@ -29,7 +29,7 @@ This layout is simple, but carries several advantages:
 
 - **Predicate filtering.** Scalar columns are easily filtered along the
   page-level range index, which makes multi-dimensional queries easy to write
-  and optimise.
+  and optimize.
 - **Transparent compression.** Arrays are encoded and compressed by Parquet, so
   the data is still stored compactly.
 

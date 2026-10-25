@@ -55,17 +55,30 @@ spectra. The same key name construction is used for all signal data layouts rega
   "entries": [
     {
       "context": "spectrum",          // This array describes a spectrum
-      "path": "point.mz",             // Column path in the Parquet schema
-      "data_type": "MS:1000523",      // CV term for the data type of this array
-      "array_type": "MS:1000514",     // CV term for the array itself
-      "array_name": "m/z array",      // Human-readable name; also where a custom
+      "path": "point.spectrum_index", // Column path in the Parquet schema
+      "data_type": "MS:1000522",      // CV term for the data type of this array
+      "array_type": "MS:1003870",     // CV term for the array itself
+      "array_name": "index array",    // Human-readable name; also where a custom
                                       //   `non-standard array` name is stored
-      "unit": "MS:1000040",           // Values are in m/z
-      "buffer_format": "point",       // This column uses the point layout
+      "unit": null,                   // Values have no unit
+      "buffer_format": "index",       // This column is an index along the actual layout
       "transform": null,              // No transformation applied
       "data_processing_id": null,     // Use the default data-processing method
-      "buffer_priority": "primary",   // Default column for m/z queries
+      "buffer_priority": "primary",
       "sorting_rank": 0               // Sorted within entries; other arrays sort after
+    },
+    {
+      "context": "spectrum",          // This array describes a spectrum
+      "path": "point.mz",             // Column path in the Parquet schema
+      "data_type": "MS:1000523",
+      "array_type": "MS:1000514",
+      "array_name": "m/z array",
+      "unit": "MS:1000040",           // Values are in m/z
+      "buffer_format": "point",       // This column uses the point layout
+      "transform": null,
+      "data_processing_id": null,
+      "buffer_priority": "primary",   // Default column for m/z queries
+      "sorting_rank": 1               // Sorted within entries; other arrays sort after
     },
     {
       "context": "spectrum",
@@ -95,7 +108,8 @@ formats. The available `buffer_format` values are:
 
 | `buffer_format` | Used by | Meaning |
 | :-- | :-- | :-- |
-| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array **MUST** be `point` (see [Conformance](../conformance.md#validation)). |
+| `index` | *any* | This array is an index that runs parallel to the actual measure values. The index value is the same across the entire entry for a single entity. |
+| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array other than the index **MUST** be `point` (see [Conformance](../conformance.md#validation)). |
 | `chunk_values` | [chunked](chunked-layout.md) | The "main" axis values bounded between a chunk's start and end, encoded for better compressibility (in addition to Parquet's own encoding). |
 | `chunk_start` | [chunked](chunked-layout.md) | The starting value of the main axis for the chunk, inclusive. |
 | `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, exclusive. It should be less than or equal to the next chunk's `chunk_start`. |
@@ -145,6 +159,23 @@ of `primary` and receive a short, consistent name. The recommended short names:
 | MS:1003153 | raw ion mobility drift time array | `raw_drift_time` |
 | MS:1002477 | mean ion mobility drift time array | `mean_drift_time` |
 | MS:1003156 | deconvoluted ion mobility drift time array | `deconvoluted_ion_mobility_drift_time` |
+
+## Indexing
+
+In any signal data layout, the 0th column below the group node (e.g. `point`, `chunk`) **MUST** be the entry index.
+It is named `<entity_type>_index`, has a `buffer_format` of `index`, and its `array_type` is [`MS:1003870|index array`](http://purl.obolibrary.org/obo/MS_1003870).
+It **MUST** have a `data_type` of [`MS:1000522|64-bit integer`](http://purl.obolibrary.org/obo/MS_1000522) and it **MUST**
+be *unsigned*, the PSI-MS vocabulary not supporting unsigned integers at this time. Unless otherwise noted, it is assumed
+to have `sorting_rank` 0. An example is shown in the JSON text in [The Array Index](#the-array-index) section.
+
+### Parallel time index
+
+In addition to the `<entity_type>_index` column, the writer *MAY* include a parallel
+`<entity_type>_time` column which **MUST** store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
+for chromatograms or traces. It's array index entry has a `buffer_format` of `index`, an `array_type` of
+[`MS:1000595|time array`](http://purl.obolibrary.org/obo/MS_1000595), a `unit` of [`UO:0000031|minute`](http://purl.obolibrary.org/obo/UO_0000031)
+and a `data_type` of [`MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523).
 
 ## Data arrays, encoding, transformations, and Parquet
 
@@ -453,3 +484,5 @@ should be written as-is.
 <figure class="mzp-figure wide">
 <img src="../../assets/img/null_marking_decoding.svg" />
 </figure>
+
+

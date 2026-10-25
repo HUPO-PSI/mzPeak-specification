@@ -50,7 +50,8 @@
                     "chunk_values",
                     "chunk_encoding",
                     "chunk_secondary",
-                    "chunk_transform"
+                    "chunk_transform",
+                    "index"
                 ]
             },
             "context": {

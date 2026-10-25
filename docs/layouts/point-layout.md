@@ -40,14 +40,6 @@ be used. The [zero-run stripping](signal-data.md#zero-run-stripping) and
 they only remove non-meaningful points from the array rather than transforming
 the values that remain.
 
-## Parallel time index
-
-In addition to the `<entity_type>_index` column, the writer *MAY* include a parallel
-`<entity_type>_time` column which **MUST** store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
-associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
-for chromatograms or traces. This column is not part of the array index.
-
-
 ## Reading a single entry from the point layout
 
 To read a single entry (spectrum, chromatogram, …) stored in point layout:

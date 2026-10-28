@@ -143,7 +143,7 @@ chunk-values array. This does not improve compressibility, but it keeps a consis
 entries that *would* benefit from a different encoding.
 
 !!! note
-    The start point is *excluded* from the chunk-values array.
+    The start point is *excluded* from the chunk-values array. It must be copied from the `chunk_start` column.
 
 ### Delta encoding
 
@@ -153,7 +153,7 @@ When data lie on a locally (*almost*) uniform grid using 64-bit floats,
 compression improves by computing a delta encoding of the coordinates.
 
 !!! note
-    The start point is *excluded* from the chunk-values array.
+    The start point is *excluded* from the chunk-values array. It must be copied from the `chunk_start` column.
 
 ??? example "Python — null-aware delta encode/decode"
     ```python
@@ -219,7 +219,7 @@ compression improves by computing a delta encoding of the coordinates.
 This uses the MS-Numpress linear-prediction method
 ([10.1074/mcp.O114.037879](https://www.mcponline.org/article/S1535-9476(20)33083-8/fulltext))
 to compress the chunk values as raw bytes. Numpress produces a buffer of an
-8-byte fixed point, a 4-byte value 0, a 4-byte value 1, and then 2-byte residuals
+8-byte fixed point, a 4-byte value 0, a 4-byte value 1, and then 1 or 2-byte residuals
 for all subsequent values. The array is therefore, by definition, not align-able
 to a 4- or 8-byte type. It also has no concept of nullity, which makes it
 **incompatible with [null marking](signal-data.md#null-marking)**.
@@ -227,11 +227,13 @@ to a 4- or 8-byte type. It also has no concept of nullity, which makes it
 To store Numpress-linear-encoded arrays, an extra column
 `<array_name>_numpress_linear_bytes` is added alongside the
 `<array_name>_chunk_values` column. It is a list of byte arrays
-(`large_list<u8>` in Arrow parlance — **not** `large_binary`; see the
-[discussion of string-type "optimization"](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
+(`list<u8>` in Arrow parlance — **not** `binary`; see the
+[discussion of string-type optimization](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
 Its array-index entry **MUST** have `buffer_format` `chunk_transform` and the
 same array type, array name, data type, unit, and data-processing ID as the
-`_chunk_values` column. The `transform` field **MUST** be `MS:1002312`.
+`_chunk_values` column. The `transform` field **MUST** be `MS:1002312`. The
+`_chunk_values` column for rows with its main axis encoded with MS-Numpress linear encoding
+should be an empty list.
 
 !!! note
     The start point is *included* in the chunk-values array — it is a specific
@@ -287,7 +289,8 @@ vocabulary.
 The `parameters` column is a list of 64-bit floats that will be used to parameterize the grid model. The
 order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the
 same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general.
-These parameters are used in index/coordinate conversion.
+These parameters are used in index/coordinate conversion. The `grid_type`'s term definition **MUST** provide clear
+explanation for parameter packing order, and at least directions on where to find the conversion equation definitions.
 
 The `indices` column is a list of 32-bit (unsigned) integers that are mapped to the real 64-bit float coordinates
 being encoded. These are produced for writing by using the grid model to convert real-valued coordinates *to* grid
@@ -295,7 +298,10 @@ indices. When reading, the grid model is used to convert *from* indices back to 
 coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
 or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index **MUST** be
 included in the `indices` column's array. The chunk dimension's `indices` column **MUST** be delta-encoded, this is
-done to improve compressibility of a sorted array of indices.
+done to improve compressibility of a sorted array of indices. The indices use 32-bit integers because this provides
+an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
+real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer **SHOULD**
+fall back to another encoding.
 
 It must be noted that *unless* using a vendor-defined encoding, this is likely to be a lossy transformation.
 The user **SHOULD** be able to set an error threshold for using the grid encodings. A model that would have errors
@@ -405,18 +411,17 @@ the array index **MUST** be the *decoded* array's real type. Column names
 When *writing* a file with an opaque transform on a column, the writer **MUST** ensure
 that the necessary additional column to store the transformed value is present in the schema.
 If the writer expects the untransformed column to be present as well, this column **SHOULD**
-be present, and it **MUST** the `<array_name>_chunk_values` column must always be present in
-the schema. There **MUST** be an array index entry for each column. The transformed array index
+be present. There **MUST** be an array index entry for each column. The transformed array index
 entry **MUST** set the appropriate CURIE in the `.transform` field, and the untransformed array
-entry is left `null`. Non-opaque transforms like null marking do not require this extra step.
+entry is left empty. Non-opaque transforms like null marking do not require this extra step.
 
 ## Encoding Strategies Quick Reference
 
-![](../assets/img/chunk_encoding_processes.svg){: .panel-image }
+![A quick reference diagram of encoding arrays in the chunked layout](../assets/img/chunk_encoding_processes.svg){: .panel-image }
 
 ## Decoding Strategies Quick Reference
 
-![](../assets/img/chunk_decoding_processes.svg){: .panel-image }
+![A quick reference diagram of decoding arrays in the chunked layout](../assets/img/chunk_decoding_processes.svg){: .panel-image }
 
 ## Reading a single entry from the chunked layout
 
@@ -432,8 +437,11 @@ To read a single entry (spectrum, chromatogram, …) stored in chunks:
 2. Read the selected row group (or page row range) and filter to rows whose
    `<entity_type>_index` equals the entry's index.
 3. Process each selected row, decoding its `chunk_values` according to
-   `chunk_encoding` and any `transform` in the array index.
-4. Unpack the `chunk_secondary` columns and apply any transforms, accumulating
-   each column's arrays across rows. Some transforms require additional information from the entity's metadata table.
-5. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
+   `chunk_encoding` and any `transform` in the array index, including both
+   decoding null marking using information from the metadata table like the
+   coordinate spacing model or opaque transforms stored in additional columns
+   like Numpress linear encoding.
+1. Unpack the `chunk_secondary` columns and apply any transforms, accumulating
+   each column's arrays across rows.
+2. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
    decode them from the metadata table.

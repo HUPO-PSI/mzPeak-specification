@@ -14,7 +14,7 @@ This may also cover acquisition methods [MS:1003213|mass spectrometry acquisitio
 
 ### Enumerating source files for provenance tracking
 
-The `file_description.source_files` array of [`source_file`](#source_file) lists all of the component files that were used to build this file. For many run formats, that would be a single file, or it might be many files for instruments that write directories like [MS:1001509|Agilent MassHunter format](http://purl.obolibrary.org/obo/MS_1001509) or that use an anchor file like [MS:1000562|ABI WIFF format](http://purl.obolibrary.org/obo/MS_1000562). Each file's checksum is recorded so that it is possible to verify that all input files are the same for equivalent reconstruction.
+The `file_description.source_files` array of [`source_file`](#source_file) lists all of the component files that were used to build this file. For many run formats, that would be a single file, or it might be many files for instruments that write directories like [MS:1001509|Agilent MassHunter format](http://purl.obolibrary.org/obo/MS_1001509) or that use an anchor file like [MS:1000562|ABI WIFF format](http://purl.obolibrary.org/obo/MS_1000562). Each file's checksum is recorded so that it is possible to verify that all input files are the same for equivalent reconstruction. As in mzML, these source file checksums may be any term derived from [MS:1000561|data file checksum type](http://purl.obolibrary.org/obo/MS_1000561) (MD5, SHA-1, SHA-256). The file index's entries separately use SHA-512 as dictated by this specification.
 
 When converting derived files, they **SHOULD** be included in the list as additional source files.
 

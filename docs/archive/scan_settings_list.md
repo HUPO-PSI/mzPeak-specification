@@ -6,7 +6,7 @@ The list of scan settings pre-configuring acquisition settings. Analogous to <ht
 
 ## Use cases
 
-This is primarily used for high-level configuration of data-independent acquisition strategies like targeted MS, SWATH, and the like. Additionally used for imaging MS to define the spatial scanning parameters.
+This is primarily used for high-level configuration of data-independent acquisition strategies like SWATH or targeted MS. Additionally used for imaging MS to define the spatial scanning parameters.
 
 ### Targeted MS
 

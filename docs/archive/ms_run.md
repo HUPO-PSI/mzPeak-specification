@@ -33,7 +33,7 @@ While mzPeak was designed as a single run format, it can, like mzML before it, b
 | `parameters` | `array` of [`param`](param.md) | &nbsp; | Parameters describing the run not otherwise covered by the attributes. |
 | `id` | `string` | Yes | A unique identifier for the run |
 | `default_data_processing_id` | `string` | Yes | The default data processing identifier, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json> |
-| `default_instrument_id` | `integer` | Yes | The default instrument configuration, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json> |
+| `default_instrument_configuration_id` | `integer` | &nbsp; | The default instrument configuration, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json> |
 | `default_source_file_id` | `string` | Yes | The default source file the content references, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/file_description.json> |
 | `start_time` | `string` or `null` | &nbsp; | The time that data acquistion started, encoded in an RFC 3339 format (https://datatracker.ietf.org/doc/html/rfc3339) |
 
@@ -51,7 +51,7 @@ A unique identifier for the run
 
 The default data processing identifier, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json>
 
-**`default_instrument_id`** - `integer` *(required)*
+**`default_instrument_configuration_id`** - `integer` *(optional)*
 
 The default instrument configuration, as drawn from <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json>
 

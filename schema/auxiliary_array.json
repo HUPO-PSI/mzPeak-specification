@@ -28,6 +28,10 @@
       "contentMediaType": "application/octet-stream",
       "description": "The encoded bytes of this array. They may be compressed or not according to `compression`. The binary data type is defined by `data_type`, is stored in little endian order. No base64 encoding is used."
     },
+    "length": {
+      "type": "number",
+      "description": "The number of items of the native data type in the data array. The expectation is that the data array's length divided by the size of the data type in bytes equals this number."
+    },
     "data_type": {
       "type": "string",
       "description": "The binary data type stored in this array's bytes, e.g. integer, float, ASCII string, encoded as a CURIE. Must be a child of MS:1000518.",

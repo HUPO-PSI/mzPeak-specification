@@ -16,7 +16,7 @@ governed by the JSON Schema
     optional group auxiliary_arrays (List) {
       repeated group list {
         optional group item {
-          optional group data (List) {
+          required group data (List) {
             repeated group list {
               required int32 item (Int(bitWidth=8, isSigned=false));
             }
@@ -32,8 +32,9 @@ governed by the JSON Schema
             optional binary name (String);
             optional binary unit (String);
           }
-          optional binary data_type (String);
-          optional binary compression (String);
+          required binary data_type (String);
+          required binary compression (String);
+          required int64 items;
           optional binary unit (String);
           optional group parameters (List) {
             repeated group list {
@@ -50,7 +51,7 @@ governed by the JSON Schema
               }
             }
           }
-          optional binary data_processing_ref (String);
+          optional binary data_processing_id (String);
         }
       }
     }
@@ -64,16 +65,21 @@ governed by the JSON Schema
     the more expensive decoding step is worthwhile before attempting it.
 
 ## Data Type and Storage
+
 Auxiliary arrays' data **MUST** be stored as raw byte arrays in *little endian* order.
 The data type for the data stored **MUST** be written in the `data_type` field of
 the auxiliary array structure referencing a child term of [MS:1000518|binary data type](http://purl.obolibrary.org/obo/MS_1000518) such as [MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523) or [MS:1000519|32-bit integer](http://purl.obolibrary.org/obo/MS_1000519).
 
 
 ## Compression
+
 Auxiliary arrays' data are stored as raw byte arrays, with no data type-specific transformations
 to make them more compressible, but they receive the blanket compression codec and level that the
-entire Parquet file receives. Their `compression` field **SHOULD** be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576) for no additional compression.
+entire Parquet file receives. Their `compression` field **SHOULD** be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576)
+for no compression is applied *other than* the compression Parquet applies to the `auxiliary_arrays.list.item.data.list.item` column.
 If you wish to apply a specific compression algorithm to the data of a single entry *before* it
 is compressed by Parquet, set the `compression` field for that entry to the appropriate controlled
 vocabulary term descending from [`MS:1000572|binary compression type`](http://purl.obolibrary.org/obo/MS_1000572)
-and store the compressed bytes in the `data` column.
+and store the compressed bytes in the `data` column. Keep in mind that Parquet only sees the raw bytes,
+not the native type of the data stored in the array, so it cannot properly use encodings to make the
+data more compressible.

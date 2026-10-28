@@ -3,9 +3,9 @@
 An mzPeak archive is made up of multiple named files. To leave room for future
 files and avoid complicated file-name resolution, an **index file** identifies
 the contents of each file and broadly defines the kind of schema it carries. The
-file **MUST** be serialised as UTF-8.
+file **MUST** be serialized as UTF-8.
 
-```json
+```jsonc
 {
   "files": [
     {
@@ -13,14 +13,16 @@ file **MUST** be serialised as UTF-8.
       "entity_type": "spectrum",
       "data_kind": "data_arrays",
       "column_mapping": [],
-      "parameters": []
+      "parameters": [],
+      "checksum": "c5703446ded482bb5f054d2c4cb5ec80337fd41dee874e13e5a9b584fded189bd2cec26ce89412b025cd93953b4a65d0cfe5b26dbe747cf05c7c09736941b00e"
     },
     {
       "name": "spectra_peaks.parquet",
       "entity_type": "spectrum",
       "data_kind": "peaks",
       "column_mapping": [],
-      "parameters": []
+      "parameters": [],
+      "checksum": "6116713afd9f771e57c39c058f5dd827fe9e584bd2e16fed83afc75d9d2cb4c30527f4bd85a5a3d9ee75cce30c34344b44678c7628fe3dcce4c574a7705e8de6"
     },
     {
       "name": "spectra_metadata.parquet",
@@ -30,22 +32,22 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "ms level",
           "path": "ms_level",
-          "accession": "MS:1000511",
+          "accession": "MS:1000511"
         },
         {
           "name": "scan polarity",
           "path": "scan_polarity",
-          "accession": "MS:1000465",
+          "accession": "MS:1000465"
         },
         {
           "name": "spectrum representation",
           "path": "spectrum_representation",
-          "accession": "MS:1000525",
+          "accession": "MS:1000525"
         },
         {
           "name": "spectrum type",
           "path": "spectrum_type",
-          "accession": "MS:1000559",
+          "accession": "MS:1000559"
         },
         {
           "name": "lowest observed m/z",
@@ -62,12 +64,12 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "number of data points",
           "path": "number_of_data_points",
-          "accession": "MS:1003060",
+          "accession": "MS:1003060"
         },
         {
           "name": "number of peaks",
           "path": "number_of_peaks",
-          "accession": "MS:1003059",
+          "accession": "MS:1003059"
         },
         {
           "name": "base peak m/z",
@@ -88,7 +90,8 @@ file **MUST** be serialised as UTF-8.
           "unit": "MS:1000131"
         }
       ],
-      "parameters": []
+      "parameters": [],
+      "checksum": "ce1c7378baec66ee63f9fce707ebab77997d1230f2d8ad48b05c9fbf904f8986189f62791d1954cfdd5944289ea49648aacfce91a9cdc4f8bd023a3ea0becd25"
     },
     {
       "name": "spectra_metadata_scans.parquet",
@@ -109,7 +112,7 @@ file **MUST** be serialised as UTF-8.
         {
           "name": "filter string",
           "path": "filter_string",
-          "accession": "MS:1000512",
+          "accession": "MS:1000512"
         },
         {
           "name": "ion injection time",
@@ -130,9 +133,10 @@ file **MUST** be serialised as UTF-8.
           "unit": "MS:1000040"
         }
       ],
-      "parameters": []
-    },
-    ...
+      "parameters": [],
+      "checksum": "f4686ab40dc940b38cc9210fa66c73c59527ef716b479890be52b957b2763b1d580432bb5c483c981d7745ddc874c7f61a5f70eefe62184040dd7183376985f7"
+    }
+    // more content
   ],
   "metadata": {
     "version": "0.9.0",
@@ -150,8 +154,10 @@ file **MUST** be serialised as UTF-8.
         "version": "2026-01-16"
       }
     ],
-    "file_description": { ... },
-    ...
+    "file_description": {
+        // more content
+    }
+    // more content
   }
 }
 ```
@@ -175,51 +181,16 @@ searching, and indexing cvParam-like data. The `column_mapping` object defines a
 column to an externally controlled definition like a controlled vocabulary term or a user-defined column.
 
 When a column is defined in the appropriate schema, its `path` is pre-defined with the last entry in the
-`path` being the actual column name. When not defined, the colum name **MUST** start with `opt_`. This
+`path` being the actual column name. When not defined, the column name **MUST** start with `opt_`. This
 provision ensures that if we later decide to add a new column to the specification, it will not collide
 with an existing user-defined column name.
 
-### JSON schema
-<a name="column_mapping"></a>
-
-A mapping from a Parquet column to a controlled vocabulary term
-
-**Type:** `object`
-
-#### Properties
-
-| Property | Type | Required | Description |
-|----------|------|:--------:|-------------|
-| `name` | `string` | &nbsp; | The human-readable term name |
-| `path` | `string` | &nbsp; | The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens |
-| `accession` | `string` or `null` | &nbsp; | The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term |
-| `unit` | `string` or `null` | &nbsp; | &nbsp; |
-
-#### Property Details
-
-**`name`** - `string` *(optional)*
-
-The human-readable term name
-
-*Examples:* `"ms level"`, `"filter string"`, `"selected ion m/z"`, `"collision energy"`, `"scan window lower limit"`
-
-**`path`** - `string` *(optional)*
-
-The path in a Parquet schema for the mapped column delimited at nesting levels by '.', omitting [list, item|element] tokens
-
-*Examples:* `"ms_level"`, `"isolation_window.target_mz"`, `"activation.collision_energy"`, `"scan_window.scan_lower_limit"`
-
-**`accession`** - `string` or `null` *(optional)*
-
-The CURIE for the controlled vocabulary term, or null if no controlled vocabulary term is available. Null may be used to indicate that a column has a human readable name but does not map to a controlled vocabulary term
-
-**`unit`** - `string` or `null` *(optional)*
-
+More is described in [the components section](./index_file_components.md)
 
 
 ## File-level metadata
 
-File-level metadata **SHOULD** be stored in `mzpeak_index.metadata` encoded according to the schemas
+File-level metadata **MUST** be stored in `mzpeak_index.metadata` encoded according to the schemas
 below.
 
 - [`cv_list`](./cv_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
@@ -231,16 +202,13 @@ below.
 - [`scan_settings_list`](./scan_settings_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/scan_settings_list.json)
 - [`run`](./ms_run.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/ms_run.json)
 
-An archive that follows a profile declares it in `metadata`. The
-[Imaging profile](../profiles/imaging.md) is declared by setting `metadata.imaging.is_imaging` to
-`true`.
 
-!!! question "Open item — cleartext vs. encryptable metadata"
+!!! question "Open item — cleartext vs. encrypt-able metadata"
     Anything in `mzpeak_index.json` is necessarily cleartext to all readers
     unless ZIP encryption is used — and ZIP encryption is known to be flawed and
     inconsistent. Anything in a Parquet footer's key–value pairs *is*
-    encryptable. The index is JSON for convenience and ease of access from
-    scripting languages; whether some fields should move to encryptable Parquet
+    encrypt-able. The index is JSON for convenience and ease of access from
+    scripting languages; whether some fields should move to encrypt-able Parquet
     metadata is unresolved.
 
 ## Format Versioning
@@ -248,3 +216,27 @@ An archive that follows a profile declares it in `metadata`. The
 The mzPeak archive's format version is written in `mzpeak_index.metadata.version`. The
 value is formatted as a semantic version `#!js /(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/`.
 Version compatibility **SHOULD** be consistent with semantic versioning rules.
+
+If a reader encounters a file with a major `version` greater than it knows how to read, it **SHOULD**
+report an error. Attempting to parse the data under the previous rules **MAY** lead to a cascade of additional
+errors.
+
+A greater minor `version` indicates there **MAY** be columns that are read using
+additional rules not compatible with previous versions, but which are not required for the overall
+integrity of the file outside of proprietary extensions.
+
+A greater patch version does not introduce new parsing rules, but **MAY** add additional defined columns
+so they no longer require the `opt_` prefix, or add new `entity_type` or `data_kind` types which would
+otherwise be treated as `other` in previous versions.
+
+### Profiles
+
+Profiles are separately versioned entities that add additional validation rules and contextual metadata.
+An archive that follows a profile declares it in `metadata`. For example, [Imaging profile](../profiles/imaging.md)
+is declared by setting `metadata.imaging.is_imaging` to `true`.
+
+### For validation
+
+New minor or patch versions **MAY** add additional validation rules, but new minor versions **SHOULD** not
+make files valid under previous minor versions that were valid no longer valid. Profiles **SHOULD** abide
+by the same rules.

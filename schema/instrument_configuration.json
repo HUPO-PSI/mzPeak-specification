@@ -21,11 +21,11 @@
         },
         "software_reference": {
           "type": "string",
-          "description": "The identifier for a software that was associated with the data acquisition process."
+          "description": "The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive."
         },
         "id": {
           "type": "integer",
-          "description": "A unique identifier for this instrument configuration."
+          "description": "A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive."
         },
         "parameters": {
           "type": "array",
@@ -47,7 +47,7 @@
         },
         "order": {
           "type": "integer",
-          "description": "The order in which the analytes travels through the component"
+          "description": "The order in which the analytes travels through the component. The values must be contiguous, unique ascending integers."
         },
         "parameters": {
           "type": "array",

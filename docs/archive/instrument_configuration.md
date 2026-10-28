@@ -10,9 +10,9 @@ This describes which components are engaged for a particular scan configuration.
 
 ### Multiple configurations
 
-When handling an instrument with multiple mass analyzers like an [MS:1003768|ion trap orbitrap instrument](http://purl.obolibrary.org/obo/MS_1003768), there **SHOULD** be multiple [`instrument_configuration`](#instrument_configuration) instances.
+When handling an instrument with multiple mass analyzers like an [MS:1003971|ion trap fourier transform ion cyclotron resonance instrument](http://purl.obolibrary.org/obo/MS_1003971), there **SHOULD** be multiple [`instrument_configuration`](#instrument_configuration) instances.
 
-??? example "An example with two configurations, one using the ion trap, one using the orbitrap"
+??? example "An example with two configurations, one using the ion trap, one using the fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
     ```json
     [
         {
@@ -139,8 +139,8 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `components` | `array` of [`component_type`](#component_type) | Yes | &nbsp; |
-| `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. |
-| `id` | `integer` | Yes | A unique identifier for this instrument configuration. |
+| `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive. |
+| `id` | `integer` | Yes | A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
 
 #### Property Details
@@ -149,11 +149,11 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 
 **`software_reference`** - `string` *(required)*
 
-The identifier for a software that was associated with the data acquisition process.
+The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive.
 
 **`id`** - `integer` *(required)*
 
-A unique identifier for this instrument configuration.
+A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive.
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 
@@ -173,7 +173,7 @@ Describes an instrument component like the ion source, mass analyzer, or detecto
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `component_type` | `enum` | Yes | The kind of component this is |
-| `order` | `integer` | Yes | The order in which the analytes travels through the component |
+| `order` | `integer` | Yes | The order in which the analytes travels through the component. The values must be contiguous, unique ascending integers. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this component, like the particular hardware type or components |
 
 #### Property Details
@@ -186,7 +186,7 @@ The kind of component this is
 
 **`order`** - `integer` *(required)*
 
-The order in which the analytes travels through the component
+The order in which the analytes travels through the component. The values must be contiguous, unique ascending integers.
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 

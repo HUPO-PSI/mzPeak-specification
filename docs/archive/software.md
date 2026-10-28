@@ -4,7 +4,7 @@
 
 Describe the JSON format of software list
 
-# software
+## software
 
 Data acquisition, file conversion, and processing is all facilitated by software. The [software](#software)
 list records the discrete software programs and versions used. The software list is a centralized list that

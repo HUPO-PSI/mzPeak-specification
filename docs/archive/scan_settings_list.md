@@ -1,5 +1,3 @@
-<!-- Automatically generated from schema\scan_settings_list.json ->
-
 # mzPeak metadata scan settings list
 
 The list of scan settings pre-configuring acquisition settings. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.>

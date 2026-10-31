@@ -21,7 +21,7 @@
         },
         "software_reference": {
           "type": "string",
-          "description": "The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive."
+          "description": "The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive."
         },
         "id": {
           "type": "integer",

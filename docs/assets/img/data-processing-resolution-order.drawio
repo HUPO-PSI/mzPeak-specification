@@ -1,0 +1,61 @@
+<mxfile host="65bd71144e">
+    <diagram id="c9gUpANt9OpjjqlWYOKg" name="Page-1">
+        <mxGraphModel dx="1194" dy="471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=light-dark(#000000,#FFFFFF);" value="&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 15px;&quot;&gt;&lt;b style=&quot;&quot;&gt;mzpeak_index.json&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;;&quot;&gt;metadata.run.default_data_processing_id&lt;/span&gt;" vertex="1">
+                    <mxGeometry height="60" width="314" x="210" y="86.22" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-11" edge="1" parent="1" source="8JSKwf0iGGJAlU20T7BW-4" style="edgeStyle=none;html=1;endArrow=block;endFill=1;" target="8JSKwf0iGGJAlU20T7BW-3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=light-dark(#000000,#FFFFFF);" value="&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b style=&quot;&quot;&gt;&amp;lt;entity_type&amp;gt;_metadata.parquet&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot; face=&quot;Courier New&quot;&gt;.data_processing_id&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="50" width="294" x="220" y="189.22000000000003" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-9" connectable="0" parent="1" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" value="" vertex="1">
+                    <mxGeometry height="100" width="260" x="61" y="294" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-6" parent="8JSKwf0iGGJAlU20T7BW-9" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;fontColor=default;" value="&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 16px;&quot;&gt;&lt;b style=&quot;&quot;&gt;&amp;lt;entity_type&amp;gt;_data.parquet&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="100" width="274" x="-14" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-8" parent="8JSKwf0iGGJAlU20T7BW-9" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=default;" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;KV Metadata:&lt;/font&gt;&lt;/div&gt;&lt;font face=&quot;Courier New&quot; style=&quot;&quot;&gt;&amp;lt;entity_type&amp;gt;_array_index.&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Courier New&quot; style=&quot;&quot;&gt;entries[].data_processing_id&lt;/font&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="64.28571428571429" width="225.9183673469388" x="8.36734693877551" y="28.42857142857143" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-10" edge="1" parent="1" source="8JSKwf0iGGJAlU20T7BW-6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;" target="8JSKwf0iGGJAlU20T7BW-4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=13;" value="If the array itself has a non-null&amp;nbsp;&amp;nbsp;&lt;font face=&quot;Courier New&quot;&gt;data_processing_id&lt;/font&gt;, it applies instead of the &lt;font face=&quot;Courier New&quot;&gt;data_processing_id&lt;/font&gt; on the metadata row." vertex="1">
+                    <mxGeometry height="70.43" width="256" x="514" y="421" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=13;" value="If the metadata row has a non-null &lt;font face=&quot;Courier New&quot;&gt;data_processing_id&lt;/font&gt;, it applies instead of the &lt;font face=&quot;Courier New&quot;&gt;run.default_data_processing_id&lt;/font&gt;." vertex="1">
+                    <mxGeometry height="70.43" width="284" x="526" y="177.22" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=13;" value="The default data processing that applies to any scope that isn&#39;t overridden." vertex="1">
+                    <mxGeometry height="70.43" width="256" x="540" y="81" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-25" edge="1" parent="1" source="8JSKwf0iGGJAlU20T7BW-24" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="8JSKwf0iGGJAlU20T7BW-4">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="540" y="291" as="sourcePoint"/>
+                        <mxPoint x="410" y="261" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=default;verticalAlign=top;fontSize=15;dashed=1;" value="&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;font style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52); font-size: 16px;&quot;&gt;&lt;b style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&amp;lt;entity_type&amp;gt;_metadata.parquet&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52); font-size: 18px;&quot;&gt;&lt;b style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="100" width="260" x="414" y="291.28" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=default;" value="&lt;font face=&quot;Courier New&quot;&gt;.auxiliary_arrays[].&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Courier New&quot;&gt;data_processing_id&lt;/font&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="50" width="250" x="420" y="331" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-30" edge="1" parent="1" source="8JSKwf0iGGJAlU20T7BW-28" style="html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="8JSKwf0iGGJAlU20T7BW-4">
+                    <mxGeometry relative="1" x="-0.005" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;fontColor=default;dashed=1;" value="&lt;div style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;&lt;span style=&quot;&quot;&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;&amp;lt;entity_type&amp;gt;_peaks.parquet&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="100" width="274" x="230" y="406.22" as="geometry"/>
+                </mxCell>
+                <mxCell id="8JSKwf0iGGJAlU20T7BW-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=default;" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;KV Metadata:&lt;/font&gt;&lt;/div&gt;&lt;font face=&quot;Courier New&quot; style=&quot;&quot;&gt;&amp;lt;entity_type&amp;gt;_array_index.&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;Courier New&quot; style=&quot;&quot;&gt;entries[].data_processing_id&lt;/font&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="64.28571428571429" width="225.9183673469388" x="251.07999999999998" y="434.93" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

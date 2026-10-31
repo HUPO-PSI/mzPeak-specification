@@ -4,18 +4,17 @@ Mass spectra and other entities described in `mzPeak` are complex, multi-faceted
 Each facet is described by a `data_kind` associated with the `entity_type`. The columns of
 a metadata table can vary widely based upon context, but they have the following rules:
 
-For `data_kind == metadata`:
-- The first column **MUST** be named `index` and be an integer value that **MUST** be unique. It **SHOULD** also be
-  sorted and incremented by 1 for each new entity. This is akin to a primary key in relational databases.
+For `data_kind == metadata`, the first column **MUST** be named `index` and be an integer value that **MUST**
+be unique. It **SHOULD** also be sorted and incremented by 1 for each new entity. This is akin to a primary
+key in relational databases.
 
-For all other kinds:
-- The first column **MUST** be `source_index` and be an integer value that *references* the `index` of
-  the `metadata` table for the instance that this row is associated. There may be zero or more rows
-  with the same `source_index` value. This is akin to a foreign key in relational databases.
-- There **MAY** be another column or a set of columns that function as a primary or composite primary key.
-  This will be defined by the particular file's schema.
+For all other kinds, the first column **MUST** be `source_index` and be an integer value that *references* the `index` of
+the `metadata` table for the instance that this row is associated. There may be zero or more rows with the same `source_index`
+value. This is akin to a foreign key in relational databases. There **MAY** be another column or a set of columns that function
+as a primary or composite primary key. This will be defined by the particular file's schema.
 
 In addition, all `data_kind` must support the following:
+
 - There **MAY** be a `parameters` column that is a list column as described [below](#the-parameters-list) in
   the [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section. If there are nested columns, each
   `struct`-like group may have its own `parameters` column.
@@ -30,7 +29,8 @@ When a column is not otherwise controlled by the schema, it is assumed to map to
 in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers **SHOULD**
 use them and readers **SHOULD** expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
 process described below, some readers may be treating mzPeak component files like generic Parquet files, and will expect a stable, consistent
-schema. Column names should be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_\\-]+/` with a space, prefixing non-standardized names with `opt_`.
+schema. Column names should be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_\\-]+/`
+with a `_`, prefixing non-standardized names with `opt_`.
 
 ## Examples
 

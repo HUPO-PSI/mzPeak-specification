@@ -93,9 +93,11 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
   primary key for the `spectrum` facet and the root unit of addressability.
 - **`id`** (string) — the "nativeID" string identifier, formatted per a
   [native identifier format](http://purl.obolibrary.org/obo/MS_1000767). The
-  specific format **SHOULD** be given in the
-  [file-level metadata](../archive/index-file.md#file-level-metadata) under
-  `file_description.source_files[0].parameters`, as in mzML.
+  specific format **SHOULD** be given in the [file-level metadata](../archive/index-file.md#file-level-metadata)
+  as given by the `file_description.source_file.parameters` where `source_file.id` == `run.default_source_file_id`,
+  as in mzML. If multiple sources are mixed in a file, this parsing may instead be resolved by considering the
+  source file from the paired `scan.spectrum_reference`'s source file, or in the event the spectrum is an average
+  across multiple runs with different schemas, no nativeID schema may be applicable.
 - **`time`** (float64) — the data-acquisition start time. **SHOULD** be
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
@@ -174,6 +176,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
   source file in `file_description.source_files`. This might happen when summing and
   averaging spectra to improve signal quality (e.g. building a consensus spectrum), or
   when collating spectra across ion mobility measurements into an ion mobility frame.
+  If the spectrum is not known, but the source file is, the `id` may be omitted.
 - [**`scan_start_time`**](http://purl.obolibrary.org/obo/MS_1000016) (float64) — The [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
   denotes the time that an analyzer started a scan, relative to the start of the run.
 - **`instrument_configuration_id`** (integer) — the `instrument_configuration`

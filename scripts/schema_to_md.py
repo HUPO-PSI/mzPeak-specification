@@ -192,7 +192,6 @@ def main():
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         md = schema_to_markdown(schema)
         if outfh:
-            outfh.write(f"<!-- Automatically generated from {schema_path} ->\n\n")
             outfh.write(md)
             print(f"Written to {args.output}")
         else:

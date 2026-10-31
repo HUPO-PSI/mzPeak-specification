@@ -33,10 +33,13 @@ Chromatogram
 :   A measurement over time (for example a total ion current or extracted-ion trace); one of the mzPeak entity types. See [Entity Type](../archive/entity-types.md).
 
 Chunked layout
-:   A signal-data layout that cuts the sorted main axis into non-overlapping chunks (for example fixed m/z windows) — recording each chunk's start, end, and index — to allow random access along the axis. See [Chunked Layout](../layouts/chunked-layout.md).
+:   A signal-data layout that cuts the sorted main axis into non-overlapping chunks (for example fixed m/z windows) - recording each chunk's start, end, and index - to allow random access along the axis. See [Chunked Layout](../layouts/chunked-layout.md).
 
 Controlled vocabulary (CV)
 :   A curated set of defined terms with stable accessions, used to annotate metadata unambiguously. mzPeak uses the PSI-MS controlled vocabulary.
+
+Cryptographic Messaging Syntax (CMS)
+: <https://www.rfc-editor.org/info/rfc5652/> The recommendation for sharing public key verifiable messages with a chain of trust. This is used to check that an mzPeak archive was produced by who and/or what claims to have produced it and verify it with a third party.
 
 CURIE
 :   A compact URI of the form `prefix:reference` (for example `MS:1000559`) used to reference a controlled-vocabulary term.

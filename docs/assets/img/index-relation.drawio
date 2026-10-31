@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="LAoo1SAXQvCgtk0yU_Mh" name="Page-1">
-        <mxGraphModel dx="608" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
+        <mxGraphModel dx="449" dy="177" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -106,10 +106,10 @@
                     <mxGeometry height="20" width="20" x="461" y="533.5" as="geometry"/>
                 </mxCell>
                 <mxCell id="8rosV63zTSgYnQqeIdFs-38" edge="1" parent="1" source="8rosV63zTSgYnQqeIdFs-33" style="html=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;jumpStyle=arc;jumpSize=10;edgeStyle=orthogonalEdgeStyle;entryPerimeter=0;entryX=0.558;entryY=1.131;exitX=0.5;exitY=0;endArrow=block;endFill=1;" target="8rosV63zTSgYnQqeIdFs-39">
-                    <mxGeometry relative="1" x="-0.01" as="geometry">
+                    <mxGeometry relative="1" x="-0.011" as="geometry">
                         <Array as="points">
-                            <mxPoint x="471" y="500"/>
-                            <mxPoint x="500" y="500"/>
+                            <mxPoint x="471" y="520"/>
+                            <mxPoint x="500" y="520"/>
                             <mxPoint x="500" y="439.5"/>
                             <mxPoint x="20" y="439.5"/>
                             <mxPoint x="20" y="260"/>
@@ -120,7 +120,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="8rosV63zTSgYnQqeIdFs-49" connectable="0" parent="8rosV63zTSgYnQqeIdFs-38" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52); color: rgb(0, 0, 0);&quot;&gt;&lt;font face=&quot;Courier New&quot;&gt;instrument_configuration_id &lt;/font&gt;in the scans table&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52); color: rgb(0, 0, 0);&quot;&gt;points to the &lt;/span&gt;&lt;span style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgba(78, 86, 102, 0.5) rgb(40, 44, 52);&quot;&gt;file-level metadata&lt;/span&gt;&lt;/div&gt;" vertex="1">
-                    <mxGeometry relative="1" x="-0.6186" y="1" as="geometry">
+                    <mxGeometry relative="1" x="-0.6191" y="1" as="geometry">
                         <mxPoint x="-92" as="offset"/>
                     </mxGeometry>
                 </mxCell>

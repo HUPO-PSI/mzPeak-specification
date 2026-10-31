@@ -1,5 +1,3 @@
-<!-- Automatically generated from schema\software.json ->
-
 # mzPeak metadata software list
 
 Describe the JSON format of software list
@@ -34,21 +32,21 @@ A piece of software. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#s
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | &nbsp; | A unique identifier for this software, even amongst different versions of the same software. |
-| `version` | `string` | &nbsp; | The version of the software. |
-| `parameters` | `array` of [`param`](param.md) | &nbsp; | Additional parameters describing this software, such as its controlled vocabulary identifier, or the term MS:1000799 for custom unreleased software to denote its name. |
+| `id` | `string` | Yes | A unique identifier for this software, even amongst different versions of the same software. |
+| `version` | `string` | Yes | The version of the software. |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this software, such as its controlled vocabulary identifier, or the term MS:1000799 for custom unreleased software to denote its name. |
 
 #### Property Details
 
-**`id`** - `string` *(optional)*
+**`id`** - `string` *(required)*
 
 A unique identifier for this software, even amongst different versions of the same software.
 
-**`version`** - `string` *(optional)*
+**`version`** - `string` *(required)*
 
 The version of the software.
 
-**`parameters`** - `array` of [`param`](param.md) *(optional)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this software, such as its controlled vocabulary identifier, or the term MS:1000799 for custom unreleased software to denote its name.
 

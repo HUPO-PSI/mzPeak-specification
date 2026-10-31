@@ -2,6 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "mzPeak metadata sample list",
   "description": "Describe the JSON format of the sample list. Multiple samples can be present in a single run in scenarios like multiplexing or pooling.",
+  "$meta": {
+    "summary": "file:schema/meta/sample.md"
+  },
   "type": "array",
   "items": {
     "$ref": "#/definitions/sample"

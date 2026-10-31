@@ -1,5 +1,3 @@
-<!-- Automatically generated from schema\instrument_configuration.json ->
-
 # mzPeak metadata instrument configurations
 
 Describe the JSON format of instrument configurations used to acquire a mass spectrometry experiment
@@ -139,7 +137,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `components` | `array` of [`component_type`](#component_type) | Yes | &nbsp; |
-| `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive. |
+| `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive. |
 | `id` | `integer` | Yes | A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
 
@@ -149,7 +147,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 
 **`software_reference`** - `string` *(required)*
 
-The identifier for a software that was associated with the data acquisition process. This **MUST** be a software.id in the software list of the mzPeak archive.
+The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive.
 
 **`id`** - `integer` *(required)*
 

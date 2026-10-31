@@ -2,8 +2,7 @@
 
 Chromatograms are described by a **signal** file (`chromatograms_data.parquet`)
 and a **metadata** file (`chromatograms_metadata.parquet`). Diagnostic traces are
-currently carried here as well, pending their
-[dedicated entity-type namespace](../archive/entity-types.md#decided-at-hupo-psi-2026-rome).
+currently carried here as well, pending their dedicated entity-type namespace.
 
 ## Chromatogram signal data — `chromatograms_data.parquet`
 

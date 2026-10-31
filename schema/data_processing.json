@@ -12,7 +12,7 @@
   "definitions": {
     "data_processing_method": {
       "type": "object",
-      "description": "Describes a single instrument configuration that was used. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList",
+      "description": "Describes a single pipeline of data processing pipeline that was used on an entity or data array. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList",
       "properties": {
         "id": {
           "type": "string",
@@ -30,11 +30,11 @@
       "properties": {
         "order": {
           "type": "integer",
-          "description": "The order in which the step is applied in the data processing pipeline."
+          "description": "The order in which the step is applied in the data processing pipeline. Values **MUST** be ascending, and **SHOULD** be contiguous."
         },
         "software_reference": {
             "type": "string",
-            "description": "The identifier for a software entry that performed this operation."
+            "description": "The identifier for a software entry that performed this operation. This **MUST** be a software_list[].id in the software list of the mzPeak archive."
         },
         "parameters": {
           "type": "array",

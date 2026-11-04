@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "mzPeak auxiliary data array",
-  "description": "Describe the JSON format of auxliary data array",
+  "description": "Describe the JSON format of auxiliary data array",
   "type": "object",
   "required": [
     "name",

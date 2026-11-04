@@ -4,15 +4,89 @@ The list of scan settings pre-configuring acquisition settings. Analogous to <ht
 
 ## Use cases
 
-This is primarily used for high-level configuration of data-independent acquisition strategies like SWATH or targeted MS. Additionally used for imaging MS to define the spatial scanning parameters.
+This is primarily used for high-level configuration of data-independent acquisition strategies like SWATH or targeted MS.
+Additionally used for imaging MS to define the spatial scanning parameters. These settings are associated with the rest of
+the data in the archive through a link to an [instrument configuration](../instrument_configuration).
 
 ### Targeted MS
 
-Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings) entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510)
+Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings)
+entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children
+of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792)
+or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510).
 
 ### Data-Independent Acquisition (DIA)
 
-Like targeted MS, DIA methods may define their windows scheme with terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510), using a `target` for each window.
+Like targeted MS, DIA methods may define their windows scheme with terms like children of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455),
+[`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792) or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510),
+using a `target` for each window.
+
+A target list describing a window list would look like:
+
+```json
+[
+  {
+    "parameters": [
+      {
+        "accession": "MS:1000827",
+        "name": "isolation window target m/z",
+        "value": 813.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000828",
+        "name": "isolation window lower offset",
+        "value": 13.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000829",
+        "name": "isolation window upper offset",
+        "value": 13.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000045",
+        "name": "collision energy",
+        "value": 41.57222844344905,
+        "unit": "UO:0000266"
+      }
+    ]
+  },
+  {
+    "parameters": [
+      {
+        "accession": "MS:1000827",
+        "name": "isolation window target m/z",
+        "value": 413.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000828",
+        "name": "isolation window lower offset",
+        "value": 13.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000829",
+        "name": "isolation window upper offset",
+        "value": 13.0,
+        "unit": "MS:1000040"
+      },
+      {
+        "accession": "MS:1000045",
+        "name": "collision energy",
+        "value": 24.945128779395297,
+        "unit": "UO:0000266"
+      }
+    ]
+  }
+  // and more
+]
+```
+
+This pre-registration makes it possible for software to scan just the header metadata of the file to find the window schema,
+rather than scanning all unique entries in the [spectrum precursor table](../schemas/spectra.md#spectrum-precursor-metadata-spectra_metadata_precursorsparquet).
 
 ### Imaging MS
 
@@ -129,12 +203,12 @@ Additional parameters describing the scan settings.
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this target |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this target. |
 
 #### Property Details
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 
-Additional parameters describing this target
+Additional parameters describing this target.
 
 ---

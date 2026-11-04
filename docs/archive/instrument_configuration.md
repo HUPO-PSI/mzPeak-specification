@@ -140,6 +140,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 | `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive. |
 | `id` | `integer` | Yes | A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
+| `scan_settings_reference` | `string` | &nbsp; | The identifier for a scan settings that was associated with this instrument configuration. If present, this **MUST** be a scan_settings_list[].id in the scan settings list of the mzPeak archive. |
 
 #### Property Details
 
@@ -156,6 +157,10 @@ A unique identifier for this instrument configuration. This value is an integer 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this configuration, like the instrument model and serial number
+
+**`scan_settings_reference`** - `string` *(optional)*
+
+The identifier for a scan settings that was associated with this instrument configuration. If present, this **MUST** be a scan_settings_list[].id in the scan settings list of the mzPeak archive.
 
 ---
 

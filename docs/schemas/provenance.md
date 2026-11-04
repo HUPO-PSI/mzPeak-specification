@@ -45,7 +45,8 @@ each row in the signature table:
 6. Extract `signerInformation` from the CMS message and locate the issuing signer. This **SHOULD** be the first
    signer. The signer's `digestAlgorithm` **MUST** be SHA-512 and the `signatureAlgorithm` **MUST** be Ed25519.
 7. Find the `signedData` certificate whose `sid` matches the issuer and serial number of the issuing signer and
-   extract the public key for that certificate.
+   extract the public key for that certificate. All other certificates in `signedData` are treated as intermediate
+   certificates.
 8. Extract the bytes of the ASN.1 `signedAttributes` from issuing signer. Replace the leading `IMPLICIT` tag
    byte (0xA0) with the `SET` tag byte (0x31) per [RFC 5652 section 5.4](https://www.rfc-editor.org/info/rfc5652/#section-5.4).
    This will be used to verify that the signature hasn't been tampered with and was signed by the private key via
@@ -54,6 +55,14 @@ each row in the signature table:
    `signature` value matches the the `signedAttributes` ASN.1 encoded bytes.
 10. From the `signedAttributes` structure just verified, extract the attribute with a `type` of `messageDigest`
     and confirm it matches the recomputed SHA-512 digest for this row.
-11. If available, verify that the certificate which provided the public key is valid according to the X.509
-    verification procedure described in <https://www.rfc-editor.org/info/rfc5280/>.
+11. If available, verify that the certificate which provided the signing public key and associated intermediate
+    are valid according to the X.509 verification procedure described in <https://www.rfc-editor.org/info/rfc5280/>.
 
+Users **MUST NOT** treat the mere presence of a `provenance.parquet` as evidence of anything, including that a file is in
+its rawest state, derived directly from a vendor file, or otherwise more trustworthy than its absence. Only after
+verification against the roots of trust managed by the instrument vendor or trusted repository.
+
+## Use beyond instrument linkage
+
+It may be tempting to add additional roles beyond instrument -> vendor verification. To avoid increasing the complexity
+of the signing and verification process, writers are not encouraged to not cryptographically sign

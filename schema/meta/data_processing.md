@@ -45,10 +45,10 @@ about which components of the processing steps are relevant to that context. For
 recalculation, but that is meaningless in the context of the m/z array. Data processing scopes do not cascade, only one `data_processing_method`
 is applicable at a time to avoid stacking contradictory operations.
 
-File writers **SHOULD** take care to avoid introducing contradictory steps like conflicting peak picking methods. If multiple configurations
-that the writer wants to distinguish between, the writer **SHOULD** write multiple `data_processing_method` entries and reference them. If
-processing derived data, writers **SHOULD** append new steps to the source data's existing data processing methods to reflect the full chain
-of operations, not create a separate `data_processing_method` describing only the new steps.
+File writers **SHOULD** take care to avoid introducing contradictory steps like conflicting peak picking methods. If there are multiple configurations
+to distinguish between, then the writer **SHOULD** write multiple `data_processing_method` entries and reference them. If processing derived data, writers
+**SHOULD** append new `processing_method_step` to the source data's existing `data_processing_method` methods to reflect the full chain of operations,
+not create a separate `data_processing_method` describing only the new steps.
 
 ## FAIR Data and Reproducibility
 

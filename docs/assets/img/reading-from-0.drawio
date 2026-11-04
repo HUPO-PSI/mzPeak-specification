@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="5CvExwPNzixoOJXJUFPb" name="Page-1">
-        <mxGraphModel dx="445" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
+        <mxGraphModel dx="1626" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -22,7 +22,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontSize=17;fontColor=#ffffff;" value="mzpeak_index.json" vertex="1">
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontSize=17;fontColor=#ffffff;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;mzpeak_index.json&lt;/span&gt;" vertex="1">
                     <mxGeometry height="51.666666666666664" width="190.58823529411765" x="519.4117647058823" y="232.41666666666666" as="geometry"/>
                 </mxCell>
                 <mxCell id="ot1kZrcZ3gKVQDu4J1aV-6" edge="1" parent="1" source="ot1kZrcZ3gKVQDu4J1aV-1" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=14;endArrow=block;endFill=1;" target="ot1kZrcZ3gKVQDu4J1aV-5">
@@ -51,7 +51,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-7" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;fontSize=17;" value="spectra_metadata&lt;div&gt;.parquet&lt;/div&gt;" vertex="1">
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-7" parent="1" style="whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=0;fontSize=17;fontColor=#ffffff;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;spectra_metadata&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;.parquet&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="41.333333333333336" width="190.58823529411765" x="519.4117647058823" y="348.6666666666667" as="geometry"/>
                 </mxCell>
                 <mxCell id="ot1kZrcZ3gKVQDu4J1aV-9" parent="1" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;rounded=0;fontSize=17;" value="spectra_data.parquet" vertex="1">
@@ -80,10 +80,10 @@
                         <mxPoint x="408.2352941176471" y="596.6666666666666" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="8beNYW4tP_k_WBM8A2Ct-8" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;fontSize=17;" value="spectra_metadata_&lt;div&gt;scans.parquet&lt;/div&gt;" vertex="1">
+                <mxCell id="8beNYW4tP_k_WBM8A2Ct-8" parent="1" style="whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=0;fontSize=17;fontColor=#ffffff;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;spectra_metadata_&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;scans.parquet&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="38.75" width="190.58823529411765" x="271.94117647058823" y="394.625" as="geometry"/>
                 </mxCell>
-                <mxCell id="8beNYW4tP_k_WBM8A2Ct-13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;verticalAlign=middle;fontSize=18;" value="spectrum signal data plus metadata" vertex="1">
+                <mxCell id="8beNYW4tP_k_WBM8A2Ct-13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;verticalAlign=middle;fontSize=18;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="&lt;span style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;spectrum signal data plus metadata&lt;/span&gt;" vertex="1">
                     <mxGeometry height="103.33333333333333" width="190.58823529411765" x="430.47058823529414" y="596.6666666666666" as="geometry"/>
                 </mxCell>
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-17" edge="1" parent="1" source="8beNYW4tP_k_WBM8A2Ct-15" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.083;entryY=0.213;entryDx=0;entryDy=0;curved=1;entryPerimeter=0;fontSize=14;endArrow=block;endFill=1;" target="8beNYW4tP_k_WBM8A2Ct-13">
@@ -94,10 +94,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="8beNYW4tP_k_WBM8A2Ct-15" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;fontSize=17;" value="spectra_metadata_&lt;div&gt;precursors.parquet&lt;/div&gt;" vertex="1">
+                <mxCell id="8beNYW4tP_k_WBM8A2Ct-15" parent="1" style="whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=0;fontSize=17;fontColor=#ffffff;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;spectra_metadata_&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;precursors.parquet&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="38.75" width="190.58823529411765" x="127.76470588235293" y="462.1666666666667" as="geometry"/>
                 </mxCell>
-                <mxCell id="8beNYW4tP_k_WBM8A2Ct-16" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;fontSize=17;" value="spectra_metadata&lt;div&gt;_selected_ions&lt;div&gt;.parquet&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                <mxCell id="8beNYW4tP_k_WBM8A2Ct-16" parent="1" style="whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=0;fontSize=17;fontColor=#ffffff;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;spectra_metadata&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;_selected_ions&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;.parquet&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="64.58333333333333" width="190.58823529411765" x="122" y="561.7083333333333" as="geometry"/>
                 </mxCell>
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-18" edge="1" parent="1" source="8beNYW4tP_k_WBM8A2Ct-16" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.018;entryY=0.359;entryDx=0;entryDy=0;entryPerimeter=0;curved=1;fontSize=14;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" target="8beNYW4tP_k_WBM8A2Ct-13">

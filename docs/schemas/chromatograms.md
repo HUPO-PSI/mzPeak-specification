@@ -4,7 +4,7 @@ Chromatograms are described by a **signal** file (`chromatograms_data.parquet`)
 and a **metadata** file (`chromatograms_metadata.parquet`). Diagnostic traces are
 currently carried here as well, pending their dedicated entity-type namespace.
 
-## Chromatogram signal data — `chromatograms_data.parquet`
+## Chromatogram signal data - `chromatograms_data.parquet`
 
 ```json
 {
@@ -14,11 +14,9 @@ currently carried here as well, pending their dedicated entity-type namespace.
 }
 ```
 
-The signal data is encoded using either
-[point layout](../layouts/point-layout.md) or
-[chunked layout](../layouts/chunked-layout.md). The entity index column **MUST**
-be named `chromatogram_index`. The default primary axis is a
-[`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595). For consistency, the units *SHOULD* be minutes.
+The signal data is encoded using either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md).
+The entity index column **MUST** be named `chromatogram_index`. The default primary axis is a [`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595).
+For consistency, the units **SHOULD** be minutes.
 
 ### Recommended Parquet encodings
 
@@ -39,29 +37,25 @@ be named `chromatogram_index`. The default primary axis is a
 
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-- **`index`** (integer) — the ascending 0-based index, incrementing by 1 per
-  entry and **SHOULD** be time-sorted ascending. Primary key for the
-  `chromatogram` facet.
-- **`id`** (string) — a unique string identifier. Unlike for spectra, there is no "nativeId" format definition for chromatograms at this time.
+- **`index`** (integer) - the ascending 0-based index, incrementing by 1 per entry. Primary key for the `chromatogram` facet.
+- **`id`** (string) - a unique string identifier. Unlike for spectra, there is no "nativeId" format definition for chromatograms at this time.
 - [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
-  (integer) — `1`, `-1`, or `null`.
+  (integer) - `1`, `-1`, or `null`.
 - [**`chromatogram_type (MS:1000626)`**](http://purl.obolibrary.org/obo/MS_1000626)
-  (CURIE) — e.g. total ion current
+  (CURIE) - e.g. total ion current
   ([`MS:1000235`](http://purl.obolibrary.org/obo/MS_1000235)), selected ion
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
-  ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), absorption
-  ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)),
-  or selected ion current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)).
-- **`data_processing_id`** (string) — the `id` of a `data_processing` that
-  governs this chromatogram if it deviates from the default in
-  `run.default_data_processing_id`; `null` otherwise. This applies data processing reflects how properties or attributes of the chromatogram are calculated. Data arrays
-  are governed by the data processing methods defined in the [array index](../layouts/signal-data.md#the-array-index)
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), or absorption
+  ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)).
+- **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this chromatogram if it differs from
+  `run.default_data_processing_id`; `null` otherwise. This applies to how chromatogram properties were calculated.
+  Data arrays for this chromatogram inherit these as well unless they specify a data processing methods in the
+  [array index](../layouts/signal-data.md#the-array-index).
+- **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) ---
-  see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
+- **`number_of_auxiliary_arrays`** (integer) and **`auxiliary_arrays`** (list) - see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
 - [**`number_of_data_points (MS:1003060)`**](http://purl.obolibrary.org/obo/MS_1003060)
-  (integer) — data points stored in `chromatograms_data.parquet`.
+  (integer) - data points stored in `chromatograms_data.parquet`.
 - **MAY** supply a child of [`MS:1000808`](http://purl.obolibrary.org/obo/MS_1000808) (chromatogram attribute)
   one or more times.
     - [`chromatogram_title (MS:1000809)`](http://purl.obolibrary.org/obo/MS_1000809)
@@ -72,13 +66,13 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
     - [`lowest_observed_ion_mobility (MS:1003437)`](http://purl.obolibrary.org/obo/MS_1003437)
     - [`highest_observed_ion_mobility (MS:1003438)`](http://purl.obolibrary.org/obo/MS_1003438)
 
-## Chromatogram precursor metadata — `chromatograms_metadata_precursors.parquet`
+## Chromatogram precursor metadata - `chromatograms_metadata_precursors.parquet`
 
 ```json
 {
   "name": "chromatograms_metadata_precursors.parquet",
   "entity_type": "chromatogram",
-  "data_kind": "metadata"
+  "data_kind": "precursor"
 }
 ```
 
@@ -87,7 +81,7 @@ this table will be empty or absent. Its schema is identical to the [spectrum pre
 
 
 
-## Chromatogram selected ion metadata — `chromatograms_metadata_selected_ions.parquet`
+## Chromatogram selected ion metadata - `chromatograms_metadata_selected_ions.parquet`
 
 ```json
 {
@@ -102,7 +96,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this table will be empty
 or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata-spectra_metadata_selected_ionsparquet).
 
-## Chromatogram product selection metadata — `chromatograms_metadata_products.parquet`
+## Chromatogram product selection metadata - `chromatograms_metadata_products.parquet`
 
 ```json
 {
@@ -116,4 +110,6 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is
 isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to
-the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet).
+the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet). For
+SRM or MRM acquisitions, the precursor isolation window and selected ion describe Q1 and the product isolation window
+describe Q3.

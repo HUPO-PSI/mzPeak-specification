@@ -38,8 +38,8 @@ When using [null marking](../layouts/signal-data.md#null-marking), follow the
 carefully for profile data.
 
 !!! warning "Profile only"
-    Only **profile** spectra are written here. Centroid spectra — including
-    centroid views of profile spectra when both modes are stored — **MUST**
+    Only **profile** spectra are written here. Centroid spectra - including
+    centroid views of profile spectra when both modes are stored - **MUST**
     instead be written to [`spectra_peaks.parquet`](#spectrum-peak-data-spectra_peaksparquet).
     The number of points written here for a spectrum **MUST** be recorded in the
     [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
@@ -49,7 +49,7 @@ carefully for profile data.
 
 | Column | Encoding |
 | :-- | :-- |
-| `spectrum_index` | [delta encoding](https://parquet.apache.org/docs/file-format/data-pages/encodings/#delta-encoding-delta_binary_packed--5) — ideal for repetitive or slowly increasing integers. |
+| `spectrum_index` | [delta encoding](https://parquet.apache.org/docs/file-format/data-pages/encodings/#delta-encoding-delta_binary_packed--5) - ideal for repetitive or slowly increasing integers. |
 | `spectrum_time` | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) |
 | m/z arrays | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling), or [RLE dictionary](https://parquet.apache.org/docs/file-format/data-pages/encodings/#dictionary-encoding-plain_dictionary--2-and-rle_dictionary--8) when there is ion-mobility data. |
 | ion-mobility arrays | [RLE dictionary](https://parquet.apache.org/docs/file-format/data-pages/encodings/#dictionary-encoding-plain_dictionary--2-and-rle_dictionary--8); byte shuffling tends not to help. Consider increasing the dictionary page size. |
@@ -88,55 +88,55 @@ of `spectra_metadata.parquet`, to support read planning.
 
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-- **`index`** (uint64) — the ascending 0-based index. **MUST** increment by 1 per
+- **`index`** (uint64) - the ascending 0-based index. **MUST** increment by 1 per
   entry and **SHOULD** be written in time-sorted ascending order. This is the
   primary key for the `spectrum` facet and the root unit of addressability.
-- **`id`** (string) — the "nativeID" string identifier, formatted per a
+- **`id`** (string) - the "nativeID" string identifier, formatted per a
   [native identifier format](http://purl.obolibrary.org/obo/MS_1000767). The
   specific format **SHOULD** be given in the [file-level metadata](../archive/index-file.md#file-level-metadata)
   as given by the `file_description.source_file.parameters` where `source_file.id` == `run.default_source_file_id`,
   as in mzML. If multiple sources are mixed in a file, this parsing may instead be resolved by considering the
   source file from the paired `scan.spectrum_reference`'s source file, or in the event the spectrum is an average
   across multiple runs with different schemas, no nativeID schema may be applicable.
-- **`time`** (float64) — the data-acquisition start time. **SHOULD** be
+- **`time`** (float64) - the data-acquisition start time. **SHOULD** be
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
   with multiple scans it **SHOULD** be the minimum value if the run is in
   acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031).
 - [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
-  — the MS stage number, or `null` for non-mass spectra.
-- **`data_processing_id`** (string) — the `id` of a `data_processing` that
-  governs this spectrum if it deviates from the default in
-  `run.default_data_processing_id`; `null` otherwise. This applies data processing reflects how properties or attributes of the spectrum are calculated. Data arrays
-  are governed by the data processing methods defined in the [array index](../layouts/signal-data.md#the-array-index)
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
+  - the MS stage number, or `null` for non-mass spectra.
+- **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this spectrum if it differs from
+  `run.default_data_processing_id`; `null` otherwise. This applies to how spectrum properties were calculated.
+  Data arrays for this spectrum inherit these as well unless they specify a data processing methods in the
+  [array index](../layouts/signal-data.md#the-array-index).
+- **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **`number_of_auxiliary_arrays`** (integer) — the count of
+- **`number_of_auxiliary_arrays`** (integer) - the count of
   [auxiliary arrays](../layouts/auxiliary-arrays.md) in this row's
   `auxiliary_arrays` column; lets a reader cheaply decide whether to decode them.
-- **`auxiliary_arrays`** (list) — structures describing arrays that did not fit
+- **`auxiliary_arrays`** (list) - structures describing arrays that did not fit
   the [arrays-and-columns](../layouts/signal-data.md#arrays-and-columns)
   constraints. These may be large; load eagerly with care.
-- [**`polynomial_delta_coordinate_interpolation`**](http://purl.obolibrary.org/obo/MS_1003821) (list of float64) —
+- [**`polynomial_delta_coordinate_interpolation`**](http://purl.obolibrary.org/obo/MS_1003821) (list of float64) -
   parameters of the m/z delta model used to reconstruct [null-marked data](../layouts/signal-data.md#null-marking).
   There is no fixed length requirement, and this value **MAY** be `null` or empty if no model
   was learned. Polynomial coefficient terms **MUST** be written in ascending power, including any
   zeros.
 - [**`spectrum_representation (MS:1000525)`**](http://purl.obolibrary.org/obo/MS_1000525)
-  (CURIE) — e.g.
+  (CURIE) - e.g.
   [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" or
   [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum".
 - [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
-  (integer) — `1` (positive), `-1` (negative), or `null`.
+  (integer) - `1` (positive), `-1` (negative), or `null`.
 - [**`spectrum_type (MS:1000559)`**](http://purl.obolibrary.org/obo/MS_1000559)
-  (CURIE) — a child of MS:1000559, e.g. MS1 spectrum
+  (CURIE) - a child of MS:1000559, e.g. MS1 spectrum
   ([`MS:1000579`](http://purl.obolibrary.org/obo/MS_1000579)), MSn spectrum
   ([`MS:1000580`](http://purl.obolibrary.org/obo/MS_1000580)).
 - [**`number_of_data_points (MS:1003060)`**](http://purl.obolibrary.org/obo/MS_1003060)
-  (integer) — profile points stored in `spectra_data.parquet`.
+  (integer) - profile points stored in `spectra_data.parquet`.
 - [**`number_of_peaks (MS:1003059)`**](http://purl.obolibrary.org/obo/MS_1003059)
-  (integer) — discrete peaks stored in `spectra_peaks.parquet`.
+  (integer) - discrete peaks stored in `spectra_peaks.parquet`.
 - **MAY** supply a child of [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
-  one or more times — e.g. base peak m/z, total ion current.
+  one or more times - e.g. base peak m/z, total ion current.
     - [`total_ion_current (MS:1000285)`](http://purl.obolibrary.org/obo/MS_1000285)
     - [`base_peak_mz (MS:1000504)`](http://purl.obolibrary.org/obo/MS_1000504)
     - [`base_peak_intensity (MS:1000505)`](http://purl.obolibrary.org/obo/MS_1000505)
@@ -145,10 +145,30 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
     - [`lowest_observed_ion_mobility (MS:1003437)`](http://purl.obolibrary.org/obo/MS_1003437)
     - [`highest_observed_ion_mobility (MS:1003438)`](http://purl.obolibrary.org/obo/MS_1003438)
 - **MAY** supply a child of [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
-  one or more times — e.g.
+  one or more times - e.g.
     - [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
     - [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439)
-- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) — how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) - how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+
+### Reading spectra with both profile and centroid data available
+
+When reading spectra from mzPeak files, the user might want the profile representation even if the centroids are available, or vice-versa.
+Readers **SHOULD** be prepared to offer separate methods for accessing the different modalities, and what to do if the desired modality is
+not available. This is a new problem, compared to mzML, which stored one and exactly one representation. For instrument vendors, who bundle
+their peak picking algorithm with the reading library, this is a non-issue.
+
+<figure class="mzp-figure" id="reading-profile-centroid-flow-fig" markdown>
+<img src="../../assets/img/profile-or-centroid.svg" alt="How to decide how to read spectra with multiple modalities" />
+<figcaption>Decision flow for reading spectrum signal based upon spectrum metadata</figcaption>
+</figure>
+
+As shown [above](#reading-profile-centroid-flow-fig), when the user requests a spectrum, they indicate which spectrum and optionally
+their preferred modality. The reader consults the metadata table to see if there is data of the requested modality available, and if so
+opens that facet and reads the rows associated with it according to the file's layout. If the required modality is not available, then
+empty arrays are returned, according to the facet's [array index](../layouts/signal-data.md#the-array-index). If no modality is requested,
+the reader tries one modality if available before falling back to the other one. Which one the reader falls back to first is up to the
+implementation or configured by the user.
+
 
 ## Spectrum scan metadata - `spectra_metadata_scans.parquet`
 
@@ -164,12 +184,12 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 A scan or acquisition from the original raw file used to create a spectrum.
 
-- **`source_index`** (uint64) — the `index` of the spectrum this scan belongs to
+- **`source_index`** (uint64) - the `index` of the spectrum this scan belongs to
   (foreign key).
-- **`scan_index`** (uint64) — the ascending 0-based index, incrementing by 1 per
+- **`scan_index`** (uint64) - the ascending 0-based index, incrementing by 1 per
   entry; uniquely identifies a scan, especially with multiple scans per spectrum
   (summing/averaging), chained together to form ion mobility frames while preserving the original data.
-- **`spectrum_reference`** (string) — another spectrum corresponding to this
+- **`spectrum_reference`** (string) - another spectrum corresponding to this
   scan. For local spectra, its `id`; for *external* sources, a
   [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished
   collections, use `USI000000` as the collection identifier with the `id` of a
@@ -177,22 +197,22 @@ A scan or acquisition from the original raw file used to create a spectrum.
   averaging spectra to improve signal quality (e.g. building a consensus spectrum), or
   when collating spectra across ion mobility measurements into an ion mobility frame.
   If the spectrum is not known, but the source file is, the `id` may be omitted.
-- [**`scan_start_time`**](http://purl.obolibrary.org/obo/MS_1000016) (float64) — The [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+- [**`scan_start_time`**](http://purl.obolibrary.org/obo/MS_1000016) (float64) - The [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
   denotes the time that an analyzer started a scan, relative to the start of the run.
-- **`instrument_configuration_id`** (integer) — the `instrument_configuration`
+- **`instrument_configuration_id`** (integer) - the `instrument_configuration`
   governing this scan referenced by `id`.
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
+- **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **`ion_mobility_value`** (float64) — optional ion-mobility measurement for this
+- **`ion_mobility_value`** (float64) - optional ion-mobility measurement for this
   scan. If multiple ion mobility values are used and combined on the instrument, such as with a FAIMS compensation voltage ramp, the writer **SHOULD** record multiple `scan` records per `spectrum` with the [ramp start](http://purl.obolibrary.org/obo/MS_1003450) and [ramp end](http://purl.obolibrary.org/obo/MS_1003451) values in this column, using the [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571) combinator. If multiple ion mobility values are separately acquired per frame, then an ion mobility dimension **MUST** instead be used in the [signal data](#spectrum-signal-data-spectra_dataparquet) and/or [peak data](#spectrum-peak-data-spectra_peaksparquet).
-- **`ion_mobility_type`** (CURIE) — optional; a child of
+- **`ion_mobility_type`** (CURIE) - optional; a child of
   [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892). See **`scan.ion_mobility_value`** for more details on ion mobility ramps.
-- **`scan_windows`** (list) — the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
+- **`scan_windows`** (list) - the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
   - (group)
-    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) — The lower m/z bound of a mass spectrometer scan window.
-    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) — The upper m/z bound of a mass spectrometer scan window.
+    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower m/z bound of a mass spectrometer scan window.
+    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper m/z bound of a mass spectrometer scan window.
 - **`position_x`** (`IMS:1000050`), **`position_y`** (`IMS:1000051`), **`position_z`**
-  (`IMS:1000052`) (integer) — the pixel position of this scan in an imaging archive. The
+  (`IMS:1000052`) (integer) - the pixel position of this scan in an imaging archive. The
   [Imaging profile](../profiles/imaging.md#pixel-positions) requires `position_x` and `position_y`.
 - **MAY** supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
@@ -218,7 +238,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
 
 ```json
 {
-  "name": "spectra_metadata_scans.parquet",
+  "name": "spectra_metadata_precursor.parquet",
   "entity_type": "spectrum",
   "data_kind": "precursors"
 }
@@ -233,22 +253,22 @@ levels using the same `source_index` but each previous MS level's `precursor_ind
 
 ![Selected ion to precursor linkage](../assets/img/precursor-linkage.svg)
 
-- **`source_index`** (uint64) — the spectrum index this precursor belongs to (foreign
-  key).
-- **`precursor_index`** (uint64) — the spectrum index of the precursor was created from, the parent spectrum (foreign key). When this spectrum is not present in the current archive, this **SHOULD** be `null`
-- **`precursor_id`** (string) — the `id` of the spectrum referenced by
-  `precursor_index`. If `precursor_index` is `null`, this may still be populated, but a [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished collections, use `USI000000` as the collection identifier with the `id` of a source file in `file_description.source_files`.
-- **`isolation_window`** (group) — the isolation/selection window.
-    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+- **`source_index`** (uint64) - the spectrum index this precursor belongs to (foreign key).
+- **`precursor_index`** (uint64) - the spectrum index of the precursor was created from, the parent spectrum (foreign key). When this spectrum is not present in the current archive, this **SHOULD** be `null`
+- **`precursor_id`** (string) - the `id` of the spectrum referenced by `precursor_index`. If `precursor_index` is `null`, this may still be populated,
+     but a [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished collections, use `USI000000` as the collection identifier with the `id` of a source
+     file in `file_description.source_files`.
+- **`isolation_window`** (group) - the isolation/selection window.
+    - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
     - **MUST** supply children of
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
-      attribute) one or more times; promote to columns when available — e.g.
+      attribute) one or more times; promote to columns when available - e.g.
       isolation-window target m/z, lower offset, upper offset.
       - [`isolation_window_target` (MS:1000827)](http://purl.obolibrary.org/obo/MS_1000827)
       - [`isolation_window_lower_offset` (MS:1000828)](http://purl.obolibrary.org/obo/MS_1000828)
       - [`isolation_window_upper_offset` (MS:1000829)](http://purl.obolibrary.org/obo/MS_1000829)
-- **`activation`** (group) — the activation/dissociation type and energy.
-    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+- **`activation`** (group) - the activation/dissociation type and energy.
+    - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
     - **MAY** supply children of
       [`MS:1000510`](http://purl.obolibrary.org/obo/MS_1000510) (precursor
       activation attribute).
@@ -280,22 +300,22 @@ An ion isolated for dissociation. This table follows the same relationship as th
 In addition, there **MAY** be multiple selected ions from the same precursor selection with co-isolation. If this is
 the case, writers **SHOULD** write the `selected_ion_index` column to allow unique referencing to each selected ion.
 
-- **`source_index`** (uint64) — the spectrum this selected ion belongs to
+- **`source_index`** (uint64) - the spectrum this selected ion belongs to
   (foreign key).
-- **`precursor_index`** (uint64) — the spectrum the selected ion was created from
+- **`precursor_index`** (uint64) - the spectrum the selected ion was created from
   (foreign key). This **MAY** be `null` when the precursor spectrum is not included in the written file.
-- **`selected_ion_index`** (uint64) — optional index value unique to this selected ion.
-- **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE) — See the [`scan.ion_mobility_value`](#spectrum-scan-metadata-spectra_metadata_scansparquet) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
-- **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+- **`selected_ion_index`** (uint64) - optional index value unique to this selected ion.
+- **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE) - See the [`scan.ion_mobility_value`](#spectrum-scan-metadata-spectra_metadata_scansparquet) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
+- **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **MUST** supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455){.cvparam} (ion selection
-  attribute) one or more times — e.g. selected-ion m/z, charge state, intensity.
+  attribute) one or more times - e.g. selected-ion m/z, charge state, intensity.
     - [`selected_ion_mz (MS:1000744)`](http://purl.obolibrary.org/obo/MS_1000744)
     - [`charge_state (MS:1000041)`](http://purl.obolibrary.org/obo/MS_1000041)
     - [`peak_intensity (MS:1000042)`](http://purl.obolibrary.org/obo/MS_1000042)
 
 
-## Spectrum product selection metadata — `spectra_metadata_products.parquet`
+## Spectrum product selection metadata - `spectra_metadata_products.parquet`
 
 ```json
 {
@@ -308,20 +328,20 @@ the case, writers **SHOULD** write the `selected_ion_index` column to allow uniq
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately
-with a different isolation window. This table is usually empty or absent
+with a different isolation window. This table is usually empty or absent. For SRM or MRM acquisitions, the precursor isolation window and
+selected ion describe Q1 and the product isolation window describe Q3.
 
-- **`source_index`** (integer) — the spectrum this product belongs to
-  (foreign key).
-- **`product_index`** (integer) — the ascending 0-based index, incrementing by 1 per
-  entry. This number uniquely identifies each product ion selection across all rows.
-- **`isolation_window`** (group) — the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
-    - **`parameters`** (list) — controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-    - **MUST** supply children of
+- **`source_index`** (uint64) - the spectrum this product belongs to (foreign key).
+- **`precursor_index`** (uint64) - the precursor this product belongs to (foreign key).
+- **`product_index`** (uint64) - the ascending 0-based index, incrementing by 1 per entry. This number uniquely identifies each product ion selection across all rows.
+- **`isolation_window`** (group) - the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
+    - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
+    - **MAY** supply children of
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
-      attribute) one or more times; promote to columns when available — e.g.
+      attribute) one or more times; promote to columns when available - e.g.
       isolation-window target m/z, lower offset, upper offset.
         - [`isolation_window_target` (MS:1000827)](http://purl.obolibrary.org/obo/MS_1000827)
         - [`isolation_window_lower_offset` (MS:1000828)](http://purl.obolibrary.org/obo/MS_1000828)
         - [`isolation_window_upper_offset` (MS:1000829)](http://purl.obolibrary.org/obo/MS_1000829)
-- **`parameters`** (list) — controlled or uncontrolled parameters; see
+- **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

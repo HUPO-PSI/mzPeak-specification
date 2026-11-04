@@ -23,7 +23,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "description": "A reference to a source file id defined in the archive's file description ()"
+            "description": "A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list."
           }
         },
         "targets": {
@@ -53,7 +53,7 @@
           "items": {
             "$ref": "https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/param.json"
           },
-          "description": "Additional parameters describing this target"
+          "description": "Additional parameters describing this target."
         }
       }
     }

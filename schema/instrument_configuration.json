@@ -33,6 +33,10 @@
             "$ref": "https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/param.json"
           },
           "description": "Additional parameters describing this configuration, like the instrument model and serial number"
+        },
+        "scan_settings_reference": {
+          "type": "string",
+          "description": "The identifier for a scan settings that was associated with this instrument configuration. If present, this **MUST** be a scan_settings_list[].id in the scan settings list of the mzPeak archive."
         }
       }
     },

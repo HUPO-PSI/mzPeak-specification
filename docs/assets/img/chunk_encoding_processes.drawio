@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="chunk-encoding-processes" name="Chunk-Dimension Encoding Processes">
-        <mxGraphModel dx="554" dy="321" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="820" background="light-dark(#FFFFFF,#121212)" math="0" shadow="0">
+        <mxGraphModel dx="449" dy="177" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="820" background="light-dark(#FFFFFF,#121212)" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -134,7 +134,7 @@
                     <mxGeometry height="60" width="200" x="332" y="520" as="geometry"/>
                 </mxCell>
                 <mxCell id="r4-params" parent="1" style="rounded=1;arcSize=13;whiteSpace=wrap;html=1;fillColor=#fff3bf;strokeColor=#1e1e1e;strokeWidth=1.5;fontStyle=1;fontSize=12;fontFamily=Arial;fontColor=#1e1e1e;" value="grid_type + parameters" vertex="1">
-                    <mxGeometry height="38" width="170" x="483" y="482" as="geometry"/>
+                    <mxGeometry height="36" width="170" x="483" y="482" as="geometry"/>
                 </mxCell>
                 <mxCell id="r4-join" parent="1" style="ellipse;fillColor=none;strokeColor=none;" value="" vertex="1">
                     <mxGeometry height="2" width="2" x="567" y="549" as="geometry"/>
@@ -165,9 +165,6 @@
                 </mxCell>
                 <mxCell id="r4-out" parent="1" style="rounded=1;arcSize=13;whiteSpace=wrap;html=1;fillColor=#80e5ff;strokeColor=#1e1e1e;strokeWidth=1.5;fontStyle=1;fontSize=12;fontFamily=Arial;fontColor=#1e1e1e;" value="mz_grid.indices&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;(Δ-encoded u32)&lt;/font&gt;" vertex="1">
                     <mxGeometry height="40" width="133.33" x="870" y="571" as="geometry"/>
-                </mxCell>
-                <mxCell id="r4-op2" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;fontFamily=Arial;fontColor=#333333;" value="Δ encode" vertex="1">
-                    <mxGeometry height="20" width="70" x="800" y="591" as="geometry"/>
                 </mxCell>
                 <mxCell id="r5-title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=17;fontFamily=Arial;fontColor=#1e1e1e;" value="5. Opaque secondary transform" vertex="1">
                     <mxGeometry height="24" width="300" x="20" y="660" as="geometry"/>

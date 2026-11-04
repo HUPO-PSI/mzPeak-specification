@@ -44,8 +44,8 @@ value type (or be `null`) for each row.
 
 The array index is stored in the Parquet metadata of the
 [`data_arrays`](../archive/data-kinds.md) or [`peaks`](../archive/data-kinds.md) files under
-`<entity_type>_array_index` — e.g. `spectrum_array_index` for spectra or
-`chromatogram_array_index` for chromatograms, and `wavelength_spectrum` for UV-viz wavelength
+`<entity_type>_array_index` e.g. `spectrum_array_index` for spectra or
+`chromatogram_array_index` for chromatograms, and `wavelength_spectrum_array_index` for UV-viz wavelength
 spectra. The same key name construction is used for all signal data layouts regardless of
 `data_kind`.
 
@@ -263,6 +263,8 @@ $$
     \delta mz \sim \beta_0 + \beta_1\,mz + \beta_2\,mz^2 + \epsilon
 $$
 
+If null marking is used zero run stripping **MUST** be used.
+
 ??? example "Python — fitting the weighted least-squares spacing model"
     ```python
     import numpy as np
@@ -311,9 +313,9 @@ $$
 
 When reading null-marked data, use either the local second-median \(\delta mz\)
 or the learned model for that spectrum to compute the m/z spacing for singleton
-points, achieving a very accurate reconstruction. Because the non-zero m/z points
+points, achieving an accurate reconstruction. Because the non-zero m/z points
 are unchanged, a peak's apex or centroid is unaffected. If a peak is composed of
-only three points — including the two zero-intensity flanks — no meaningful peak
+only three points, including the two zero-intensity flanks, no meaningful peak
 model can be fit anyway, so the minuscule angle change is effectively lossless.
 
 The model parameters learned for each entry **MUST** be stored in that entry's
@@ -326,7 +328,7 @@ row in the associated metadata table, as `polynomial_delta_coordinate_interpolat
 
 All MS-Numpress compression methods remain available and still give superior size
 reduction, at the cost of slightly larger accuracy loss. Using Numpress is a
-*transformation* and requires the [chunked layout](chunked-layout.md).
+*transformation* that requires the [chunked layout](chunked-layout.md).
 
 #### Finding flanking zero pairs
 
@@ -463,14 +465,19 @@ from the single non-null value of a segment that has only one.
 ### Null semantics for signal data
 
 Unless otherwise noted, readers **SHOULD** treat `null` values in the sorting-
-rank-0 array of an entry as governed by this model, with parallel `null` values
+rank-1 array of an entry as governed by this model, with parallel `null` values
 in any intensity arrays read as `0`. The sorting array, e.g. m/z array, should carry a `transform` of
 [`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
 and the intensity array should carry a `transform` of [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901).
 All other values at those points are read as-is, with null semantics meaning the
 value was absent. Writers using null marking **SHOULD** use `null` only for the
 first sorting dimension and its associated intensity value; all other columns
-should be written as-is.
+should be written as-is. The [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901) transform
+**MAY** be used independently of [`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
+which indicates that `null` values are filled with 0s regardless of whether a
+parallel `null` is present in another array. This leads to a smaller reduction in
+file size but is completely lossless in every sense, unlike zero run stripping, which
+is only lossless when the zero-filled regions are added at read time.
 
 ## Zero Stripping Null Marking Encoding Quick Reference
 

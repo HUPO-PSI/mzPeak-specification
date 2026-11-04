@@ -13,6 +13,9 @@
     "data_processing_method": {
       "type": "object",
       "description": "Describes a single pipeline of data processing pipeline that was used on an entity or data array. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList",
+      "required": [
+        "id", "methods"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -20,13 +23,16 @@
         },
         "methods": {
           "type": "array",
-          "items": { "$ref": "#/definitions/processing_method" }
+          "items": { "$ref": "#/definitions/processing_method_step" }
         }
       }
     },
-    "processing_method": {
+    "processing_method_step": {
       "type": "object",
-      "description": "Describes a single step of data processing.",
+      "description": "Describes a single step of data processing tied to a particular piece of software.",
+      "required": [
+        "order", "software_reference", "parameters"
+      ],
       "properties": {
         "order": {
           "type": "integer",

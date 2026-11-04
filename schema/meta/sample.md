@@ -18,7 +18,8 @@ Common properties to record:
 
 The [`MS:1000002|sample name`](http://purl.obolibrary.org/obo/MS_1000002) is structurally encoded in the JSON `sample.name` property.
 
-It is also useful to record if a sample was labeled/tagged (a child of [`MS:1002602|sample label`](http://purl.obolibrary.org/obo/MS_1002602)) or not ([`MS:1002038|label free sample`](http://purl.obolibrary.org/obo/MS_1002038)), and if so, what the associated channel was.
+It is also useful to record if a sample was labeled/tagged (a child of [`MS:1002602|sample label`](http://purl.obolibrary.org/obo/MS_1002602))
+or not ([`MS:1002038|label free sample`](http://purl.obolibrary.org/obo/MS_1002038)), and if so, what the associated channel was.
 
 Additionally, if the [Experimental Factor Ontology (EFO)](https://www.ebi.ac.uk/ols4/ontologies/efo) is used, a wide
 range of properties like taxonomy, tissue type, and more are defined. This overlaps with SDRF as described below.

@@ -26,7 +26,7 @@ range of properties like taxonomy, tissue type, and more are defined. This overl
 
 ### Relationship with SDRF
 
-A [Sample and Data Relationship Format (SDRF)](https://www.psidev.info/sdrf-sample-data-relationship-format) file may
+A [Sample and Data Relationship Format (SDRF)](https://www.psidev.info/sdrf-sample-data-relationship-format) (Guidelines at <https://sdrf.quantms.org>) file may
 be embedded in directly in an mzPeak archive as a file. This allows the entire experimental design, as defined by the
 data producer or in-so-far as was known at the time the data were deposited. Embedding the complete file provides the
 reader with broader context on the experimental design and relationship with other data files. This makes the dataset

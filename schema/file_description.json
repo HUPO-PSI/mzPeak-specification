@@ -44,7 +44,7 @@
             },
             "location": {
                 "type": "string",
-                "description": "The path to the source file, URI encoded. This may include file:// protocols and UNC paths"
+                "description": "The path to the source file, URI encoded. This includes file:// protocol as well as."
             },
             "parameters": {
                 "type": "array",

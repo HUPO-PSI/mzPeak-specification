@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="chunk-decoding-processes" name="Chunk-Dimension Decoding Processes">
-        <mxGraphModel dx="1940" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="820" background="light-dark(#FFFFFF,#121212)" math="1" shadow="0">
+        <mxGraphModel dx="1963" dy="869" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="820" background="light-dark(#FFFFFF,#121212)" math="1" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,13 +10,13 @@
                 <mxCell id="band1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="" vertex="1">
                     <mxGeometry height="140" width="1300" y="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="band2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3dbde;strokeColor=none;" value="" vertex="1">
+                <mxCell id="band2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=none;fontColor=#333333;" value="" vertex="1">
                     <mxGeometry height="140" width="1300" y="200" as="geometry"/>
                 </mxCell>
                 <mxCell id="band3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;" value="" vertex="1">
                     <mxGeometry height="140" width="1300" y="340" as="geometry"/>
                 </mxCell>
-                <mxCell id="band4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3dbde;strokeColor=none;" value="" vertex="1">
+                <mxCell id="band4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=none;" value="" vertex="1">
                     <mxGeometry height="140" width="1300" y="480" as="geometry"/>
                 </mxCell>
                 <mxCell id="band5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;" value="" vertex="1">

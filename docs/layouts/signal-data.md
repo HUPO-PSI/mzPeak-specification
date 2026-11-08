@@ -21,8 +21,11 @@ mzPeak can store array data in two ways:
   without decoding the entire array, just as in mzML.
 
 Currently, the first sorted array is assumed to be the axis around which all
-other values are arranged — *sorting rank 0*. Any arrays that are shorter or
-longer than this axis **SHOULD** be stored as auxiliary arrays instead.
+other values are arranged — *sorting rank 1*. Any arrays that are shorter or
+longer than this axis **SHOULD** be stored as auxiliary arrays instead. The
+sorting rank 0 array is still the `index` array but it does not define the signal
+itself nor vary within an entry so it always has the same length as the sorting
+rank 1 array.
 
 !!! warning "Re-sort unsorted ranked arrays"
     When writing, if an array that has a sorting rank is not sorted with respect to its rank,

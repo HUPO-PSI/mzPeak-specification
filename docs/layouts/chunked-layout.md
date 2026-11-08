@@ -22,13 +22,13 @@ and the entity index column **MUST** be its first column.
     </tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>200</td><td>250</td><td>[0.0013, …, 0.0013]</td><td>MS:1003089</td><td>[…]</td></tr>
-    <tr><td>1</td><td>250</td><td>300</td><td>[0.0014, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
-    <tr><td>1</td><td>500</td><td>550</td><td>[0.0014, …, 0.0015]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>1</td><td>200.012</td><td>249.982</td><td>[0.0013, …, 0.0013]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>1</td><td>250.015</td><td>300.012</td><td>[0.0014, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>1</td><td>500.3</td><td>548.82</td><td>[0.0014, …, 0.0015]</td><td>MS:1003089</td><td>[…]</td></tr>
     <tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-    <tr><td>2</td><td>200</td><td>250</td><td>[0.0013, …, 0.0013]</td><td>MS:1003089</td><td>[…]</td></tr>
-    <tr><td>2</td><td>350</td><td>400</td><td>[0.0014, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
-    <tr><td>2</td><td>400</td><td>450</td><td>[0.0013, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>2</td><td>200.013</td><td>250.01</td><td>[0.0013, …, 0.0013]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>2</td><td>350.001</td><td>399.99</td><td>[0.0014, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
+    <tr><td>2</td><td>400.01</td><td>450</td><td>[0.0013, …, 0.0014]</td><td>MS:1003089</td><td>[…]</td></tr>
   </tbody>
 </table>
 
@@ -45,11 +45,11 @@ so they can be byte-shuffled for further compression.
 2. **`<array_name>_chunk_start`** (float64) — the first coordinate value in the
    chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_start`.
 3. **`<array_name>_chunk_end`** (float64) — the last coordinate value in the
-   chunk, exclusive. Its array-index `buffer_format` **MUST** be `chunk_end`.
+   chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_end`.
 4. **`<array_name>_chunk_values`** (list) — the encoded coordinates from
    `array_name` according to `chunk_encoding`. Its array-index `buffer_format`
    **MUST** be `chunk_values`.
-5. **`chunk_encoding`** (CURIE) — how `<array_name>_chunk_values` were encoded;
+5. **`chunk_encoding`** (CURIE string) — how `<array_name>_chunk_values` were encoded;
    see [Chunk encodings](#chunk-encodings). Its array-index `buffer_format`
    **MUST** be `chunk_encoding`.
 
@@ -131,6 +131,10 @@ efficiency.
 
     There may come a time when we have high enough density that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, chunk_encoding`, and `chunk_values` columns. If you believe you have a use case, let us know!
 
+<figure class="mzp-figure wide">
+    <img src="../../assets/img/chunking_process.svg" alt="The process of cutting the data array into chunks"/>
+</figure>
+
 ## Chunk encodings
 
 ### Basic encoding
@@ -149,8 +153,9 @@ entries that *would* benefit from a different encoding.
 
 > Chunk-encoding CV term: [`MS:1003089` — truncation, delta prediction and zlib compression](http://purl.obolibrary.org/obo/MS_1003089)
 
-When data lie on a locally (*almost*) uniform grid using 64-bit floats,
-compression improves by computing a delta encoding of the coordinates.
+When data lie on a locally (*almost*) uniform grid using 64-bit floats, compression improves by computing a delta
+encoding of the coordinates. While the same encoding *could* be done on 32-bit floats, it **SHOULD NOT** be done as
+the loss of precision is substantial.
 
 !!! note
     The start point is *excluded* from the chunk-values array. It must be copied from the `chunk_start` column.

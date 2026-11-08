@@ -117,7 +117,7 @@ Row group
 :   A horizontal partition of a Parquet file — the unit of columnar compression and coarse random access.
 
 Sorting rank
-:   An array's ordering role within a signal layout; sorting rank 0 is the sorted "main axis" around which all parallel arrays are arranged. Arrays of differing length SHOULD instead be stored as auxiliary arrays.
+:   An array's ordering role within a signal layout; sorting rank 1 is the sorted "main axis" around which all parallel arrays are arranged. Arrays of differing length SHOULD instead be stored as auxiliary arrays. Sorting rank 0 is currently used for the index column.
 
 Term marker
 :   A column mapping that indicates the presence absence of a specific value-less term (boolean) *OR* a child of a specific term (string). Defined in [Controlled Vocabulary Terms](../layouts/metadata-tables.md#controlled-vocabulary-terms).

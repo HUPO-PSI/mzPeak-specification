@@ -229,3 +229,8 @@ figure.mzp-figure.narrow {
 img.panel-image {
   border-radius: 12px;
 }
+/*
+.code-height-limit {
+  max-height: 30em;
+  overflow-y: scroll;
+} */

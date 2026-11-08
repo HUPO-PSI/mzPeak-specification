@@ -5,7 +5,10 @@ files and avoid complicated file-name resolution, an **index file** identifies
 the contents of each file and broadly defines the kind of schema it carries. The
 file **MUST** be serialized as UTF-8.
 
-```jsonc
+
+<div class="code-height-limit" markdown>
+
+```json
 {
   "files": [
     {
@@ -14,7 +17,7 @@ file **MUST** be serialized as UTF-8.
       "data_kind": "data_arrays",
       "column_mapping": [],
       "parameters": [],
-      "checksum": "c5703446ded482bb5f054d2c4cb5ec80337fd41dee874e13e5a9b584fded189bd2cec26ce89412b025cd93953b4a65d0cfe5b26dbe747cf05c7c09736941b00e"
+      "checksum": "f054c947b6f0a92af17c6e6bda79f7c55618bdebb91a36934905d26b1cb7ba56bbc2f1874a9a0c3861a4a13caaca24974e50373c9c9381f8f6f249fcf0a603f6"
     },
     {
       "name": "spectra_peaks.parquet",
@@ -22,7 +25,7 @@ file **MUST** be serialized as UTF-8.
       "data_kind": "peaks",
       "column_mapping": [],
       "parameters": [],
-      "checksum": "6116713afd9f771e57c39c058f5dd827fe9e584bd2e16fed83afc75d9d2cb4c30527f4bd85a5a3d9ee75cce30c34344b44678c7628fe3dcce4c574a7705e8de6"
+      "checksum": "22d444170a02e2826bded97382b3f8a299bb265d742efc489a8b50170bbbc7af0400a8b3ffaf4fe431c29d3c3b7860dfba9dbc06b0e8a706e000dc7225942c87"
     },
     {
       "name": "spectra_metadata.parquet",
@@ -42,12 +45,14 @@ file **MUST** be serialized as UTF-8.
         {
           "name": "spectrum representation",
           "path": "spectrum_representation",
-          "accession": "MS:1000525"
+          "accession": "MS:1000525",
+          "term_marker": true
         },
         {
           "name": "spectrum type",
           "path": "spectrum_type",
-          "accession": "MS:1000559"
+          "accession": "MS:1000559",
+          "term_marker": true
         },
         {
           "name": "lowest observed m/z",
@@ -88,10 +93,15 @@ file **MUST** be serialized as UTF-8.
           "path": "total_ion_current",
           "accession": "MS:1000285",
           "unit": "MS:1000131"
+        },
+        {
+          "name": "polynomial delta coordinate interpolation",
+          "path": "polynomial_delta_coordinate_interpolation",
+          "accession": "MS:1003821"
         }
       ],
       "parameters": [],
-      "checksum": "ce1c7378baec66ee63f9fce707ebab77997d1230f2d8ad48b05c9fbf904f8986189f62791d1954cfdd5944289ea49648aacfce91a9cdc4f8bd023a3ea0becd25"
+      "checksum": "cddf8e537b82445f25f0f6759324b396000fb7e8aafae6400870763f2ed34d39416ecc24ae9aca2a7c2094f8386b2608b1c0849222a0d56f1608a1bc5b4c89e3"
     },
     {
       "name": "spectra_metadata_scans.parquet",
@@ -107,7 +117,7 @@ file **MUST** be serialized as UTF-8.
         {
           "name": "preset scan configuration",
           "path": "preset_scan_configuration",
-          "accession": "MS:1000616",
+          "accession": "MS:1000616"
         },
         {
           "name": "filter string",
@@ -134,33 +144,425 @@ file **MUST** be serialized as UTF-8.
         }
       ],
       "parameters": [],
-      "checksum": "f4686ab40dc940b38cc9210fa66c73c59527ef716b479890be52b957b2763b1d580432bb5c483c981d7745ddc874c7f61a5f70eefe62184040dd7183376985f7"
+      "checksum": "d82816a7e20751b95eb3bdca59bbdff99d3a8dc11eacd07f8941843b7e9733f4b342e982c2a88075aae197733c2632308fca33e39c7f7aaad5add773fd251415"
+    },
+    {
+      "name": "spectra_metadata_precursors.parquet",
+      "entity_type": "spectrum",
+      "data_kind": "precursors",
+      "column_mapping": [
+        {
+          "name": "isolation window target m/z",
+          "path": "isolation_window.isolation_window_target",
+          "accession": "MS:1000827",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "isolation window lower offset",
+          "path": "isolation_window.isolation_window_lower_offset",
+          "accession": "MS:1000828",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "isolation window upper offset",
+          "path": "isolation_window.isolation_window_upper_offset",
+          "accession": "MS:1000829",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "dissociation method",
+          "path": "activation.dissociation_method",
+          "accession": "MS:1000044",
+          "term_marker": true
+        },
+        {
+          "name": "collision energy",
+          "path": "activation.collision_energy",
+          "accession": "MS:1000045",
+          "unit": "UO:0000266"
+        }
+      ],
+      "parameters": [],
+      "checksum": "8f9ee73d08c9536c44f7c937778217bde56c41bcd9bea287d8174174c1f7f0967823d58815f167e6703c0e0d03a3c3f0d3db9eeb3599f429cf14b420e0bb8179"
+    },
+    {
+      "name": "spectra_metadata_selected_ions.parquet",
+      "entity_type": "spectrum",
+      "data_kind": "selected_ions",
+      "column_mapping": [
+        {
+          "name": "selected ion m/z",
+          "path": "selected_ion_mz",
+          "accession": "MS:1000744",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "charge state",
+          "path": "charge_state",
+          "accession": "MS:1000041"
+        },
+        {
+          "name": "intensity",
+          "path": "peak_intensity",
+          "accession": "MS:1000042",
+          "unit": "MS:1000131"
+        }
+      ],
+      "parameters": [],
+      "checksum": "55dc29a675fa4a33806d7bc78095d0a07155d5257053682cd67f3d1ab062b6fc7b4e000f8835e32b5e18cb9652a94f934c4bb7ae10b4fa52210c826f653eb8ba"
+    },
+    {
+      "name": "chromatograms_metadata.parquet",
+      "entity_type": "chromatogram",
+      "data_kind": "metadata",
+      "column_mapping": [
+        {
+          "name": "scan polarity",
+          "path": "scan_polarity",
+          "accession": "MS:1000465"
+        },
+        {
+          "name": "chromatogram type",
+          "path": "chromatogram_type",
+          "accession": "MS:1000626",
+          "term_marker": true
+        },
+        {
+          "name": "number of data points",
+          "path": "number_of_data_points",
+          "accession": "MS:1003060"
+        }
+      ],
+      "parameters": [],
+      "checksum": "c7a9057fae09f61cdce964a225828f53d4317d66b5d7eea02ddf363078dcf3ba04653faef7214ea40da57a1b65011496d95f309e57e043ba688eea204dc52db3"
+    },
+    {
+      "name": "chromatograms_metadata_precursors.parquet",
+      "entity_type": "chromatogram",
+      "data_kind": "precursors",
+      "column_mapping": [
+        {
+          "name": "isolation window target m/z",
+          "path": "isolation_window.isolation_window_target",
+          "accession": "MS:1000827",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "isolation window lower offset",
+          "path": "isolation_window.isolation_window_lower_offset",
+          "accession": "MS:1000828",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "isolation window upper offset",
+          "path": "isolation_window.isolation_window_upper_offset",
+          "accession": "MS:1000829",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "dissociation method",
+          "path": "activation.dissociation_method",
+          "accession": "MS:1000044",
+          "term_marker": true
+        },
+        {
+          "name": "collision energy",
+          "path": "activation.collision_energy",
+          "accession": "MS:1000045",
+          "unit": "UO:0000266"
+        }
+      ],
+      "parameters": [],
+      "checksum": "48716c3b565ecebf883419f925b03ce4623c24ce20a13facfb42c5dfcd7069674c30d056ee31a40907e87e3828fa0f53111c16f527718b55d1928e1cf8296edb"
+    },
+    {
+      "name": "chromatograms_metadata_selected_ions.parquet",
+      "entity_type": "chromatogram",
+      "data_kind": "selected_ions",
+      "column_mapping": [
+        {
+          "name": "selected ion m/z",
+          "path": "selected_ion_mz",
+          "accession": "MS:1000744",
+          "unit": "MS:1000040"
+        },
+        {
+          "name": "charge state",
+          "path": "charge_state",
+          "accession": "MS:1000041"
+        },
+        {
+          "name": "intensity",
+          "path": "peak_intensity",
+          "accession": "MS:1000042",
+          "unit": "MS:1000131"
+        }
+      ],
+      "parameters": [],
+      "checksum": "e1167e9da3e6b59037a983e96180748308007a0454b58b7d94ca1a9f9e448a88f6e60d25c4899e60bea61888438841f7cd3ae769c461fccc7e4afb298f969b2a"
+    },
+    {
+      "name": "chromatograms_data.parquet",
+      "entity_type": "chromatogram",
+      "data_kind": "data_arrays",
+      "column_mapping": [],
+      "parameters": [],
+      "checksum": "6a927ac3063a04fe7fb6f961a82e7ac0d3cf5545b0e335db024348c45fe07c73d54d4c759a72761b3b049b49d0efc9f16e433e660e97609b4adfd64a9d7f23b9"
     }
-    // more content
   ],
   "metadata": {
-    "version": "0.9.0",
+    "instrument_configuration_list": [
+      {
+        "components": [
+          {
+            "component_type": "ionsource",
+            "order": 1,
+            "parameters": [
+              {
+                "accession": "MS:1000073",
+                "name": "electrospray ionization"
+              },
+              {
+                "accession": "MS:1000057",
+                "name": "electrospray inlet"
+              }
+            ]
+          },
+          {
+            "component_type": "analyzer",
+            "order": 2,
+            "parameters": [
+              {
+                "accession": "MS:1000083",
+                "name": "radial ejection linear ion trap"
+              }
+            ]
+          },
+          {
+            "component_type": "detector",
+            "order": 3,
+            "parameters": [
+              {
+                "accession": "MS:1000253",
+                "name": "electron multiplier"
+              }
+            ]
+          }
+        ],
+        "id": 1,
+        "parameters": [
+          {
+            "accession": "MS:1000448",
+            "name": "LTQ FT"
+          },
+          {
+            "accession": "MS:1000529",
+            "name": "instrument serial number",
+            "value": "SN06061F"
+          }
+        ],
+        "software_reference": "Xcalibur"
+      },
+      {
+        "components": [
+          {
+            "component_type": "ionsource",
+            "order": 1,
+            "parameters": [
+              {
+                "accession": "MS:1000073",
+                "name": "electrospray ionization"
+              },
+              {
+                "accession": "MS:1000057",
+                "name": "electrospray inlet"
+              }
+            ]
+          },
+          {
+            "component_type": "analyzer",
+            "order": 2,
+            "parameters": [
+              {
+                "accession": "MS:1000079",
+                "name": "fourier transform ion cyclotron resonance mass spectrometer",
+                "unit": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "component_type": "detector",
+            "order": 3,
+            "parameters": [
+              {
+                "accession": "MS:1000624",
+                "name": "inductive detector",
+                "unit": null,
+                "value": null
+              }
+            ]
+          }
+        ],
+        "id": 0,
+        "parameters": [
+          {
+            "accession": "MS:1000448",
+            "name": "LTQ FT",
+            "unit": null,
+            "value": null
+          },
+          {
+            "accession": "MS:1000529",
+            "name": "instrument serial number",
+            "unit": null,
+            "value": "SN06061F"
+          }
+        ],
+        "software_reference": "Xcalibur"
+      }
+    ],
+    "file_description": {
+      "contents": [
+        {
+          "accession": "MS:1000579",
+          "name": "MS1 spectrum"
+        },
+        {
+          "accession": "MS:1000580",
+          "name": "MSn spectrum"
+        }
+      ],
+      "source_files": [
+        {
+          "id": "RAW1",
+          "location": "file:///examples",
+          "name": "small.RAW",
+          "parameters": [
+            {
+              "accession": "MS:1000569",
+              "name": "SHA-1",
+              "value": "b43e9286b40e8b5dbc0dfa2e428495769ca96a96"
+            },
+            {
+              "accession": "MS:1000563",
+              "name": "Thermo RAW format"
+            },
+            {
+              "accession": "MS:1000768",
+              "name": "Thermo nativeID format"
+            }
+          ]
+        }
+      ]
+    },
+    "software_list": [
+      {
+        "id": "Xcalibur",
+        "parameters": [
+          {
+            "accession": "MS:1000532",
+            "name": "Xcalibur"
+          }
+        ],
+        "version": "1.1 Beta 7"
+      },
+      {
+        "id": "pwiz",
+        "parameters": [
+          {
+            "accession": "MS:1000615",
+            "name": "ProteoWizard software"
+          }
+        ],
+        "version": "3.0.23307"
+      },
+      {
+        "id": "mzpeak_prototyping_convert1",
+        "parameters": [
+          {
+            "accession": "MS:1000799",
+            "name": "custom unreleased software tool",
+            "value": "mzpeak_prototyping_convert"
+          }
+        ],
+        "version": "0.1.0"
+      }
+    ],
+    "data_processing_method_list": [
+      {
+        "id": "pwiz_Reader_Thermo_conversion",
+        "methods": [
+          {
+            "order": 0,
+            "parameters": [
+              {
+                "accession": "MS:1000544",
+                "name": "Conversion to mzML"
+              }
+            ],
+            "software_reference": "pwiz"
+          }
+        ]
+      },
+      {
+        "id": "mzpeak_conversion1",
+        "methods": [
+          {
+            "order": 1,
+            "parameters": [
+              {
+                "name": "conversion options",
+                "value": "-p -c -y -z -u small.mzML -o small.chunked.mzpeak"
+              }
+            ],
+            "software_reference": "mzpeak_prototyping_convert1"
+          }
+        ]
+      }
+    ],
+    "scan_settings_list": [],
+    "run": {
+      "default_data_processing_id": "pwiz_Reader_Thermo_conversion",
+      "default_instrument_id": 0,
+      "default_source_file_id": "RAW1",
+      "id": "small",
+      "params": [],
+      "start_time": "2005-07-20T19:44:22Z"
+    },
     "cv_list": [
       {
-        "id": "MS",
         "full_name": "Proteomics Standards Initiative Mass Spectrometry Ontology",
+        "id": "MS",
         "uri": "http://purl.obolibrary.org/obo/ms/4.1.249/psi-ms.obo",
         "version": "4.1.249"
       },
       {
-        "id": "UO",
         "full_name": "Units of measurement ontology",
+        "id": "UO",
         "uri": "http://purl.obolibrary.org/obo/uo/releases/2026-01-16/uo.obo",
         "version": "2026-01-16"
       }
     ],
-    "file_description": {
-        // more content
-    }
-    // more content
+    "version": "0.9.0",
+    "sample_list": [
+      {
+        "id": "_x0031_",
+        "name": "",
+        "parameters": [
+          {
+            "accession": "MS:1000002",
+            "name": "sample name",
+            "value": "1"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
+
+</div>
 
 The `metadata` object carries the archive `version`, the `cv_list` declaring every
 controlled vocabulary used (with source URI and version, so CURIEs resolve

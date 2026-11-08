@@ -52,11 +52,11 @@ This is a secondary metadata file, it has `source_index` column. This identifies
 
 |   source_index |   precursor_index | selected_ion_index |   selected_ion_mz |   charge_state |        intensity |   ion_mobility_value | ion_mobility_type   | parameters   |
 |---------------:|------------------:|------------------:|------------------:|---------------:|-----------------:|---------------------:|:--------------------|:-------------|
-|              2 |                 1 |                 0 |           810.789 |            null |      1.99404e+06 |                  null |                     | []           |
-|              3 |                 1 |                 1 |           837.345 |            null | 999937           |                  null |                     | []           |
-|              4 |                 1 |                 2 |           725.362 |            null | 313667           |                  null |                     | []           |
-|              5 |                 1 |                 3 |           558.869 |            null | 202178           |                  null |                     | []           |
-|              6 |                 1 |                 4 |           812.325 |            null |      1.16189e+06 |                  null |                     | []           |
+|              2 |                 1 |                 0 |           810.789 |            null |      1.99404e+06 |                  null |                null | []           |
+|              3 |                 1 |                 1 |           837.345 |            null | 999937           |                  null |                null | []           |
+|              4 |                 1 |                 2 |           725.362 |            null | 313667           |                  null |                null | []           |
+|              5 |                 1 |                 3 |           558.869 |            null | 202178           |                  null |                null | []           |
+|              6 |                 1 |                 4 |           812.325 |            null |      1.16189e+06 |                  null |                null | []           |
 
 ## Controlled Vocabulary Terms
 

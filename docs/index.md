@@ -18,7 +18,7 @@ modern, large-scale mass spectrometry.
 </p>
 <div class="mzp-badges">
   <span class="mzp-badge">Status: Draft</span>
-  <span class="mzp-badge">Version 0.9 · Draft 5</span>
+  <span class="mzp-badge">Version 0.9 - Draft 6</span>
   <span class="mzp-badge mzp-badge--ghost">Built on Apache Parquet</span>
   <span class="mzp-badge mzp-badge--ghost">CC-BY-ND 4.0</span>
 </div>
@@ -28,34 +28,20 @@ modern, large-scale mass spectrometry.
     This document is a **DRAFT** under active revision and has **not** yet been
     ratified through the [HUPO-PSI Document Process](https://www.psidev.info/).
     Content, schemas, and controlled-vocabulary terms may change. Feedback is
-    explicitly solicited — please [open an issue](https://github.com/HUPO-PSI/mzPeak-specification/issues).
+    explicitly solicited, please [open an issue](https://github.com/HUPO-PSI/mzPeak-specification/issues).
 
 ## Abstract
 
 mzPeak is an open, next-generation file format for mass spectrometry data.
-Advances in MS instrumentation — higher resolution, faster scan rates, greater
-sensitivity, and the growing use of ion mobility and imaging — have sharply
-increased the volume and dimensionality of the data produced in proteomics,
-metabolomics, and lipidomics. Established open formats such as mzML and imzML
-increasingly struggle with the resulting file sizes, data-access patterns, and
-metadata demands, while vendor-specific formats offer faster access at the cost
-of interoperability and long-term archival stability. mzPeak is designed to
-address these needs as a community standard; the motivation and design rationale
-are set out in the accompanying white paper [(1)](reference/references.md).
+Advances in MS instrumentation have sharply increased the volume and dimensionality.
+Established open formats struggle with the resulting file sizes, data-access patterns,
+and metadata demands. mzPeak is designed to address these needs as a community standard,
+the motivation and design rationale are set out in the accompanying white paper [(1)](reference/references.md).
 
-The format takes a hybrid approach: an archive of
-[Apache Parquet](https://parquet.apache.org/) tables — packaged in an
-uncompressed ZIP container, or an unpacked directory, together with a small JSON
-index — that stores numerical signal data as compact, columnar binary while
-keeping metadata both human- and machine-readable and anchored in the
-[PSI-MS controlled vocabulary](https://www.ebi.ac.uk/ols4/ontologies/ms).
-Building on the widely available Apache Parquet and Apache
-Arrow libraries rather than a single core implementation, the on-disk structure
-is language-independent. Uncompressed archive members and a required Parquet page
-index let a reader locate and decode a single spectrum without parsing an entire
-run, the basis for random access from local disk, object storage, or over HTTP.
-This document specifies that format: its container, signal-data layouts, index
-file, and metadata model.
+The on-disk structure is language-independent, but uses widely available libraries across
+many languages to decode a entries without parsing an entire run. It works with any byte storage,
+on local disk, object storage, or over HTTP. This document specifies that format: its
+container, data layouts, index file, and metadata model.
 
 ## What you'll find here
 
@@ -127,41 +113,18 @@ file, and metadata model.
 
 </div>
 
-## Anatomy of an archive
-
-![An overview diagram of an mzPeak archive](assets/img/archive-layout.svg)
-
-An mzPeak archive (`.mzpeak`) is a small set of named files:
-
-| File | Contents |
-| :--- | :--- |
-| `mzpeak_index.json` | Manifest describing every file in the archive by entity type and data kind |
-| `spectra_metadata.parquet` | Spectrum-level metadata descriptions |
-| `spectra_metadata_scans.parquet` | Scan level descriptions for mass spectra |
-| `spectra_metadata_precursors.parquet` | Precursor descriptions for mass spectra |
-| `spectra_metadata_selected_ions.parquet` | Selected ions descriptions for mass spectra |
-| `spectra_data.parquet` | Spectrum **profile** signal data, in point or chunked layout |
-| `spectra_peaks.parquet` *(optional)* | Spectrum **centroid** signal, stored separately from profile data |
-| `chromatograms_metadata.parquet` | Chromatogram-level metadata descriptions |
-| `chromatograms_metadata_precursors.parquet` | Precursor descriptions for chromatograms |
-| `chromatograms_metadata_selected_ions.parquet` | Selected ion descriptions for chromatograms |
-| `chromatograms_data.parquet` | Chromatogram signal data, in point or chunked layout |
-
-Additional Parquet files may be added to cover further modalities (for example
-[wavelength spectra](schemas/wavelength-spectra.md)) as the format grows.
-
 ## Reference implementations
 
 mzPeak is backed by seven independent, from-scratch implementations (not bindings
 to a single core):
 
-- **Rust** — read/write reference implementation · [HUPO-PSI/mzPeak](https://github.com/HUPO-PSI/mzPeak)
-- **Python** — read-only, zero-copy Arrow/Pandas API · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/python)
-- **R** — read-only, `dplyr`-compatible access · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/R)
-- **C#** — read/write · [HUPO-PSI/mzPeak.NET](https://github.com/HUPO-PSI/mzPeak.NET)
-- **Java** — read/write demonstrator · [okohlbacher/mzPeakJ](https://github.com/okohlbacher/mzPeakJ)
-- **JavaScript / TypeScript** — read-only, runs in the browser, Node, and Deno · [online viewer](https://hupo-psi.github.io/mzpeakts/)
-- **C++** — read-only, work in progress · [OpenMS/mzpeak](https://github.com/OpenMS/mzpeak)
+- **Rust**: read/write reference implementation · [HUPO-PSI/mzPeak](https://github.com/HUPO-PSI/mzPeak)
+- **Python**: read-only, zero-copy Arrow/Pandas API · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/python)
+- **R**: read-only, `dplyr`-compatible access · [mzpeak_prototyping](https://github.com/mobiusklein/mzpeak_prototyping/tree/main/R)
+- **C#**: read/write · [HUPO-PSI/mzPeak.NET](https://github.com/HUPO-PSI/mzPeak.NET)
+- **Java**: read/write demonstrator · [okohlbacher/mzPeakJ](https://github.com/okohlbacher/mzPeakJ)
+- **JavaScript / TypeScript**: read-only, runs in the browser, Node, and Deno · [online viewer](https://hupo-psi.github.io/mzpeakts/)
+- **C++**: read-only, work in progress · [OpenMS/mzpeak](https://github.com/OpenMS/mzpeak)
 
 See [Implementations](implementations.md) for details, and [Tools](tools.md) for
 converters, the conformance validator, and viewers.
@@ -173,4 +136,4 @@ file format. Distribution is unlimited. It will be ratified via the HUPO
 Proteomics Standards Initiative (PSI) Document Process, and any alterations
 must also follow the HUPO-PSI Document Process.
 
-> **Version:** Draft 5 of version 0.9
+> **Version:** Draft 6 of version 0.9

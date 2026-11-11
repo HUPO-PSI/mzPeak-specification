@@ -28,6 +28,23 @@ def main():
     schema = json.loads((SCHEMA_LOCATION / 'mzpeak_index.json').read_text())
     jsonschema.validate(index, schema)
 
+    for key, sub_obj in index['metadata'].items():
+        schema = None
+        match key:
+            case "sample_list":
+                schema = json.loads((SCHEMA_LOCATION / 'sample.json').read_text())
+            case "file_description":
+                schema = json.loads((SCHEMA_LOCATION / 'file_description.json').read_text())
+            case "instrument_configuration_list":
+                schema = json.loads((SCHEMA_LOCATION / 'instrument_configuration.json').read_text())
+            case "run":
+                schema = json.loads((SCHEMA_LOCATION / 'ms_run.json').read_text())
+            case _:
+                print(f"Skipping {key}, unknown metadata key")
+                continue
+        if schema is None: raise KeyError(f"Failed to infer schema for {key}")
+        jsonschema.validate(sub_obj, schema)
+
     schema = json.loads((SCHEMA_LOCATION / 'array_index.json').read_text())
 
     entry: FileEntry
@@ -36,10 +53,10 @@ def main():
             print(f"Validating array index for {entry.name}")
             handle = pq.ParquetFile(archive.open_stream(entry))
             had_array_index = False
-            for k, v in handle.metadata.metadata.items():
-                if k.endswith(b"_array_index"):
+            for key, sub_obj in handle.metadata.metadata.items():
+                if key.endswith(b"_array_index"):
                     had_array_index = True
-                    array_index = json.loads(v)
+                    array_index = json.loads(sub_obj)
                     jsonschema.validate(array_index, schema)
             if not had_array_index:
                 raise ValueError(f"No array index found for {entry.name}")

@@ -45,13 +45,13 @@ CURIE
 :   A compact URI of the form `prefix:reference` (for example `MS:1000559`) used to reference a controlled-vocabulary term.
 
 Data kind
-:   An index-file field declaring a member's semantics and expected schema family: `data_arrays`, `peaks`, `metadata`, `proprietary`, or `other`. See [Data Kind](../archive/data-kinds.md).
+:   An index-file field declaring a member's semantics and expected schema family, e.g.: `data_arrays`, `peaks`, `metadata`, `proprietary`, or `other`. See [Data Kind](../archive/data-kinds.md).
 
 Delta encoding
 :   An opaque transform that stores successive differences instead of absolute values, compressing sorted axes such as m/z efficiently.
 
 Entity type
-:   An index-file field declaring what a member describes: `spectrum`, `chromatogram`, `wavelength_spectrum`, or `other`. See [Entity Type](../archive/entity-types.md).
+:   An index-file field declaring what a member describes, e.g.: `spectrum`, `chromatogram`, `wavelength_spectrum`, or `other`. See [Entity Type](../archive/entity-types.md).
 
 Entity Index
 :   The column in a `data_arrays`, `peaks`, or `metadata` table that is named `<entity_type>_index`. This column binds the row to a specific

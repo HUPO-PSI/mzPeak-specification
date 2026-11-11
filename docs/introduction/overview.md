@@ -37,6 +37,7 @@ user metadata. For the conventions used in the normative text, see
 
 ![An overview diagram of an mzPeak archive](../assets/img/archive-layout.svg)
 
+Typical members include:
 - **`mzpeak_index.json`** - definition of the files present in the archive,
   encoded as JSON. Resolving files by controlled terms is easier than matching
   file names. See [The Index File](../archive/index-file.md).
@@ -50,15 +51,14 @@ user metadata. For the conventions used in the normative text, see
   is how mzPeak holds both profile and centroid versions of the same spectra. This file may not always be present. It may use either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md) as well.
 - **`chromatograms_metadata.parquet`** - chromatogram-level description metadata using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_metadata_precursors.parquet`** - chromatogram-level description of precursors using the [metadata table](../layouts/metadata-tables.md) layout.
-- **`chromatograms_metadata_selected_ions.parquet`** - chromatogram-level description of selected ions the [metadata table](../layouts/metadata-tables.md) layout.
+- **`chromatograms_metadata_selected_ions.parquet`** - chromatogram-level description of selected ions using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_data.parquet`** - chromatogram signal data, in point or chunked layout. Intensity measures with different units may be stored in parallel. May use either of the [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md)
 
-Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files
-of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md).
+Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md).
 
 ### How file-level metadata is cross-referenced
 
-The index file stores file-level metadata that describes the entire run, a heterogenous collection of entities with small multiplicity but
+The index file stores file-level metadata that describes the entire run, a heterogeneous collection of entities with small multiplicity but
 high levels of nesting. This information is inexpensive to parse and can be useful for quickly determining if an mzPeak archive has facets
 of interest before committing to parsing one or more of the Parquet tables.
 
@@ -75,4 +75,4 @@ particular scan.
 
 ### Reading the *n*th spectrum
 
-![](../assets/img/reading-from-0.svg)
+![The process of reading an arbitrary spectrum from an mzPeak archive](../assets/img/reading-from-0.svg)

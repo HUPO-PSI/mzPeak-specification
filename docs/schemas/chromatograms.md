@@ -72,7 +72,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 {
   "name": "chromatograms_metadata_precursors.parquet",
   "entity_type": "chromatogram",
-  "data_kind": "precursor"
+  "data_kind": "precursors"
 }
 ```
 

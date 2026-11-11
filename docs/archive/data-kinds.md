@@ -6,7 +6,7 @@ roughly what schema to expect.
 | `data_kind`    | Expected layout | Used With Entity | Meaning |
 | :------------- | :-------------- | :--------------- | :------ |
 | `data_arrays`  | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Any entity with continuous signal data | Signal data, usually in its "raw" form, for the file's `entity_type`. |
-| `peaks`        | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Any entity with discretized signal data | Like `data_arrays`, but *processed* — implies a less-refined entry exists in a `data_arrays` file. This is how profile **and** centroid signal coexist for a `spectrum`. |
+| `peaks`        | [point](../layouts/point-layout.md) or [chunked](../layouts/chunked-layout.md) | Any entity with discretized signal data | Like `data_arrays`, but *processed* into centroids compared to a `data_arrays` file. This is how profile **and** centroid signal coexist for a `spectrum`. An entry may be in one, the other, both, or neither. |
 | `metadata`     | [metadata table](../layouts/metadata-tables.md) | Any entity | Primary metadata facet of the `entity_type`, includes its `index` values and other top-level information. |
 | `scans`        | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `wavelength_spectrum` | Instrument scan events for the `entity_type`, expected for `spectrum`, not `chromatogram` |
 | `precursors`   | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `chromatogram` | Precursor isolation and activation event tying the product scan to the precursor scan. Expected for `spectrum` and MRM or SRM `chromatogram` or similar |

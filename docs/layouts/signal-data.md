@@ -115,7 +115,7 @@ formats. The available `buffer_format` values are:
 | `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array other than the index **MUST** be `point` (see [Conformance](../conformance.md#validation)). |
 | `chunk_values` | [chunked](chunked-layout.md) | The "main" axis values bounded between a chunk's start and end, encoded for better compressibility (in addition to Parquet's own encoding). |
 | `chunk_start` | [chunked](chunked-layout.md) | The starting value of the main axis for the chunk, inclusive. |
-| `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, exclusive. It should be less than or equal to the next chunk's `chunk_start`. |
+| `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, inclusive. It should be less than or equal to the next chunk's `chunk_start`. |
 | `chunk_encoding` | [chunked](chunked-layout.md) | A CURIE indicating how `chunk_values` was encoded. |
 | `chunk_secondary` | [chunked](chunked-layout.md) | Values of an array other than the main axis for the chunk. |
 | `chunk_transform` | [chunked](chunked-layout.md) | Raw bytes of an array in the chunk that was opaquely transformed (e.g. with MS-Numpress). May appear *in addition* to a referenced `chunk_values` or `chunk_secondary` column. |

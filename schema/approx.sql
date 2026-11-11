@@ -27,7 +27,7 @@ CREATE TABLE spectrum (
     data_procesing_id int,
     number_of_auxiliary_arrays int,
     auxiliary_arrays auxiliary_array[],
-    coordinate_spacing_model numeric[],
+    polynomial_delta_coordinate_interpolation numeric[],
     total_ion_current numeric,
     base_peak_mz numeric,
     base_peak_intensity numeric,

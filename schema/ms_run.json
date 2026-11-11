@@ -8,7 +8,7 @@
   "type": "object",
   "required": [
     "id",
-    "default_instrument_id",
+    "default_instrument_configuration_id",
     "default_data_processing_id",
     "default_source_file_id"
   ],

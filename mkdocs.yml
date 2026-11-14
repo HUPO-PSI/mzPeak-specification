@@ -110,6 +110,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tilde
+  - pymdownx.bracketspan
 
 plugins:
   - search

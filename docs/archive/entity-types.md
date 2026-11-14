@@ -13,7 +13,7 @@ the right reader API. There are currently four controlled values:
 | `proprietary`  | implementation-defined | Entirely the purview of the writer (often an instrument vendor). Should be ignored unless the reader is for that vendor. |
 | `other` | None of the above — something not yet covered by this living specification. |
 
-Any value outside this list is treated as `other`, but implementations **MUST** preserve
+Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"} preserve
 the value provided rather than discarding the entity type label and recording an
 undifferentiated "other". This permits forward compatibility as new entity types are
 added without updating existing code.

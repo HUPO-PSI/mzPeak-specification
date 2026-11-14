@@ -49,9 +49,9 @@ about which components of the processing steps are relevant to that context. For
 recalculation, but that is meaningless in the context of the m/z array. Data processing scopes do not cascade, only one `data_processing_method`
 is applicable at a time to avoid stacking contradictory operations.
 
-File writers **SHOULD** take care to avoid introducing contradictory steps like conflicting peak picking methods. If there are multiple configurations
-to distinguish between, then the writer **SHOULD** write multiple `data_processing_method` entries and reference them. If processing derived data, writers
-**SHOULD** append new `processing_method_step` to the source data's existing `data_processing_method` methods to reflect the full chain of operations,
+File writers [SHOULD]{class="should-chip"} take care to avoid introducing contradictory steps like conflicting peak picking methods. If there are multiple configurations
+to distinguish between, then the writer [SHOULD]{class="should-chip"} write multiple `data_processing_method` entries and reference them. If processing derived data, writers
+[SHOULD]{class="should-chip"} append new `processing_method_step` to the source data's existing `data_processing_method` methods to reflect the full chain of operations,
 not create a separate `data_processing_method` describing only the new steps.
 
 ## FAIR Data and Reproducibility
@@ -98,16 +98,16 @@ Describes a single pipeline of data processing pipeline that was used on an enti
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | &nbsp; | A unique identifier for the data processing method. |
-| `methods` | `array` of [`processing_method_step`](#processing_method_step) | &nbsp; | &nbsp; |
+| `id` | `string` | Yes | A unique identifier for the data processing method. |
+| `methods` | `array` of [`processing_method_step`](#processing_method_step) | Yes | &nbsp; |
 
 #### Property Details
 
-**`id`** - `string` *(optional)*
+**`id`** - `string` *(required)*
 
 A unique identifier for the data processing method.
 
-**`methods`** - `array` of [`processing_method_step`](#processing_method_step) *(optional)*
+**`methods`** - `array` of [`processing_method_step`](#processing_method_step) *(required)*
 
 ---
 
@@ -122,21 +122,21 @@ Describes a single step of data processing tied to a particular piece of softwar
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `order` | `integer` | &nbsp; | The order in which the step is applied in the data processing pipeline. Values **MUST** be ascending, and **SHOULD** be contiguous. |
-| `software_reference` | `string` | &nbsp; | The identifier for a software entry that performed this operation. This **MUST** be a software_list[].id in the software list of the mzPeak archive. |
-| `parameters` | `array` of [`param`](param.md) | &nbsp; | Additional parameters describing this data processing step denoting actions, parameters, and other descriptors. |
+| `order` | `integer` | Yes | The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be ascending, and [SHOULD]{class="should-chip"} be contiguous. |
+| `software_reference` | `string` | Yes | The identifier for a software entry that performed this operation. This [MUST]{class="must-chip"} be a software_list[].id in the software list of the mzPeak archive. |
+| `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this data processing step denoting actions, parameters, and other descriptors. |
 
 #### Property Details
 
-**`order`** - `integer` *(optional)*
+**`order`** - `integer` *(required)*
 
-The order in which the step is applied in the data processing pipeline. Values **MUST** be ascending, and **SHOULD** be contiguous.
+The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be ascending, and [SHOULD]{class="should-chip"} be contiguous.
 
-**`software_reference`** - `string` *(optional)*
+**`software_reference`** - `string` *(required)*
 
-The identifier for a software entry that performed this operation. This **MUST** be a software_list[].id in the software list of the mzPeak archive.
+The identifier for a software entry that performed this operation. This [MUST]{class="must-chip"} be a software_list[].id in the software list of the mzPeak archive.
 
-**`parameters`** - `array` of [`param`](param.md) *(optional)*
+**`parameters`** - `array` of [`param`](param.md) *(required)*
 
 Additional parameters describing this data processing step denoting actions, parameters, and other descriptors.
 

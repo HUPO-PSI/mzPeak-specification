@@ -3,7 +3,7 @@
 #   uv venv --python 3.12 .venv
 #   uv pip install --python .venv -r requirements.txt
 mkdocs-material>=9.5,<10
-pymdown-extensions>=10
+pymdown-extensions>=12
 
 # PSI house-style hierarchical section numbering (1, 1.1, 1.1.1).
 mkdocs-enumerate-headings-plugin>=0.6

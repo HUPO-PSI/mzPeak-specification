@@ -1,17 +1,16 @@
 # Overview
 
 mzPeak is an open, next-generation file format for mass spectrometry data.
-Advances in MS instrumentation - higher resolution, faster scan rates, greater
-sensitivity, and the growing use of ion mobility and imaging - have sharply
+Advances in MS instrumentation including higher resolution, faster scan rates,
+greater sensitivity, and the growing use of ion mobility and imaging, have sharply
 increased the volume and dimensionality of the data produced in proteomics,
 metabolomics, and lipidomics. Established open formats such as mzML and imzML
 increasingly struggle with the resulting file sizes, data-access patterns, and
 metadata demands, while vendor-specific formats offer faster access at the cost
 of interoperability and long-term archival stability. mzPeak is designed to
 address these needs as a community standard; the motivation and design rationale
-are set out in the accompanying white paper
-[(1)](../reference/references.md) and summarised under
-[Motivation](motivation.md).
+are set out in the accompanying white paper [(1)](../reference/references.md) and
+summarized under [Motivation](motivation.md).
 
 The format takes a hybrid approach: an archive of
 [Apache Parquet](https://parquet.apache.org/) tables - packaged in an
@@ -54,7 +53,8 @@ Typical members include:
 - **`chromatograms_metadata_selected_ions.parquet`** - chromatogram-level description of selected ions using the [metadata table](../layouts/metadata-tables.md) layout.
 - **`chromatograms_data.parquet`** - chromatogram signal data, in point or chunked layout. Intensity measures with different units may be stored in parallel. May use either of the [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md)
 
-Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md).
+Other Parquet files may be added to cover additional modalities as needed, such as [wavelength spectra](../schemas/wavelength-spectra.md). Additional files of all sorts are permitted, as long as they are included in the [index file](../archive/index-file.md). Each member file describes a "facet" of the described entity, defined as a combination of an [`entity_type`](../archive/entity-types.md) and
+a [`data_kind`](../archive/data-kinds.md).
 
 ### How file-level metadata is cross-referenced
 

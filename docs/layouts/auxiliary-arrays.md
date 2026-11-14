@@ -66,8 +66,8 @@ governed by the JSON Schema
 
 ## Data Type and Storage
 
-Auxiliary arrays' data **MUST** be stored as raw byte arrays in *little endian* order.
-The data type for the data stored **MUST** be written in the `data_type` field of
+Auxiliary arrays' data [MUST]{class="must-chip"} be stored as raw byte arrays in *little endian* order.
+The data type for the data stored [MUST]{class="must-chip"} be written in the `data_type` field of
 the auxiliary array structure referencing a child term of [MS:1000518|binary data type](http://purl.obolibrary.org/obo/MS_1000518) such as [MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523) or [MS:1000519|32-bit integer](http://purl.obolibrary.org/obo/MS_1000519).
 
 
@@ -75,7 +75,7 @@ the auxiliary array structure referencing a child term of [MS:1000518|binary dat
 
 Auxiliary arrays' data are stored as raw byte arrays, with no data type-specific transformations
 to make them more compressible, but they receive the blanket compression codec and level that the
-entire Parquet file receives. Their `compression` field **SHOULD** be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576)
+entire Parquet file receives. Their `compression` field [SHOULD]{class="should-chip"} be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576)
 for no compression is applied *other than* the compression Parquet applies to the `auxiliary_arrays.list.item.data.list.item` column.
 If you wish to apply a specific compression algorithm to the data of a single entry *before* it
 is compressed by Parquet, set the `compression` field for that entry to the appropriate controlled

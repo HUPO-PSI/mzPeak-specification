@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="5CvExwPNzixoOJXJUFPb" name="Page-1">
-        <mxGraphModel dx="1626" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
+        <mxGraphModel dx="695" dy="308" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="413" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -131,10 +131,10 @@
                 <mxCell id="8beNYW4tP_k_WBM8A2Ct-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=17;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Open archive to read spectrum &lt;i style=&quot;&quot;&gt;n&lt;/i&gt;&lt;/font&gt;" vertex="1">
                     <mxGeometry height="30" width="168.53" x="752" y="130" as="geometry"/>
                 </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-2" parent="1" style="whiteSpace=wrap;html=1;fillColor=#5D48F9;strokeColor=light-dark(#1A1A1A,#121212);rotation=359;fontSize=14;" value="" vertex="1">
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-2" parent="1" style="whiteSpace=wrap;html=1;fillColor=#3157E9;strokeColor=light-dark(#1A1A1A,#121212);rotation=359;fontSize=14;" value="" vertex="1">
                     <mxGeometry height="10.514166666666668" width="44.47058823529412" x="503.5294117647059" y="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-1" parent="1" style="whiteSpace=wrap;html=1;fillColor=light-dark(#442eea, #9577a3);strokeColor=light-dark(#1A1A1A,#121212);fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=18;" value="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;b style=&quot;font-size: 25px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;mzPeak&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px; line-height: 110%;&quot;&gt;&lt;b style=&quot;color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;Archive&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                <mxCell id="ot1kZrcZ3gKVQDu4J1aV-1" parent="1" style="whiteSpace=wrap;html=1;fillColor=light-dark(#3157E9,#9577A3);strokeColor=light-dark(#1A1A1A,#121212);fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=18;" value="&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;b style=&quot;font-size: 25px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;mzPeak&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 110%;&quot;&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px; line-height: 110%;&quot;&gt;&lt;b style=&quot;color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));&quot;&gt;Archive&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="109.94666666666667" width="222.35294117647058" x="503.5294117647059" y="86.18708333333332" as="geometry"/>
                 </mxCell>
                 <mxCell id="upy7CCkLZGt0_BwckRMs-6" edge="1" parent="1" source="upy7CCkLZGt0_BwckRMs-3" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;curveGeometry=1;endArrow=block;endFill=1;" target="8beNYW4tP_k_WBM8A2Ct-13">

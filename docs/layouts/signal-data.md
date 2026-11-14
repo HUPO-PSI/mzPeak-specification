@@ -22,17 +22,17 @@ mzPeak can store array data in two ways:
 
 Currently, the first sorted array is assumed to be the axis around which all
 other values are arranged — *sorting rank 1*. Any arrays that are shorter or
-longer than this axis **SHOULD** be stored as auxiliary arrays instead. The
+longer than this axis [SHOULD]{class="should-chip"} be stored as auxiliary arrays instead. The
 sorting rank 0 array is still the `index` array but it does not define the signal
 itself nor vary within an entry so it always has the same length as the sorting
 rank 1 array.
 
 !!! warning "Re-sort unsorted ranked arrays"
     When writing, if an array that has a sorting rank is not sorted with respect to its rank,
-    the entry's data arrays **MUST** be re-sorted accordingly. Failing to do so introduces
+    the entry's data arrays [MUST]{class="must-chip"} be re-sorted accordingly. Failing to do so introduces
     integrity errors. This often occurs with ion mobility-mass spectrometry data.
 
-    To sort along multiple dimensions, the writer **SHOULD** first arrange dimensions by ascending
+    To sort along multiple dimensions, the writer [SHOULD]{class="should-chip"} first arrange dimensions by ascending
     sorting rank, then proceed to sort by the lowest rank dimension, and break ties in rank *i* with
     rank *i+1*, until no ties remain or there are no higher sorting ranks. If no higher sorting ranks
     are available to break ties, then all orderings of tied coordinates are equally valid.
@@ -112,7 +112,7 @@ formats. The available `buffer_format` values are:
 | `buffer_format` | Used by | Meaning |
 | :-- | :-- | :-- |
 | `index` | *any* | This array is an index that runs parallel to the actual measure values. The index value is the same across the entire entry for a single entity. |
-| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array other than the index **MUST** be `point` (see [Conformance](../conformance.md#validation)). |
+| `point` | [point](point-layout.md) | The array is stored in the point layout. The point layout is all-or-nothing — **every** array other than the index [MUST]{class="must-chip"} be `point` (see [Conformance](../conformance.md#validation)). |
 | `chunk_values` | [chunked](chunked-layout.md) | The "main" axis values bounded between a chunk's start and end, encoded for better compressibility (in addition to Parquet's own encoding). |
 | `chunk_start` | [chunked](chunked-layout.md) | The starting value of the main axis for the chunk, inclusive. |
 | `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, inclusive. It should be less than or equal to the next chunk's `chunk_start`. |
@@ -121,7 +121,7 @@ formats. The available `buffer_format` values are:
 | `chunk_transform` | [chunked](chunked-layout.md) | Raw bytes of an array in the chunk that was opaquely transformed (e.g. with MS-Numpress). May appear *in addition* to a referenced `chunk_values` or `chunk_secondary` column. |
 
 The chunked layout currently supports a single chunking dimension. A file in the
-chunked layout **MUST** include a `chunk_start`, `chunk_end`, `chunk_encoding`, and
+chunked layout [MUST]{class="must-chip"} include a `chunk_start`, `chunk_end`, `chunk_encoding`, and
 `chunk_values` column *exactly once* each. This applies even if the `chunk_values` column
 is empty due to an opaque transform like MS-Numpress linear encoding being applied. The
 array index entries for the `chunk_start`, `chunk_end`, and `chunk_encoding` copy all fields
@@ -139,7 +139,7 @@ chromatograms.
 
 For ergonomics, common columns should have simple, consistent names — this makes
 files easier to use from raw Parquet tooling. The most common version of each
-array type (as defined by the implementation) **SHOULD** have a `buffer_priority`
+array type (as defined by the implementation) [SHOULD]{class="should-chip"} have a `buffer_priority`
 of `primary` and receive a short, consistent name. The recommended short names:
 
 | Accession | Name | Column name |
@@ -165,16 +165,16 @@ of `primary` and receive a short, consistent name. The recommended short names:
 
 ## Indexing
 
-In any signal data layout, the 0th column below the group node (e.g. `point`, `chunk`) **MUST** be the entry index.
+In any signal data layout, the 0th column below the group node (e.g. `point`, `chunk`) [MUST]{class="must-chip"} be the entry index.
 It is named `<entity_type>_index`, has a `buffer_format` of `index`, and its `array_type` is [`MS:1003870|index array`](http://purl.obolibrary.org/obo/MS_1003870).
-It **MUST** have a `data_type` of [`MS:1000522|64-bit integer`](http://purl.obolibrary.org/obo/MS_1000522) and it **MUST**
+It [MUST]{class="must-chip"} have a `data_type` of [`MS:1000522|64-bit integer`](http://purl.obolibrary.org/obo/MS_1000522) and it [MUST]{class="must-chip"}
 be *unsigned*, the PSI-MS vocabulary not supporting unsigned integers at this time. Unless otherwise noted, it is assumed
 to have `sorting_rank` 0. An example is shown in the JSON text in [The Array Index](#the-array-index) section.
 
 ### Parallel time index
 
 In addition to the `<entity_type>_index` column, the writer *MAY* include a parallel
-`<entity_type>_time` column which **MUST** store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
+`<entity_type>_time` column which [MUST]{class="must-chip"} store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
 associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
 for chromatograms or traces. It's array index entry has a `buffer_format` of `index`, an `array_type` of
 [`MS:1000595|time array`](http://purl.obolibrary.org/obo/MS_1000595), a `unit` of [`UO:0000031|minute`](http://purl.obolibrary.org/obo/UO_0000031)
@@ -192,7 +192,7 @@ of spectra but apply more broadly.
 
 ### Numerical precision
 
-There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles **SHOULD** still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers. The writer **SHOULD** choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
+There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles [SHOULD]{class="should-chip"} still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers. The writer [SHOULD]{class="should-chip"} choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
 
 Opting for lossy compression like MS-Numpress carries its own precision costs. See [(4)](../reference/references.md) for more details.
 
@@ -201,8 +201,8 @@ Opting for lossy compression like MS-Numpress carries its own precision costs. S
 Some vendors produce profile arrays with large "empty" regions of zero-intensity
 points along a semi-regular m/z axis. These regions hold little information, so
 all but the first and last zero-intensity points of a run are removed. This is
-only meaningful for profile data. Readers **SHOULD** assume that zero runs have
-been stripped. Writers **MAY** strip zero runs, it is recommended but not
+only meaningful for profile data. Readers [SHOULD]{class="should-chip"} assume that zero runs have
+been stripped. Writers [MAY]{class="may-chip"} strip zero runs, it is recommended but not
 required. Zero run stripping is not marked by a transform term. Most run formats
 do not store zero runs and might only produce them at read time if requested.
 Readers are **NOT** required to do so, though they may use either the coordinate
@@ -266,7 +266,7 @@ $$
     \delta mz \sim \beta_0 + \beta_1\,mz + \beta_2\,mz^2 + \epsilon
 $$
 
-If null marking is used zero run stripping **MUST** be used.
+If null marking is used zero run stripping [MUST]{class="must-chip"} be used.
 
 ??? example "Python — fitting the weighted least-squares spacing model"
     ```python
@@ -321,7 +321,7 @@ are unchanged, a peak's apex or centroid is unaffected. If a peak is composed of
 only three points, including the two zero-intensity flanks, no meaningful peak
 model can be fit anyway, so the minuscule angle change is effectively lossless.
 
-The model parameters learned for each entry **MUST** be stored in that entry's
+The model parameters learned for each entry [MUST]{class="must-chip"} be stored in that entry's
 row in the associated metadata table, as `polynomial_delta_coordinate_interpolation`.
 
 <div class="mzp-figure" markdown>
@@ -375,13 +375,13 @@ the array), then filling the null values with either a locally estimated value
 (when more than one value is available to estimate the median delta) or the
 regression model described above (for a single point).
 
-Unpaired `null` values **MAY** appear only as the first or last `null` value in array;
+Unpaired `null` values [MAY]{class="may-chip"} appear only as the first or last `null` value in array;
 any other unpaired `null` is an unrecoverable error. A run of three or more `null`
-values **MAY** be recoverable but should not occur under normal operation. When using
+values [MAY]{class="may-chip"} be recoverable but should not occur under normal operation. When using
 the chunked layout this applies to each chunk's value array as well, making each chunk
 independently decodable.
 
-The locally estimated value **SHOULD** be the second median of the spacing of the
+The locally estimated value [SHOULD]{class="should-chip"} be the second median of the spacing of the
 current segment's non-`null` values. The regression model predicts the spacing
 from the single non-null value of a segment that has only one.
 
@@ -467,16 +467,16 @@ from the single non-null value of a segment that has only one.
 
 ### Null semantics for signal data
 
-Unless otherwise noted, readers **SHOULD** treat `null` values in the sorting-
+Unless otherwise noted, readers [SHOULD]{class="should-chip"} treat `null` values in the sorting-
 rank-1 array of an entry as governed by this model, with parallel `null` values
 in any intensity arrays read as `0`. The sorting array, e.g. m/z array, should carry a `transform` of
 [`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
 and the intensity array should carry a `transform` of [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901).
 All other values at those points are read as-is, with null semantics meaning the
-value was absent. Writers using null marking **SHOULD** use `null` only for the
+value was absent. Writers using null marking [SHOULD]{class="should-chip"} use `null` only for the
 first sorting dimension and its associated intensity value; all other columns
 should be written as-is. The [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901) transform
-**MAY** be used independently of [`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
+[MAY]{class="may-chip"} be used independently of [`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
 which indicates that `null` values are filled with 0s regardless of whether a
 parallel `null` is present in another array. This leads to a smaller reduction in
 file size but is completely lossless in every sense, unlike zero run stripping, which

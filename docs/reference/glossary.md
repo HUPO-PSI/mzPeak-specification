@@ -9,7 +9,7 @@ Apache Parquet
 :   The strongly-typed, compressed, columnar on-disk format in which each facet of an mzPeak archive is stored. See [Anatomy of a Parquet file](../foundations/parquet.md).
 
 Archive Member
-:   A file in an mzPeak archive, regardless of whether or not it is a Parquet file or not. An archive member **SHOULD** be listed in the [index file](../archive/index-file.md)
+:   A file in an mzPeak archive, regardless of whether or not it is a Parquet file or not. An archive member [SHOULD]{class="should-chip"} be listed in the [index file](../archive/index-file.md)
 
 Array Index
 :   The set of signal arrays mapped to a column or sub-tree. Encoded as a JSON object in the Parquet key-value metadata in `data_arrays` and `peaks` `data_kind`s for the relevant `entity_type`. The schema is defined in [The Array Index](../layouts/signal-data.md#the-array-index).
@@ -98,8 +98,8 @@ Numpress (MS-Numpress)
 Opaque transform
 :   A per-array encoding (for example delta encoding or Numpress) applied within a chunk and recorded so a reader can decode it. Some transforms (such as certain Numpress modes) are lossy.
 
-Packed parallel metadata tables
-:   The metadata layout that stores several related sub-tables (spectrum, scan, precursor, selected ion) side by side, linked by primary- and foreign-key index columns. See [Packed Parallel Metadata Tables](../layouts/metadata-tables.md).
+Metadata tables
+:   The metadata layout that stores a table of a single facet of an entry for an `entity_type`, linked by primary- and foreign-key index columns. See [Metadata Tables](../layouts/metadata-tables.md).
 
 Page index
 :   A Parquet footer structure — which mzPeak writers MUST emit — that enables random access below the row-group level.

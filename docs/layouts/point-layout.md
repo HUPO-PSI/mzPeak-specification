@@ -2,8 +2,8 @@
 
 The **point layout** stores data arrays as-is in parallel columns alongside a
 repeated index column. The top-level schema node is named `point` and is a group
-with an arbitrary number of columns. The entity index column **MUST** be the
-first column under `point`. All rows with the same index **MUST** be contiguous.
+with an arbitrary number of columns. The entity index column [MUST]{class="must-chip"} be the
+first column under `point`. All rows with the same index [MUST]{class="must-chip"} be contiguous.
 
 <figure class="mzp-figure" markdown>
 <img src="../../assets/img/point_layout.svg" alt="Point-layout schema: a single top-level point group holding a repeated spectrum_index column alongside parallel mz and intensity columns, with one table row per data point." height="520"/>
@@ -33,7 +33,7 @@ This layout is simple, but carries several advantages:
 - **Transparent compression.** Arrays are encoded and compressed by Parquet, so
   the data is still stored compactly.
 
-The trade-off: data **MUST** be stored as-is to keep the page index meaningful,
+The trade-off: data [MUST]{class="must-chip"} be stored as-is to keep the page index meaningful,
 so no additional obscuring transformations (delta encoding, Numpress, etc.) may
 be used. The [zero-run stripping](signal-data.md#zero-run-stripping) and
 [null-marking](signal-data.md#null-marking) methods remain available, because
@@ -45,7 +45,7 @@ the values that remain.
 To read a single entry (spectrum, chromatogram, …) stored in point layout:
 
 0. Identify which columns are annotated in the [array index](signal-data.md#the-array-index).
-   The `<entity_type>_index` column **MUST** be the first column in the table, so it always has index 0.
+   The `<entity_type>_index` column [MUST]{class="must-chip"} be the first column in the table, so it always has index 0.
 1. Find the row group containing the entry's index value via the row-group
    metadata. Optionally, if the page index is available, find the row ranges of
    the pages that contain that index.

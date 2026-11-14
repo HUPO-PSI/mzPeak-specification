@@ -10,11 +10,11 @@ When writing signal data, **profile** data goes in `spectra_data.parquet` and **
 `spectra_peaks.parquet`, *always*. When a file contains both for the same spectrum, both files are present.
 The `spectrum_metadata.parquet` row carries both a [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
 and a [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) column so a reader knows which file(s) to
-read. Absence of either of these columns implies that that modality does not exist. A reader **SHOULD** allow the caller to
+read. Absence of either of these columns implies that that modality does not exist. A reader [SHOULD]{class="should-chip"} allow the caller to
 indicating which representation the it wants.
 
 For timsTOF-style data that is centroid in m/z but profiled in ion mobility, the consensus is to treat it as centroid
-for the mass-spectrum dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439) **SHOULD** tell the reader if the ion mobility centroids have been pre-picked or not.
+for the mass-spectrum dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439) [SHOULD]{class="should-chip"} tell the reader if the ion mobility centroids have been pre-picked or not.
 
 ## Spectrum signal data - `spectra_data.parquet`
 
@@ -28,8 +28,8 @@ for the mass-spectrum dimension and place it in `spectra_peaks.parquet`. The pre
 
 The spectrum signal data is encoded using either
 [point layout](../layouts/point-layout.md) or
-[chunked layout](../layouts/chunked-layout.md). The entity index column **MUST**
-be named `spectrum_index`, and a co-located time column, if written, **SHOULD**
+[chunked layout](../layouts/chunked-layout.md). The entity index column [MUST]{class="must-chip"}
+be named `spectrum_index`, and a co-located time column, if written, [SHOULD]{class="should-chip"}
 be named `spectrum_time`. Non-mass spectra (UV, DAD) belong in
 [`wavelength_spectra_data.parquet`](wavelength-spectra.md).
 
@@ -39,9 +39,9 @@ carefully for profile data.
 
 !!! warning "Profile only"
     Only **profile** spectra are written here. Centroid spectra - including
-    centroid views of profile spectra when both modes are stored - **MUST**
+    centroid views of profile spectra when both modes are stored - [MUST]{class="must-chip"}
     instead be written to [`spectra_peaks.parquet`](#spectrum-peak-data-spectra_peaksparquet).
-    The number of points written here for a spectrum **MUST** be recorded in the
+    The number of points written here for a spectrum [MUST]{class="must-chip"} be recorded in the
     [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
     column of `spectra_metadata.parquet`, to support read planning.
 
@@ -68,10 +68,10 @@ When grid encoding is used on any array, [byte stream split](https://parquet.apa
 ```
 
 The spectrum peak lists, stored separately from the raw signal in
-`spectra_data.parquet`. The entity index column **MUST** be named
-`spectrum_index`, and a co-located time column, if written, **SHOULD** be named
-`spectrum_time`. Any centroid spectra **MUST** be written here, not to
-`spectra_data.parquet`. The number of peaks written for a spectrum **MUST** be
+`spectra_data.parquet`. The entity index column [MUST]{class="must-chip"} be named
+`spectrum_index`, and a co-located time column, if written, [SHOULD]{class="should-chip"} be named
+`spectrum_time`. Any centroid spectra [MUST]{class="must-chip"} be written here, not to
+`spectra_data.parquet`. The number of peaks written for a spectrum [MUST]{class="must-chip"} be
 recorded in the
 [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) column
 of `spectra_metadata.parquet`, to support read planning.
@@ -88,20 +88,20 @@ of `spectra_metadata.parquet`, to support read planning.
 
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-- **`index`** (uint64) - the ascending 0-based index. **MUST** increment by 1 per
-  entry and **SHOULD** be written in time-sorted ascending order. This is the
+- **`index`** (uint64) - the ascending 0-based index. [MUST]{class="must-chip"} increment by 1 per
+  entry and [SHOULD]{class="should-chip"} be written in time-sorted ascending order. This is the
   primary key for the `spectrum` facet and the root unit of addressability.
 - **`id`** (string) - the "nativeID" string identifier, formatted per a
   [native identifier format](http://purl.obolibrary.org/obo/MS_1000767). The
-  specific format **SHOULD** be given in the [file-level metadata](../archive/index-file.md#file-level-metadata)
+  specific format [SHOULD]{class="should-chip"} be given in the [file-level metadata](../archive/index-file.md#file-level-metadata)
   as given by the `file_description.source_file.parameters` where `source_file.id` == `run.default_source_file_id`,
   as in mzML. If multiple sources are mixed in a file, this parsing may instead be resolved by considering the
   source file from the paired `scan.spectrum_reference`'s source file, or in the event the spectrum is an average
   across multiple runs with different schemas, no nativeID schema may be applicable.
-- **`time`** (float64) - the data-acquisition start time. **SHOULD** be
+- **`time`** (float64) - the data-acquisition start time. [SHOULD]{class="should-chip"} be
   replicated from the parallel `scan` facet for simpler filtering; for a spectrum
-  with multiple scans it **SHOULD** be the minimum value if the run is in
-  acquisition-time order. The time unit **MUST** be [minutes](http://purl.obolibrary.org/obo/UO_0000031).
+  with multiple scans it [SHOULD]{class="should-chip"} be the minimum value if the run is in
+  acquisition-time order. The time unit [MUST]{class="must-chip"} be [minutes](http://purl.obolibrary.org/obo/UO_0000031).
 - [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (integer)
   - the MS stage number, or `null` for non-mass spectra.
 - **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this spectrum if it differs from
@@ -118,8 +118,8 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
   constraints. These may be large; load eagerly with care.
 - [**`polynomial_delta_coordinate_interpolation`**](http://purl.obolibrary.org/obo/MS_1003821) (list of float64) -
   parameters of the m/z delta model used to reconstruct [null-marked data](../layouts/signal-data.md#null-marking).
-  There is no fixed length requirement, and this value **MAY** be `null` or empty if no model
-  was learned. Polynomial coefficient terms **MUST** be written in ascending power, including any
+  There is no fixed length requirement, and this value [MAY]{class="may-chip"} be `null` or empty if no model
+  was learned. Polynomial coefficient terms [MUST]{class="must-chip"} be written in ascending power, including any
   zeros.
 - [**`spectrum_representation (MS:1000525)`**](http://purl.obolibrary.org/obo/MS_1000525)
   (CURIE) - e.g.
@@ -135,7 +135,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
   (integer) - profile points stored in `spectra_data.parquet`.
 - [**`number_of_peaks (MS:1003059)`**](http://purl.obolibrary.org/obo/MS_1003059)
   (integer) - discrete peaks stored in `spectra_peaks.parquet`.
-- **MAY** supply a child of [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
+- [MAY]{class="may-chip"} supply a child of [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property)
   one or more times - e.g. base peak m/z, total ion current.
     - [`total_ion_current (MS:1000285)`](http://purl.obolibrary.org/obo/MS_1000285)
     - [`base_peak_mz (MS:1000504)`](http://purl.obolibrary.org/obo/MS_1000504)
@@ -144,16 +144,16 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
     - [`lowest_observed_mz (MS:1000528)`](http://purl.obolibrary.org/obo/MS_1000528)
     - [`lowest_observed_ion_mobility (MS:1003437)`](http://purl.obolibrary.org/obo/MS_1003437)
     - [`highest_observed_ion_mobility (MS:1003438)`](http://purl.obolibrary.org/obo/MS_1003438)
-- **MAY** supply a child of [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
+- [MAY]{class="may-chip"} supply a child of [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute)
   one or more times - e.g.
     - [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
     - [`ion_mobility_frame_representation (MS:1003439)`](http://purl.obolibrary.org/obo/MS_1003439)
-- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) - how multiple scans were combined to construct this spectrum. **MUST** be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value **SHOULD** be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) - how multiple scans were combined to construct this spectrum. [MUST]{class="must-chip"} be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value [SHOULD]{class="should-chip"} be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
 ### Reading spectra with both profile and centroid data available
 
 When reading spectra from mzPeak files, the user might want the profile representation even if the centroids are available, or vice-versa.
-Readers **SHOULD** be prepared to offer separate methods for accessing the different modalities, and what to do if the desired modality is
+Readers [SHOULD]{class="should-chip"} be prepared to offer separate methods for accessing the different modalities, and what to do if the desired modality is
 not available. This is a new problem, compared to mzML, which stored one and exactly one representation. For instrument vendors, who bundle
 their peak picking algorithm with the reading library, this is a non-issue.
 
@@ -191,7 +191,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
   (summing/averaging), chained together to form ion mobility frames while preserving the original data.
 - **`spectrum_reference`** (string) - another spectrum corresponding to this
   scan. For local spectra, its `id`; for *external* sources, a
-  [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished
+  [USI](https://www.psidev.info/usi) [SHOULD]{class="should-chip"} be used. For unpublished
   collections, use `USI000000` as the collection identifier with the `id` of a
   source file in `file_description.source_files`. This might happen when summing and
   averaging spectra to improve signal quality (e.g. building a consensus spectrum), or
@@ -204,17 +204,17 @@ A scan or acquisition from the original raw file used to create a spectrum.
 - **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
 - **`ion_mobility_value`** (float64) - optional ion-mobility measurement for this
-  scan. If multiple ion mobility values are used and combined on the instrument, such as with a FAIMS compensation voltage ramp, the writer **SHOULD** record multiple `scan` records per `spectrum` with the [ramp start](http://purl.obolibrary.org/obo/MS_1003450) and [ramp end](http://purl.obolibrary.org/obo/MS_1003451) values in this column, using the [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571) combinator. If multiple ion mobility values are separately acquired per frame, then an ion mobility dimension **MUST** instead be used in the [signal data](#spectrum-signal-data-spectra_dataparquet) and/or [peak data](#spectrum-peak-data-spectra_peaksparquet).
+  scan. If multiple ion mobility values are used and combined on the instrument, such as with a FAIMS compensation voltage ramp, the writer [SHOULD]{class="should-chip"} record multiple `scan` records per `spectrum` with the [ramp start](http://purl.obolibrary.org/obo/MS_1003450) and [ramp end](http://purl.obolibrary.org/obo/MS_1003451) values in this column, using the [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571) combinator. If multiple ion mobility values are separately acquired per frame, then an ion mobility dimension [MUST]{class="must-chip"} instead be used in the [signal data](#spectrum-signal-data-spectra_dataparquet) and/or [peak data](#spectrum-peak-data-spectra_peaksparquet).
 - **`ion_mobility_type`** (CURIE) - optional; a child of
   [`MS:1002892`](http://purl.obolibrary.org/obo/MS_1002892). See **`scan.ion_mobility_value`** for more details on ion mobility ramps.
-- **`scan_windows`** (list) - the list of windows in the main axis (m/z array usually) that were acquired in this scan. This **SHOULD** be an empty list if no window metadata was stored.
+- **`scan_windows`** (list) - the list of windows in the main axis (m/z array usually) that were acquired in this scan. This [SHOULD]{class="should-chip"} be an empty list if no window metadata was stored.
   - (group)
     - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower m/z bound of a mass spectrometer scan window.
     - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper m/z bound of a mass spectrometer scan window.
 - **`position_x`** (`IMS:1000050`), **`position_y`** (`IMS:1000051`), **`position_z`**
   (`IMS:1000052`) (integer) - the pixel position of this scan in an imaging archive. The
   [Imaging profile](../profiles/imaging.md#pixel-positions) requires `position_x` and `position_y`.
-- **MAY** supply children of
+- [MAY]{class="may-chip"} supply children of
   [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute),
   [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction,
   once), and [`MS:1000019`](http://purl.obolibrary.org/obo/MS_1000019) (scan law,
@@ -247,20 +247,20 @@ A scan or acquisition from the original raw file used to create a spectrum.
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 The method of precursor-ion selection and activation. This table describes the spectrum its `source_index` references and *originates* from the
-spectrum its `precursor_index` references. When higher MS*n* is done, the writer **MUST** replicate the chain of selected ions from previous MS
+spectrum its `precursor_index` references. When higher MS*n* is done, the writer [MUST]{class="must-chip"} replicate the chain of selected ions from previous MS
 levels using the same `source_index` but each previous MS level's `precursor_index`. If file does not contain the precursor spectrum, the
-`precursor_index` **MUST** be `null`. Precursors **SHOULD** be stored in descending MS level order.
+`precursor_index` [MUST]{class="must-chip"} be `null`. Precursors [SHOULD]{class="should-chip"} be stored in descending MS level order.
 
 ![Selected ion to precursor linkage](../assets/img/precursor-linkage.svg)
 
 - **`source_index`** (uint64) - the spectrum index this precursor belongs to (foreign key).
-- **`precursor_index`** (uint64) - the spectrum index of the precursor was created from, the parent spectrum (foreign key). When this spectrum is not present in the current archive, this **SHOULD** be `null`
+- **`precursor_index`** (uint64) - the spectrum index of the precursor was created from, the parent spectrum (foreign key). When this spectrum is not present in the current archive, this [SHOULD]{class="should-chip"} be `null`
 - **`precursor_id`** (string) - the `id` of the spectrum referenced by `precursor_index`. If `precursor_index` is `null`, this may still be populated,
-     but a [USI](https://www.psidev.info/usi) **SHOULD** be used. For unpublished collections, use `USI000000` as the collection identifier with the `id` of a source
+     but a [USI](https://www.psidev.info/usi) [SHOULD]{class="should-chip"} be used. For unpublished collections, use `USI000000` as the collection identifier with the `id` of a source
      file in `file_description.source_files`.
 - **`isolation_window`** (group) - the isolation/selection window.
     - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-    - **MUST** supply children of
+    - [MUST]{class="must-chip"} supply children of
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
       attribute) one or more times; promote to columns when available - e.g.
       isolation-window target m/z, lower offset, upper offset.
@@ -269,7 +269,7 @@ levels using the same `source_index` but each previous MS level's `precursor_ind
       - [`isolation_window_upper_offset` (MS:1000829)](http://purl.obolibrary.org/obo/MS_1000829)
 - **`activation`** (group) - the activation/dissociation type and energy.
     - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-    - **MAY** supply children of
+    - [MAY]{class="may-chip"} supply children of
       [`MS:1000510`](http://purl.obolibrary.org/obo/MS_1000510) (precursor
       activation attribute).
       - [`collision_energy` (MS:1000045)](http://purl.obolibrary.org/obo/MS_1000045)
@@ -281,7 +281,7 @@ levels using the same `source_index` but each previous MS level's `precursor_ind
       - [`normalized_collision_energy_ramp_end` (MS:1002219)](http://purl.obolibrary.org/obo/MS_1002219)
       - [`activation_energy` (MS:1000509)](http://purl.obolibrary.org/obo/MS_1000509)
       - [`electron_beam_energy` (MS:1003410)](http://purl.obolibrary.org/obo/MS_1003410)
-    - **MUST** supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
+    - [MUST]{class="must-chip"} supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
       (dissociation method) or a child, one or more times.
 
 ## Spectrum selected ion metadata - `spectra_metadata_selected_ions.parquet`
@@ -297,17 +297,17 @@ levels using the same `source_index` but each previous MS level's `precursor_ind
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 An ion isolated for dissociation. This table follows the same relationship as the [precursor table](#spectrum-precursor-metadata-spectra_metadata_precursorsparquet).
-In addition, there **MAY** be multiple selected ions from the same precursor selection with co-isolation. If this is
-the case, writers **SHOULD** write the `selected_ion_index` column to allow unique referencing to each selected ion.
+In addition, there [MAY]{class="may-chip"} be multiple selected ions from the same precursor selection with co-isolation. If this is
+the case, writers [SHOULD]{class="should-chip"} write the `selected_ion_index` column to allow unique referencing to each selected ion.
 
 - **`source_index`** (uint64) - the spectrum this selected ion belongs to
   (foreign key).
 - **`precursor_index`** (uint64) - the spectrum the selected ion was created from
-  (foreign key). This **MAY** be `null` when the precursor spectrum is not included in the written file.
+  (foreign key). This [MAY]{class="may-chip"} be `null` when the precursor spectrum is not included in the written file.
 - **`selected_ion_index`** (uint64) - optional index value unique to this selected ion.
 - **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE) - See the [`scan.ion_mobility_value`](#spectrum-scan-metadata-spectra_metadata_scansparquet) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
 - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-- **MUST** supply a child of
+- [MUST]{class="must-chip"} supply a child of
   [`MS:1000455`](http://purl.obolibrary.org/obo/MS_1000455){.cvparam} (ion selection
   attribute) one or more times - e.g. selected-ion m/z, charge state, intensity.
     - [`selected_ion_mz (MS:1000744)`](http://purl.obolibrary.org/obo/MS_1000744)
@@ -336,7 +336,7 @@ selected ion describe Q1 and the product isolation window describe Q3.
 - **`product_index`** (uint64) - the ascending 0-based index, incrementing by 1 per entry. This number uniquely identifies each product ion selection across all rows.
 - **`isolation_window`** (group) - the isolation/selection window for this product ion, like the Q3 transmission window on a triple-quadrupole instrument.
     - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
-    - **MAY** supply children of
+    - [MAY]{class="may-chip"} supply children of
       [`MS:1000792`](http://purl.obolibrary.org/obo/MS_1000792) (isolation-window
       attribute) one or more times; promote to columns when available - e.g.
       isolation-window target m/z, lower offset, upper offset.

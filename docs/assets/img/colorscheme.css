@@ -1,0 +1,22 @@
+/* file types */
+.zip { background-color: #E3C800; }
+.zip-central-directory { background-color: #F0A30A;}
+
+.mzpeak { background-color: #3157E9;}
+
+.parquet-metadata { background-color: #DAE8FC; }
+.parquet-data { background-color: #1BA1E2;}
+
+.json { background-color: #60A917;}
+
+/* data kinds */
+.data-arrays { background-color: #F8CECC;}
+.peaks { background-color: #C9A7A6;}
+
+.metadata { background-color: #E1D5E7;}
+.metadata-scans { background-color: #F5F5F5;}
+.metadata-precursors { background-color: #FFE6CC;}
+.metadata-selected-ions { background-color: #FFF2CC;}
+.metadata-products { background-color: #A0E8B0;}
+
+.provenance { background-color: #FFFFCC;}

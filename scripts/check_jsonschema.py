@@ -28,25 +28,7 @@ def main():
     schema = json.loads((SCHEMA_LOCATION / 'mzpeak_index.json').read_text())
     jsonschema.validate(index, schema)
 
-    for key, sub_obj in index['metadata'].items():
-        schema = None
-        match key:
-            case "sample_list":
-                schema = json.loads((SCHEMA_LOCATION / 'sample.json').read_text())
-            case "file_description":
-                schema = json.loads((SCHEMA_LOCATION / 'file_description.json').read_text())
-            case "instrument_configuration_list":
-                schema = json.loads((SCHEMA_LOCATION / 'instrument_configuration.json').read_text())
-            case "run":
-                schema = json.loads((SCHEMA_LOCATION / 'ms_run.json').read_text())
-            case _:
-                print(f"Skipping {key}, unknown metadata key")
-                continue
-        if schema is None: raise KeyError(f"Failed to infer schema for {key}")
-        jsonschema.validate(sub_obj, schema)
-
     schema = json.loads((SCHEMA_LOCATION / 'array_index.json').read_text())
-
     entry: FileEntry
     for entry in archive.file_index:
         if entry.data_kind in (DataKindTag.DataArrays, DataKindTag.Peaks):

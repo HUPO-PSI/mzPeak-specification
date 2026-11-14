@@ -1,12 +1,12 @@
 # Provenance and Signing
 
 mzPeak includes a common mechanism for verifying the provenance of an archive using public key cryptography.
-A writer **MAY** produce SHA-512 digests of each column chunk of a Parquet file or of an entire file for non-Parquet
+A writer [MAY]{class="may-chip"} produce SHA-512 digests of each column chunk of a Parquet file or of an entire file for non-Parquet
 files. These digests are then signed with a private key known only by the source instrument (or other data producer)
 and the source's creator, usually the instrument vendor. The signed digest is then stored along with the associated
 public key in [Cryptographic Messaging Syntax (CMS)](https://www.rfc-editor.org/info/rfc5652/) as
 [Distinguished Object Encoding (DER)](https://en.wikipedia.org/wiki/X.690#DER_encoding) binary, described below.
-The key pair used **SHOULD** be an Ed25519 for simplicity.
+The key pair used [SHOULD]{class="should-chip"} be an Ed25519 for simplicity.
 
 CMS defines a certificate verification chain whereby you can verify that the instrument's private key was used to
 generate a signature using the encoded public key, and then verify that the public key is tied to that instrument
@@ -36,14 +36,14 @@ When verifying an mzPeak file has not been tampered with or decayed, the followi
 each row in the signature table:
 
 1. The `filename` is present in the mzPeak archive.
-2. If `row_group`, `column`, and `path` are defined, then `filename` **MUST** be a Parquet file.
+2. If `row_group`, `column`, and `path` are defined, then `filename` [MUST]{class="must-chip"} be a Parquet file.
 3. Open `filename` as a raw byte stream. If `offset` is defined, seek to `offset` bytes relative to the start.
 4. Generate a SHA-512 digest of the bytes in `filename`. If `length` is defined, only read that many bytes from
    the stream.
 5. Parse the CMS content in `signature` column of the row and confirm this is a `signed_data` message.
    The remaining operations are with respect to the CMS message and the recalculated digest.
-6. Extract `signerInformation` from the CMS message and locate the issuing signer. This **SHOULD** be the first
-   signer. The signer's `digestAlgorithm` **MUST** be SHA-512 and the `signatureAlgorithm` **MUST** be Ed25519.
+6. Extract `signerInformation` from the CMS message and locate the issuing signer. This [SHOULD]{class="should-chip"} be the first
+   signer. The signer's `digestAlgorithm` [MUST]{class="must-chip"} be SHA-512 and the `signatureAlgorithm` [MUST]{class="must-chip"} be Ed25519.
 7. Find the `signedData` certificate whose `sid` matches the issuer and serial number of the issuing signer and
    extract the public key for that certificate. All other certificates in `signedData` are treated as intermediate
    certificates.

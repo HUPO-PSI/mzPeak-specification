@@ -5,18 +5,16 @@ and used in conjunction with, several existing and emerging community models:
 
 - **[PSI Universal Spectrum Identifier (USI)](http://psidev.info/USI)** - a
   universal mechanism for referring to a specific spectrum in public
-  repositories. mzPeak uses USIs in the `scan.spectrum_reference` field for
-  spectra drawn from external sources (see
-  [Spectrum metadata](../schemas/spectra.md#spectrum-scan-metadata-spectra_metadata_scansparquet)).
+  repositories. mzPeak uses USIs in the `scan.spectrum_reference` field and `precursor.precursor_id`
+  for spectra drawn from external sources (see [Spectrum metadata](../schemas/spectra.md#spectrum-scan-metadata-spectra_metadata_scansparquet)).
 - **[mzML](https://www.psidev.info/mzML)** - the current PSI recommendation for
   storing raw or processed mass spectrometry data. mzPeak draws on the mzML data
   model and re-uses concepts such as controlled vocabularies where feasible.
-- **[SDRF (Sample and Data Relationship Format)](https://www.psidev.info/sdrf-sample-data-relationship-format)** [(Guidelines)](https://sdrf.quantms.org/)
-  - a representation of sample metadata. SDRF known at acquisition time may be
+- **[SDRF (Sample and Data Relationship Format)](https://www.psidev.info/sdrf-sample-data-relationship-format)** [(Guidelines)](https://sdrf.quantms.org/) - a representation of sample metadata. SDRF known at acquisition time may be
   carried alongside the data in an mzPeak archive with the `other` `entity_type` and `data_kind`.
 - **[imzML](https://github.com/imzML/imzML/)** - the mzML-derived standard for
   mass-spectrometry imaging. mzPeak addresses imaging within the same archive via
-  spatial coordinates in the scan metadata (see [Entity Types](../archive/entity-types.md)).
+  spatial coordinates in the scan metadata (see [Imaging profile](../profiles/imaging.md)).
 
 ## Controlled vocabularies
 

@@ -11,7 +11,7 @@ requirements to a [Core](../conformance.md#conformance-classes) archive; it take
 ## Marking an archive as imaging
 
 An archive is an imaging archive when `metadata.imaging.is_imaging` in
-[`mzpeak_index.json`](../archive/index-file.md) is `true`. An imaging archive **MUST** meet every
+[`mzpeak_index.json`](../archive/index-file.md) is `true`. An imaging archive [MUST]{class="must-chip"} meet every
 requirement on this page.
 
 ```json
@@ -25,17 +25,17 @@ Pixel positions are columns of the
 
 | Column | Term | Type | Requirement |
 | :-- | :-- | :-- | :-- |
-| `position_x` | `IMS:1000050` position x | integer | **MUST** |
-| `position_y` | `IMS:1000051` position y | integer | **MUST** |
-| `position_z` | `IMS:1000052` position z | integer | **MAY** |
+| `position_x` | `IMS:1000050` position x | integer | [MUST]{class="must-chip"} |
+| `position_y` | `IMS:1000051` position y | integer | [MUST]{class="must-chip"} |
+| `position_z` | `IMS:1000052` position z | integer | [MAY]{class="may-chip"} |
 
-- In each row, `position_x` and `position_y` **MUST** be both set or both null. A scan that
+- In each row, `position_x` and `position_y` [MUST]{class="must-chip"} be both set or both null. A scan that
   belongs to a pixel has both set. A scan that belongs to no pixel, such as a calibration scan,
   has both null.
 - The values are indices into the pixel grid. They are not physical coordinates.
-- Each column **MUST** have a [column mapping](../layouts/metadata-tables.md#column-mapping) entry
+- Each column [MUST]{class="must-chip"} have a [column mapping](../layouts/metadata-tables.md#column-mapping) entry
   naming its term.
-- Several scans **MAY** share one position.
+- Several scans [MAY]{class="may-chip"} share one position.
 
 **Positions define the image.** Terms that describe how the instrument scanned the sample, such as
 scan pattern or line scan direction, are a record of the acquisition. A reader **MUST NOT** use
@@ -43,27 +43,27 @@ them to place pixels.
 
 ## Grid geometry
 
-Exactly one entry of [`scan_settings_list`](../archive/scan_settings_list.md#imaging-ms) **MUST**
+Exactly one entry of [`scan_settings_list`](../archive/scan_settings_list.md#imaging-ms) [MUST]{class="must-chip"}
 describe the pixel grid in its `parameters`:
 
 | Term | Requirement |
 | :-- | :-- |
-| `IMS:1000042` max count of pixels x | **MUST**, an integer of at least 1 |
-| `IMS:1000043` max count of pixels y | **MUST**, an integer of at least 1 |
-| `IMS:1000046` pixel size (x) | **SHOULD** |
-| `IMS:1000047` pixel size y | **SHOULD** |
-| `IMS:1000044` max dimension x, `IMS:1000045` max dimension y | **MAY** |
-| children of `IMS:1000040` linescan sequence, `IMS:1000041` scan pattern, `IMS:1000048` scan type, `IMS:1000049` line scan direction | **MAY** |
+| `IMS:1000042` max count of pixels x | [MUST]{class="must-chip"}, an integer of at least 1 |
+| `IMS:1000043` max count of pixels y | [MUST]{class="must-chip"}, an integer of at least 1 |
+| `IMS:1000046` pixel size (x) | [SHOULD]{class="should-chip"} |
+| `IMS:1000047` pixel size y | [SHOULD]{class="should-chip"} |
+| `IMS:1000044` max dimension x, `IMS:1000045` max dimension y | [MAY]{class="may-chip"} |
+| children of `IMS:1000040` linescan sequence, `IMS:1000041` scan pattern, `IMS:1000048` scan type, `IMS:1000049` line scan direction | [MAY]{class="may-chip"} |
 
 - Pixel size is the length of a pixel's edge. It is not an area.
-- Pixel size and max dimension **MUST** carry a unit of length, and **SHOULD** use micrometre
+- Pixel size and max dimension [MUST]{class="must-chip"} carry a unit of length, and [SHOULD]{class="should-chip"} use micrometre
   (`UO:0000017`).
-- A writer that cannot determine the pixel size **SHOULD** omit it.
+- A writer that cannot determine the pixel size [SHOULD]{class="should-chip"} omit it.
 
 ## Vocabulary
 
-An imaging archive **MUST** declare the imaging vocabulary, `IMS`, in
-[`cv_list`](../archive/cv_list.md). That vocabulary publishes no releases, so its `uri` **MUST**
+An imaging archive [MUST]{class="must-chip"} declare the imaging vocabulary, `IMS`, in
+[`cv_list`](../archive/cv_list.md). That vocabulary publishes no releases, so its `uri` [MUST]{class="must-chip"}
 name a commit, in the form
 `https://raw.githubusercontent.com/imzML/imzML/<commit hash>/imagingMS.obo`:
 

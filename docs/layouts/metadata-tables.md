@@ -4,30 +4,30 @@ Mass spectra and other entities described in `mzPeak` are complex, multi-faceted
 Each facet is described by a `data_kind` associated with the `entity_type`. The columns of
 a metadata table can vary widely based upon context, but they have the following rules:
 
-For `data_kind == metadata`, the first column **MUST** be named `index` and be an integer value that **MUST**
-be unique. It **SHOULD** also be sorted and incremented by 1 for each new entity. This is akin to a primary
+For `data_kind == metadata`, the first column [MUST]{class="must-chip"} be named `index` and be an integer value that [MUST]{class="must-chip"}
+be unique. It [MUST]{class="must-chip"} also be sorted and incremented by 1 for each new entity. This is akin to a primary
 key in relational databases.
 
-For all other kinds, the first column **MUST** be `source_index` and be an integer value that *references* the `index` of
+For all other kinds, the first column [MUST]{class="must-chip"} be `source_index` and be an integer value that *references* the `index` of
 the `metadata` table for the instance that this row is associated. There may be zero or more rows with the same `source_index`
-value. This is akin to a foreign key in relational databases. There **MAY** be another column or a set of columns that function
+value. This is akin to a foreign key in relational databases. There [MAY]{class="may-chip"} be another column or a set of columns that function
 as a primary or composite primary key. This will be defined by the particular file's schema.
 
 In addition, all `data_kind` must support the following:
 
-- There **MAY** be a `parameters` column that is a list column as described [below](#the-parameters-list) in
+- There [MAY]{class="may-chip"} be a `parameters` column that is a list column as described [below](#the-parameters-list) in
   the [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section. If there are nested columns, each
   `struct`-like group may have its own `parameters` column.
 - Additional columns described in the [index file](../archive/index-file.md)'s column mapping may be present
   that map a controlled vocabulary term to a column as described in [Controlled Vocabulary Terms](#controlled-vocabulary-terms) section.
 - Additional columns may be defined specifically for a combination of `entity_type` and `data_kind`.
-- If a column value is `null`, treat its value as absent from that row. The `index` or `source_index` columns' values **MUST** not be `null`.
+- If a column value is `null`, treat its value as absent from that row. The `index` or `source_index` columns' values [MUST]{class="must-chip"} not be `null`.
 
 ## Column naming
 
 When a column is not otherwise controlled by the schema, it is assumed to map to a parameter. The schemas that follow metadata tables
-in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers **SHOULD**
-use them and readers **SHOULD** expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
+in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers [SHOULD]{class="should-chip"}
+use them and readers [SHOULD]{class="should-chip"} expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
 process described below, some readers may be treating mzPeak component files like generic Parquet files, and will expect a stable, consistent
 schema. Column names should be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_\\-]+/`
 with a `_`, prefixing non-standardized names with `opt_`.
@@ -71,12 +71,12 @@ metadata. mzPeak uses CV terms in three ways:
       holds CURIEs for a child term — [`MS:1000127`](http://purl.obolibrary.org/obo/MS_1000127) "centroid spectrum"
       or [`MS:1000128`](http://purl.obolibrary.org/obo/MS_1000128) "profile spectrum" — as appropriate for the spectrum
       in that row. If the CURIE is `null`, then no value is added for that term. These [column mappings](#column-mapping)
-      **MUST** set `term_marker` to `true` and use a string or large string value type for storage. For standardized columns
-      defined in this document, the `term_marker` **MAY** be omitted.
+      [MUST]{class="must-chip"} set `term_marker` to `true` and use a string or large string value type for storage. For standardized columns
+      defined in this document, the `term_marker` [MAY]{class="may-chip"} be omitted.
     - If multiple instances of a particular parent term without a `has_value_type` relationship are needed to describe the
       same row. Map both terms to columns, use a column mapped to the second term itself with a boolean value. A `true` value there
       indicates the presence of the value-less term and `false` or `null` indicate its absence. These [column mappings](#column-mapping)
-      **MUST** set `term_marker` to `true`.
+      [MUST]{class="must-chip"} set `term_marker` to `true`.
           - This is useful for cases like [`dissociation_method` (MS:1000044)](http://purl.obolibrary.org/obo/MS_1000044)
             being used to express the primary dissociation method [`MS:1000598|electron transfer dissociation`](http://purl.obolibrary.org/obo/MS_1000598)
             but also need to record a supplementary dissociation method [`MS:1002679|supplemental collision-induced dissociation`](http://purl.obolibrary.org/obo/MS_1002679).
@@ -96,7 +96,7 @@ metadata. mzPeak uses CV terms in three ways:
 ### The `parameters` list
 
 The `parameters` column may be present in any `struct`-like group of a metadata table. It
-**MUST** be a list of the following schema:
+[MUST]{class="must-chip"} be a list of the following schema:
 
 ```
 group field_id=-1 parameters (List) {
@@ -117,22 +117,22 @@ group field_id=-1 parameters (List) {
 ```
 
 The `parameters.list.item.value` group has a slot for each data type, so a
-parameter can take exactly one of these value types. Unused slots **MUST** be
+parameter can take exactly one of these value types. Unused slots [MUST]{class="must-chip"} be
 `null`. A small number of PSI-MS-defined parameters may have carry a list of
 values instead of a scalar. When list-valued parameters are **NOT** promoted to columns,
-their values **MUST** be serialized as JSON strings. Parquet's `variant` type is
+their values [MUST]{class="must-chip"} be serialized as JSON strings. Parquet's `variant` type is
 still experimental and not widely supported. As the `variant` type's support matures,
 value storage for parameters may change to use it in the future.
 
-A parameter **MAY** carry a unit, given as a CV-term CURIE in
+A parameter [MAY]{class="may-chip"} carry a unit, given as a CV-term CURIE in
 `parameters.list.item.unit`. Units are currently drawn from the Unit Ontology (UO) and the
 PSI-MS controlled vocabulary. As with mzML's `<userParam/>`, an *uncontrolled*
 parameter may be stored simply by leaving `parameters.list.item.accession` empty.
 
 !!! note "Naming and column promotion"
-    - Parquet columns **MUST** be uniquely named, so if the same parameter appears more
-      than once in a single row it **MUST** be stored in the `parameters` column.
-    - Writers **SHOULD** promote parameters that are present with zero or one times per row
+    - Parquet columns [MUST]{class="must-chip"} be uniquely named, so if the same parameter appears more
+      than once in a single row it [MUST]{class="must-chip"} be stored in the `parameters` column.
+    - Writers [SHOULD]{class="should-chip"} promote parameters that are present with zero or one times per row
       to *columns* unless there is ambiguity or insufficient context. This is more space-efficient
       and enables predicate filtering. Examples where ambiguity might prevent promotion:
         - The parameter *MAY* be repeated, but until all records are written, it is impossible to know.
@@ -150,7 +150,7 @@ a parameter to a column.
 ### Typing parameter values
 
 When a term has a value and it is stored in the `parameters` list, the value
-**MUST** use one of the value types in the fixed schema above. When a term is
+[MUST]{class="must-chip"} use one of the value types in the fixed schema above. When a term is
 instead promoted to its own column, the value may use any Parquet data type.
 This flexibility lets writers pick an appropriate size and precision, but it can
 create redundant reader code — a column expected to hold an integer might be
@@ -175,7 +175,7 @@ Recommended physical types:
 
 ### Column mapping
 
-When a CV-term concept is represented as a column, the column name **SHOULD** unless otherwise
+When a CV-term concept is represented as a column, the column name [SHOULD]{class="should-chip"} unless otherwise
 stated be named according to the following rules and have a corresponding entry in the file's
 [file index](../archive/index-file.md)'s column mappings.
 
@@ -259,8 +259,8 @@ In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/
 
 This example returns to the main spectrum metadata table, adding an example `term_marker` column.
 The `opt_calibration_spectrum` column is mapped to the term [`MS:1000928|calibration spectrum`](http://purl.obolibrary.org/obo/MS_1000928).
-When the column contains the value `true`, this term *MUST* be present in that row's spectrum, otherwise
-it *MUST* be absent, not indicated through any other method. In this example, the denoted spectra
+When the column contains the value `true`, this term [MUST]{class="must-chip"} be present in that row's spectrum, otherwise
+it [MUST]{class="must-chip"} be absent, not indicated through any other method. In this example, the denoted spectra
 are used solely to measure the lock mass for post-acquisition mass calibration, and contain no analytes of
 interest otherwise and could be ignored by another piece of software not interested in calibration spectra.
 
@@ -308,7 +308,7 @@ interest otherwise and could be ignored by another piece of software not interes
 ##### Example 5: `entity_type=spectrum` `data_kind=precursors`
 
 This example visits a subset of the precursor metadata table for a triggered EThcD run. It shows examples of `term_marker` columns denoting child terms
-in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_suppl_beam_disc`. The
+in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_supplemental_beam_type_dissociation`. The
 former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000133|collision-induced dissociation`, `MS:1000422|
 beam-type collision-induced dissociation` and `MS:1000598|electron transfer dissociation`, the primary dissociation method. The latter marks which rows have the
 `MS:1002678|supplemental beam-type collision-induced dissociation` in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of
@@ -317,7 +317,7 @@ now quickly filter on rows which contain a supplemental dissociation method dire
 the `parameters` list, and be invisible to most basic query mechanisms. Some but not all query engines support list traversal, but such operations are more
 complicated to specify and have to deal with the less efficient storage model of the `parameters` list in any case. Both of these columns are nested under the
 `activation.` prefix, which is a `group` in the Parquet schema. This is an organizational nicety for Parquet, but when translated to Arrow, this produces a `struct`
-type column with multiple children. Care **MUST** be taken to support these when reading column statistics.
+type column with multiple children. Care [MUST]{class="must-chip"} be taken to support these when reading column statistics.
 
 ```json
 [
@@ -335,14 +335,14 @@ type column with multiple children. Care **MUST** be taken to support these when
   },
   {
     "name": "supplemental beam-type collision-induced dissociation",
-    "path": "activation.opt_MS_1002678_suppl_beam_disc",
+    "path": "activation.opt_MS_1002678_supplemental_beam_type_dissociation",
     "accession": "MS:1002678",
     "term_marker": true
   }
 ]
 ```
 
-|   source_index |   precursor_index | activation. dissociation_method  |  activation. collision_energy |   activation. opt_MS_1002678_suppl_beam_disc |
+|   source_index |   precursor_index | activation. dissociation_method  |  activation. collision_energy |   activation. opt_MS_1002678_supplemental_beam_type_dissociation |
 |---------------:|------------------:|:---------------------------------|------------------------------:| ---------------------------------------------:|
 |           6705 |              6683 | MS:1000422                       |                       28      | False
 |           6706 |              6683 | MS:1000598                       |                       33.0785 | True
@@ -354,7 +354,7 @@ type column with multiple children. Care **MUST** be taken to support these when
 ## Column statistics
 
 Parquet can store statistics, including the minimum value, maximum value, and null count at the row group
-and data page level for each column. Writers **MUST** include them. This makes it easy to determine the minimum and maximum
+and data page level for each column. Writers [MUST]{class="must-chip"} include them. This makes it easy to determine the minimum and maximum
 value for any given parameter. For instance, inferring the m/z ranges covered by an acquisition can be done
 by reading the minimum [lowest observed m/z (MS:1000528)](http://purl.obolibrary.org/obo/MS_1000528) and
 maximum [highest observed m/z (MS:1000527)](http://purl.obolibrary.org/obo/MS_1000527) statistics without

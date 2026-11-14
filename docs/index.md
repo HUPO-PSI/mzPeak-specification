@@ -13,8 +13,8 @@ hide:
 # File Format Specification
 <p class="mzp-hero__tagline">
 An open, columnar, random-access file format for storing mass spectra,
-chromatograms, and rich instrument metadata — designed to succeed mzML for
-modern, large-scale mass spectrometry.
+chromatograms, and rich instrument metadata. It is designed to succeed mzML
+for modern, large-scale mass spectrometry.
 </p>
 <div class="mzp-badges">
   <span class="mzp-badge">Status: Draft</span>
@@ -67,7 +67,7 @@ container, data layouts, index file, and metadata model.
 
     ---
 
-    Packed metadata tables, the array index, and the point & chunked signal layouts.
+    Metadata tables, the array index, and the point & chunked signal layouts.
 
     [:octicons-arrow-right-24: Layouts](layouts/metadata-tables.md)
 

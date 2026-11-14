@@ -7,7 +7,7 @@ The main axis chunks' start, end, and a repeated index are recorded as columns;
 each array may then be stored as-is or with an opaque transform (delta encoding,
 Numpress, …). The start/end interval permits granular random access along *both*
 the main axis and the source index. The top-level schema node is named `chunk`,
-and the entity index column **MUST** be its first column.
+and the entity index column [MUST]{class="must-chip"} be its first column.
 
 <div class="mzp-figure" markdown>
 <img src="../../assets/img/chunked_layout.svg" alt="Chunked-layout schema: a top-level chunk group holding spectrum_index, mz_chunk_start and mz_chunk_end bounds, an encoded mz_chunk_values list, a chunk_encoding column, and an intensity list, with one table row per chunk." height="520"/>
@@ -43,15 +43,15 @@ so they can be byte-shuffled for further compression.
 1. **`<entity_type>_index`** (integer) — the index key for the entity this chunk
    belongs to.
 2. **`<array_name>_chunk_start`** (float64) — the first coordinate value in the
-   chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_start`.
+   chunk, inclusive. Its array-index `buffer_format` [MUST]{class="must-chip"} be `chunk_start`.
 3. **`<array_name>_chunk_end`** (float64) — the last coordinate value in the
-   chunk, inclusive. Its array-index `buffer_format` **MUST** be `chunk_end`.
+   chunk, inclusive. Its array-index `buffer_format` [MUST]{class="must-chip"} be `chunk_end`.
 4. **`<array_name>_chunk_values`** (list) — the encoded coordinates from
    `array_name` according to `chunk_encoding`. Its array-index `buffer_format`
-   **MUST** be `chunk_values`.
+   [MUST]{class="must-chip"} be `chunk_values`.
 5. **`chunk_encoding`** (CURIE string) — how `<array_name>_chunk_values` were encoded;
    see [Chunk encodings](#chunk-encodings). Its array-index `buffer_format`
-   **MUST** be `chunk_encoding`.
+   [MUST]{class="must-chip"} be `chunk_encoding`.
 
 All other columns are expected to be `list` arrays whose names are simply their
 `array_name` (with `buffer_format` `chunk_secondary`), or surrogate arrays with
@@ -234,9 +234,9 @@ To store Numpress-linear-encoded arrays, an extra column
 `<array_name>_chunk_values` column. It is a list of byte arrays
 (`list<u8>` in Arrow parlance — **not** `binary`; see the
 [discussion of string-type optimization](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
-Its array-index entry **MUST** have `buffer_format` `chunk_transform` and the
+Its array-index entry [MUST]{class="must-chip"} have `buffer_format` `chunk_transform` and the
 same array type, array name, data type, unit, and data-processing ID as the
-`_chunk_values` column. The `transform` field **MUST** be `MS:1002312`. The
+`_chunk_values` column. The `transform` field [MUST]{class="must-chip"} be `MS:1002312`. The
 `_chunk_values` column for rows with its main axis encoded with MS-Numpress linear encoding
 should be an empty list.
 
@@ -257,9 +257,9 @@ This uses a pluggable coordinate model that maps *real* value to and from unsign
 a pair of equations and a set of grid parameters. To store grid-encoded arrays for the chunk dimension, an
 extra column group `<array_name>_grid` is added. Like in the [Numpress linear encoding](#numpress-linear-encoding)
 case, the `<array_name>_chunk_values` column is populated with an empty list when the chunked dimension is
-grid-encoded. The array index entry for `<array_name>_grid` column **MUST** have `buffer_format` `chunk_transform` and
+grid-encoded. The array index entry for `<array_name>_grid` column [MUST]{class="must-chip"} have `buffer_format` `chunk_transform` and
 the same array type, array name, data type, unit, and data-processing ID as the `_chunk_values` column, and the
-`transform` field **MUST** be `MS:1003826`. The grid encoding is **incompatible with [null marking](signal-data.
+`transform` field [MUST]{class="must-chip"} be `MS:1003826`. The grid encoding is **incompatible with [null marking](signal-data.
 md#null-marking)** as to avoid the complication of stacking encodings. A parallel intensity array may still be null marked.
 Other arrays may be grid encoded using the same methods described here, such as an IM-MS spectrum's ion mobility array, if
 desirable. In this case the array index entry should either define the data type, unit and array type for the column,
@@ -294,23 +294,23 @@ vocabulary.
 The `parameters` column is a list of 64-bit floats that will be used to parameterize the grid model. The
 order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the
 same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general.
-These parameters are used in index/coordinate conversion. The `grid_type`'s term definition **MUST** provide clear
+These parameters are used in index/coordinate conversion. The `grid_type`'s term definition [MUST]{class="must-chip"} provide clear
 explanation for parameter packing order, and at least directions on where to find the conversion equation definitions.
 
 The `indices` column is a list of 32-bit (unsigned) integers that are mapped to the real 64-bit float coordinates
 being encoded. These are produced for writing by using the grid model to convert real-valued coordinates *to* grid
 indices. When reading, the grid model is used to convert *from* indices back to their equivalent real-valued
 coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
-or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index **MUST** be
-included in the `indices` column's array. The chunk dimension's `indices` column **MUST** be delta-encoded, this is
+or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index [MUST]{class="must-chip"} be
+included in the `indices` column's array. The chunk dimension's `indices` column [MUST]{class="must-chip"} be delta-encoded, this is
 done to improve compressibility of a sorted array of indices. The indices use 32-bit integers because this provides
 an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
-real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer **SHOULD**
+real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer [SHOULD]{class="should-chip"}
 fall back to another encoding.
 
 It must be noted that *unless* using a vendor-defined encoding, this is likely to be a lossy transformation.
-The user **SHOULD** be able to set an error threshold for using the grid encodings. A model that would have errors
-exceeding the given threshold **SHOULD** fall back to use a different encoding. The linear grid can be
+The user [SHOULD]{class="should-chip"} be able to set an error threshold for using the grid encodings. A model that would have errors
+exceeding the given threshold [SHOULD]{class="should-chip"} fall back to use a different encoding. The linear grid can be
 an order of magnitude less accurate than `MS-Numpress linear prediction` on profile data, but 30% smaller when
 both are Zstandard compressed. On time-of-flight mass analyzers, the square root grid is marginally less accurate but
 often produces better compression, 50% smaller than `MS-Numpress linear prediction` on the same profile data. This is
@@ -403,9 +403,9 @@ encode the *secondary* arrays in chunks. These columns are recorded in the array
 index with `buffer_format` `chunk_transform`, and the `transform` field is the
 CURIE for the relevant method — for example
 [`MS:1002314`](http://purl.obolibrary.org/obo/MS_1002314) for MS-Numpress SLOF.
-The column's physical type **MUST** be a list of byte arrays, though the type in
-the array index **MUST** be the *decoded* array's real type. Column names
-**SHOULD** be of the form `<array_name>_<transform_name>_bytes`, e.g.
+The column's physical type [MUST]{class="must-chip"} be a list of byte arrays, though the type in
+the array index [MUST]{class="must-chip"} be the *decoded* array's real type. Column names
+[SHOULD]{class="should-chip"} be of the form `<array_name>_<transform_name>_bytes`, e.g.
 `intensity_numpress_slof_bytes`.
 
 ??? question "Transform name or accession code?"
@@ -413,11 +413,11 @@ the array index **MUST** be the *decoded* array's real type. Column names
 
 ### Opaque transforms and the array index
 
-When *writing* a file with an opaque transform on a column, the writer **MUST** ensure
+When *writing* a file with an opaque transform on a column, the writer [MUST]{class="must-chip"} ensure
 that the necessary additional column to store the transformed value is present in the schema.
-If the writer expects the untransformed column to be present as well, this column **SHOULD**
-be present. There **MUST** be an array index entry for each column. The transformed array index
-entry **MUST** set the appropriate CURIE in the `.transform` field, and the untransformed array
+If the writer expects the untransformed column to be present as well, this column [SHOULD]{class="should-chip"}
+be present. There [MUST]{class="must-chip"} be an array index entry for each column. The transformed array index
+entry [MUST]{class="must-chip"} set the appropriate CURIE in the `.transform` field, and the untransformed array
 entry is left empty. Non-opaque transforms like null marking do not require this extra step.
 
 ## Encoding Strategies Quick Reference
@@ -435,7 +435,7 @@ To read a single entry (spectrum, chromatogram, …) stored in chunks:
 0. Identify which columns are annotated as `chunk_start`, `chunk_end`,
    `chunk_encoding`, and `chunk_values` in the
    [array index](signal-data.md#the-array-index). The `<entity_type>_index`
-   column **MUST** be the first column in the table, so it always has index 0.
+   column [MUST]{class="must-chip"} be the first column in the table, so it always has index 0.
 1. Find the row group containing the entry's index value via the row-group
    metadata. Optionally, if the page index is available, find the row ranges of
    the pages that contain that index.

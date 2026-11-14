@@ -1195,7 +1195,7 @@ The `data_kind` and `entity_kind` fields are loose enumerations. They are expect
 
 ## File-Level Metadata
 
-The [file level metadata](#file-level-metadata) *SHOULD* be stored in `mzpeak_index.metadata` and the metadata Parquet files' key-value pairs as JSON-encoded metadata governed by the associated schemas below:
+The [file level metadata](#file-level-metadata) **SHOULD** be stored in `mzpeak_index.metadata` and the metadata Parquet files' key-value pairs as JSON-encoded metadata governed by the associated schemas below:
 
   - [`cv_list`](https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/cv_list.json)
   - [`file_description`](https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/file_description.json)

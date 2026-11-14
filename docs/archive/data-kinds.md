@@ -16,7 +16,7 @@ roughly what schema to expect.
 | `proprietary`  | implementation-defined | Any | Entirely the purview of the writer (often an instrument vendor). May not be Parquet. Should be ignored unless the reader is for that vendor. |
 | `other`        | implementation-defined | Any | None of the above. May not be Parquet. |
 
-Any value outside this list is treated as `other`, but implementations **MUST** preserve
+Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"} preserve
 the value provided rather than discarding the data kind label and recording an
 undifferentiated "other". This permits forward compatibility as new data kinds are
 added without updating existing code.

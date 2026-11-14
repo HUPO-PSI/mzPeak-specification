@@ -3,7 +3,7 @@
 An mzPeak archive is made up of multiple named files. To leave room for future
 files and avoid complicated file-name resolution, an **index file** identifies
 the contents of each file and broadly defines the kind of schema it carries. The
-file **MUST** be serialized as UTF-8.
+file [MUST]{class="must-chip"} be serialized as UTF-8.
 
 
 <div class="code-height-limit" markdown>
@@ -583,7 +583,7 @@ searching, and indexing cvParam-like data. The `column_mapping` object defines a
 column to an externally controlled definition like a controlled vocabulary term or a user-defined column.
 
 When a column is defined in the appropriate schema, its `path` is pre-defined with the last entry in the
-`path` being the actual column name. When not defined, the column name **MUST** start with `opt_`. This
+`path` being the actual column name. When not defined, the column name [SHOULD]{class="should-chip"} start with `opt_`. This
 provision ensures that if we later decide to add a new column to the specification, it will not collide
 with an existing user-defined column name.
 
@@ -592,7 +592,7 @@ More is described in [the components section](./index_file_components.md)
 
 ## File-level metadata
 
-File-level metadata **MUST** be stored in `mzpeak_index.metadata` encoded according to the schemas
+File-level metadata [MUST]{class="must-chip"} be stored in `mzpeak_index.metadata` encoded according to the schemas
 below.
 
 - [`cv_list`](./cv_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
@@ -606,28 +606,26 @@ below.
 
 
 !!! question "Open item — cleartext vs. encrypt-able metadata"
-    Anything in `mzpeak_index.json` is necessarily cleartext to all readers
-    unless ZIP encryption is used — and ZIP encryption is known to be flawed and
-    inconsistent. Anything in a Parquet footer's key–value pairs *is*
-    encrypt-able. The index is JSON for convenience and ease of access from
-    scripting languages; whether some fields should move to encrypt-able Parquet
-    metadata is unresolved.
+    Anything in `mzpeak_index.json` is necessarily cleartext to all readers.
+    Anything in a Parquet footer's key–value pairs *is* encrypt-able. The index is
+    JSON for convenience and ease of access from scripting languages; whether some
+    fields should move to encrypt-able Parquet metadata is unresolved.
 
 ## Format Versioning
 
 The mzPeak archive's format version is written in `mzpeak_index.metadata.version`. The
 value is formatted as a semantic version `#!js /(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/`.
-Version compatibility **SHOULD** be consistent with semantic versioning rules.
+Version compatibility [SHOULD]{class="should-chip"} be consistent with semantic versioning rules.
 
-If a reader encounters a file with a major `version` greater than it knows how to read, it **SHOULD**
-report an error. Attempting to parse the data under the previous rules **MAY** lead to a cascade of additional
+If a reader encounters a file with a major `version` greater than it knows how to read, it [SHOULD]{class="should-chip"}
+report an error. Attempting to parse the data under the previous rules [MAY]{class="may-chip"} lead to a cascade of additional
 errors.
 
-A greater minor `version` indicates there **MAY** be columns that are read using
+A greater minor `version` indicates there [MAY]{class="may-chip"} be columns that are read using
 additional rules not compatible with previous versions, but which are not required for the overall
 integrity of the file outside of proprietary extensions.
 
-A greater patch version does not introduce new parsing rules, but **MAY** add additional defined columns
+A greater patch version does not introduce new parsing rules, but [MAY]{class="may-chip"} add additional defined columns
 so they no longer require the `opt_` prefix, or add new `entity_type` or `data_kind` types which would
 otherwise be treated as `other` in previous versions.
 
@@ -639,6 +637,6 @@ is declared by setting `metadata.imaging.is_imaging` to `true`.
 
 ### For validation
 
-New minor or patch versions **MAY** add additional validation rules, but new minor versions **SHOULD** not
-make files valid under previous minor versions that were valid no longer valid. Profiles **SHOULD** abide
+New minor or patch versions [MAY]{class="may-chip"} add additional validation rules, but new minor versions [SHOULD]{class="should-chip"} not
+make files valid under previous minor versions that were valid no longer valid. Profiles [SHOULD]{class="should-chip"} abide
 by the same rules.

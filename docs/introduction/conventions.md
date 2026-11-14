@@ -1,7 +1,7 @@
 # Notational Conventions
 
-The key words **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**,
-**SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL** in this
+The key words [MUST]{class="must-chip"}, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**,
+[SHOULD]{class="should-chip"}, **SHOULD NOT**, **RECOMMENDED**, [MAY]{class="may-chip"}, and **OPTIONAL** in this
 document are to be interpreted as described in BCP 14
 [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)
 [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) when, and only when, they
@@ -15,7 +15,9 @@ is used as a `parameter` in JSON, it is represented using the [JSONSchema](../ar
 and when converted to a Parquet structure, it uses the group structure in the
 [metadata table layout](../layouts/metadata-tables.md#the-parameters-list).
 When a term name is converted into a Parquet column name, it appears in `code` font
-with underscores as e.g. as `ms_level`, see [Column Naming](../layouts/metadata-tables.md#column-naming).
+with underscores as e.g. as `ms_level` optionally with its accession in parentheses that
+are not part of the actual column name `ms_level (MS:1000511)`,
+see [Column Naming](../layouts/metadata-tables.md#column-naming).
 
 ## Code samples
 
@@ -24,13 +26,13 @@ preparing data to be stored in that format. This includes snippets of Python cod
 to illustrate these operations, under the assumption that most technical programmers
 will be able to read Python and that Python is effectively executable pseudocode.
 
-The snippets rely on three components:
+The snippets rely on four components:
 
 - **abstract base classes** from the Python standard library, used for type
   annotations;
 - [**NumPy**](https://numpy.org/) v2.1, for array operations that are assumed to
   be understandable;
-- [**SciPy**](https://scipy.org/) v1.1, for a small amount of linear regression
+- [**SciPy**](https://scipy.org/) v1.11, for a small amount of linear regression
   solving;
 - [**PyArrow**](https://arrow.apache.org/docs/python/index.html) v20.0, for
   operations on Apache Arrow arrays, which are conceptually equivalent to the

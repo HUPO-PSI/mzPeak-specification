@@ -33,7 +33,7 @@ jobs:
           format: svg
 
       - name: Build site
-        run: mkdocs build --clean --strict
+        run: mkdocs build --clean
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

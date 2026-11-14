@@ -77,7 +77,7 @@ Because Parquet supports
 individual Parquet files — and even individual columns or the footer metadata —
 can be encrypted while leaving the archive readable as a whole.
 
-ZIP encryption **MUST NOT** be used. ZIP encryption is widely known to be flawed and
+ZIP encryption [MUST NOT]{class="must-chip"} be used. ZIP encryption is widely known to be flawed and
 inconsistently implemented. If additional files must be stored encrypted that are not already
 written in Parquet columns or key-value metadata, these proprietary files [SHOULD]{class="should-chip"} be stored
 encrypted at rest within the archive using whatever means the intended reader knows to use to decrypt

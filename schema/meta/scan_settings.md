@@ -2,7 +2,7 @@
 
 This is primarily used for high-level configuration of data-independent acquisition strategies like SWATH or targeted MS.
 Additionally used for imaging MS to define the spatial scanning parameters. These settings are associated with the rest of
-the data in the archive through a link to an [instrument configuration](../instrument_configuration).
+the data in the archive through a link to an [instrument configuration](../instrument_configuration/).
 
 ### Targeted MS
 

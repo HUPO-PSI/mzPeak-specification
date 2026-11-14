@@ -57,3 +57,6 @@ render-jsonschema:
 
 render-diagrams:
     bash scripts/drawio2svg.sh docs/assets/img/*.drawio
+
+render-directives:
+    python scripts/update_directives.py

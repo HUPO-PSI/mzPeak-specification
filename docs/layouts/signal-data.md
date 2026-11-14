@@ -173,7 +173,7 @@ to have `sorting_rank` 0. An example is shown in the JSON text in [The Array Ind
 
 ### Parallel time index
 
-In addition to the `<entity_type>_index` column, the writer *MAY* include a parallel
+In addition to the `<entity_type>_index` column, the writer [MAY]{class="may-chip"} include a parallel
 `<entity_type>_time` column which [MUST]{class="must-chip"} store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
 associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
 for chromatograms or traces. It's array index entry has a `buffer_format` of `index`, an `array_type` of

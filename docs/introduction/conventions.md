@@ -1,6 +1,6 @@
 # Notational Conventions
 
-The key words [MUST]{class="must-chip"}, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**,
+The key words [MUST]{class="must-chip"}, [MUST NOT]{class="must-chip"}, **REQUIRED**, **SHALL**, **SHALL NOT**,
 [SHOULD]{class="should-chip"}, **SHOULD NOT**, **RECOMMENDED**, [MAY]{class="may-chip"}, and **OPTIONAL** in this
 document are to be interpreted as described in BCP 14
 [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)

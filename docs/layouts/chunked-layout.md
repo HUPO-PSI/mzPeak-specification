@@ -292,7 +292,7 @@ vendor proprietary models. There are provisions for adding vendor models or appr
 vocabulary.
 
 The `parameters` column is a list of 64-bit floats that will be used to parameterize the grid model. The
-order they are written is given by `grid_type`'s definition. The number of parameters *MAY* vary within rows of the
+order they are written is given by `grid_type`'s definition. The number of parameters [MAY]{class="may-chip"} vary within rows of the
 same `grid_type` if the model permits it, and is expected to vary between different `grid_type` models in general.
 These parameters are used in index/coordinate conversion. The `grid_type`'s term definition [MUST]{class="must-chip"} provide clear
 explanation for parameter packing order, and at least directions on where to find the conversion equation definitions.

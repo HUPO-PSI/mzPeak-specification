@@ -29,8 +29,9 @@ When a column is not otherwise controlled by the schema, it is assumed to map to
 in this document will use specific names associated with CURIEs. These are the *canonical* names for those parameters, and writers [SHOULD]{class="should-chip"}
 use them and readers [SHOULD]{class="should-chip"} expect them. While the correct meaning can always be recovered by using the [column mapping](#column-mapping)
 process described below, some readers may be treating mzPeak component files like generic Parquet files, and will expect a stable, consistent
-schema. Column names should be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_\\-]+/`
-with a `_`, prefixing non-standardized names with `opt_`.
+schema. Column names [MAY]{class="may-chip"} be produced from controlled vocabulary terms by replacing any characters matching the regex `/[^a-zA-Z0-9_]+/`
+with a `_` and [MUST]{class="must-chip"} prefix non-standardized names with `opt_`. Writers [SHOULD]{class="should-chip"} choose consistent names for non-standardized columns when
+the column does not map to a controlled vocabulary term.
 
 ## Examples
 
@@ -55,8 +56,7 @@ This is a secondary metadata file, it has `source_index` column. This identifies
 |              2 |                 1 |                 0 |           810.789 |            null |      1.99404e+06 |                  null |                null | []           |
 |              3 |                 1 |                 1 |           837.345 |            null | 999937           |                  null |                null | []           |
 |              4 |                 1 |                 2 |           725.362 |            null | 313667           |                  null |                null | []           |
-|              5 |                 1 |                 3 |           558.869 |            null | 202178           |                  null |                null | []           |
-|              6 |                 1 |                 4 |           812.325 |            null |      1.16189e+06 |                  null |                null | []           |
+
 
 ## Controlled Vocabulary Terms
 
@@ -88,7 +88,7 @@ metadata. mzPeak uses CV terms in three ways:
    shape.
 3. **As pluggable metadata carriers** in `parameters` arrays, analogous to
    `<cvParam/>` in mzML. Every schema facet of a metadata table may carry a
-   `parameters` column. Writers **MUST NOT** write the same parameter to both
+   `parameters` column. Writers [MUST NOT]{class="must-chip"} write the same parameter to both
    the `parameters` list and as a column to avoid differences in interpretation
    depending upon which copy is promoted, or if the two values would need to be
    considered in combination to understand the semantics.
@@ -118,7 +118,7 @@ group field_id=-1 parameters (List) {
 
 The `parameters.list.item.value` group has a slot for each data type, so a
 parameter can take exactly one of these value types. Unused slots [MUST]{class="must-chip"} be
-`null`. A small number of PSI-MS-defined parameters may have carry a list of
+`null`. A value with all slots set to `null` has `null` as its value. A small number of PSI-MS-defined parameters may have a list of
 values instead of a scalar. When list-valued parameters are **NOT** promoted to columns,
 their values [MUST]{class="must-chip"} be serialized as JSON strings. Parquet's `variant` type is
 still experimental and not widely supported. As the `variant` type's support matures,
@@ -130,12 +130,12 @@ PSI-MS controlled vocabulary. As with mzML's `<userParam/>`, an *uncontrolled*
 parameter may be stored simply by leaving `parameters.list.item.accession` empty.
 
 !!! note "Naming and column promotion"
-    - Parquet columns [MUST]{class="must-chip"} be uniquely named, so if the same parameter appears more
-      than once in a single row it [MUST]{class="must-chip"} be stored in the `parameters` column.
+    - Parquet columns [MUST]{class="must-chip"} be uniquely named. If the same parameter appears more
+      than once in a single row or vary in units between rows, it [MUST]{class="must-chip"} be stored in the `parameters` column.
     - Writers [SHOULD]{class="should-chip"} promote parameters that are present with zero or one times per row
       to *columns* unless there is ambiguity or insufficient context. This is more space-efficient
       and enables predicate filtering. Examples where ambiguity might prevent promotion:
-        - The parameter *MAY* be repeated, but until all records are written, it is impossible to know.
+        - The parameter [MAY]{class="may-chip"} be repeated, but until all records are written, it is impossible to know.
         - The parameter is a user-defined term, leaving it up to the implementation to know whether it may be repeated multiple times for the same row.
         - The parameter's value type varies from case to case (e.g. sometimes a number, sometimes a string)
 
@@ -163,7 +163,7 @@ Recommended physical types:
 - **Integral values that are *not* indices or identifiers** — prefer signed 32-
   or 64-bit, as needed to cover the value's domain.
 - **Indices or identifiers represented as integers** — prefer unsigned 32- or
-  64-bit. Dictionary encoding reduces most cases to ~8 bits per variant on disk
+  64-bit. Dictionary encoding reduces most cases to ~8 bits per value on disk
   anyway if the number of unique values is relatively small.
 - **Floating-point values** — prefer 64-bit doubles unless precision is truly of
   no concern. For repetitive values (e.g. collision energy), dictionary encoding
@@ -181,8 +181,7 @@ stated be named according to the following rules and have a corresponding entry 
 
 1. If defined by the schema in this standard, match the *expected* name, often derived from the CV-term's name.
 2. Otherwise, begin with the prefix `opt_` followed by a unique name that is descriptive of the value being stored.
-     1. If the value is a CV-term, the term's name with non-identifier-safe characters (`/[^a-zA-Z0-9_\\-]+/`) replaced
-      with `_`
+     1. If the value is a CV-term, the term's name with non-identifier-safe characters removed as described in [column naming](#column-naming)
      2. If not, provide as succinct unique name in the column name after the `opt_` prefix, with a more complete name defined
         in the column mapping.
 
@@ -253,7 +252,7 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 |              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_window_lower_limit**: 210, scan_window_upper_limit: 1635}]
 |              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_window_lower_limit**: 220, scan_window_upper_limit: 1685}]
 
-In the first case, [preset scan configuration (MS:1000616)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [scan lower limit (MS:1000501)](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
+In the first case, [MS:1000616|preset scan configuration](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [MS:1000501|scan window lower limit](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
 ##### Example 4: `entity_type=spectrum` `data_kind=metadata`
 
@@ -309,8 +308,7 @@ interest otherwise and could be ignored by another piece of software not interes
 
 This example visits a subset of the precursor metadata table for a triggered EThcD run. It shows examples of `term_marker` columns denoting child terms
 in `activation.dissociation_method` and `term_marker` columns denoting presence/absence in `activation.opt_MS_1002678_supplemental_beam_type_dissociation`. The
-former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000133|collision-induced dissociation`, `MS:1000422|
-beam-type collision-induced dissociation` and `MS:1000598|electron transfer dissociation`, the primary dissociation method. The latter marks which rows have the
+former tells the reader what kind of dissociation method was used on each scan, alternating between `MS:1000133|collision-induced dissociation`, `MS:1000422|beam-type collision-induced dissociation` and `MS:1000598|electron transfer dissociation`, the primary dissociation method. The latter marks which rows have the
 `MS:1002678|supplemental beam-type collision-induced dissociation` in addition to the `dissociation_method` column's value. Because `MS:1002678` is a child term of
 `MS:1000044`, it needs to be defined using `term_marker` with a boolean value to avoid having two columns tied to `MS:1000044` directly. This also lets the reader
 now quickly filter on rows which contain a supplemental dissociation method directly. Without it the supplemental dissociation method term would need to be stored in

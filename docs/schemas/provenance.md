@@ -58,7 +58,7 @@ each row in the signature table:
 11. If available, verify that the certificate which provided the signing public key and associated intermediate
     are valid according to the X.509 verification procedure described in <https://www.rfc-editor.org/info/rfc5280/>.
 
-Users **MUST NOT** treat the mere presence of a `provenance.parquet` as evidence of anything, including that a file is in
+Users [MUST NOT]{class="must-chip"} treat the mere presence of a `provenance.parquet` as evidence of anything, including that a file is in
 its rawest state, derived directly from a vendor file, or otherwise more trustworthy than its absence. Only after
 verification against the roots of trust managed by the instrument vendor or trusted repository.
 

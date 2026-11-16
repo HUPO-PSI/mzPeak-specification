@@ -20,12 +20,14 @@ mzPeak can store array data in two ways:
   type, decoding, or cvParams), but they **cannot** be searched or sliced
   without decoding the entire array, just as in mzML.
 
-Currently, the first sorted array is assumed to be the axis around which all
-other values are arranged — *sorting rank 1*. Any arrays that are shorter or
-longer than this axis [SHOULD]{class="should-chip"} be stored as auxiliary arrays instead. The
-sorting rank 0 array is still the `index` array but it does not define the signal
-itself nor vary within an entry so it always has the same length as the sorting
-rank 1 array.
+### Sorted arrays and and axes
+
+Currently, the *sorting rank 1* array is assumed to be the axis around which all
+other values are arranged. Sorting rank 0 is the index, which does not represent
+a measurement. Any arrays that are shorter or longer than this axis [MUST]{class="must-chip"} be
+stored as auxiliary arrays instead. The sorting rank 0 array is still the `index`
+array but it does not define the signal itself nor vary within an entry so it
+always has the same length as the sorting rank 1 array.
 
 !!! warning "Re-sort unsorted ranked arrays"
     When writing, if an array that has a sorting rank is not sorted with respect to its rank,
@@ -43,7 +45,10 @@ To annotate what kind of array a column *is*, mzPeak stores a JSON-serialized
 **array index** in the [Parquet key–value metadata](../foundations/parquet.md#the-metadata-keyvalue-pairs).
 It is a list of structures describing each array using controlled vocabulary. A
 column is part of the Parquet schema and must always exist with a homogeneous
-value type (or be `null`) for each row.
+value type (or be `null`) for each row. Its `prefix` attribute names the root node
+of the schema under which all arrays are nested. As a result `prefix` with the value `"point"`
+indicates the [point layout](point-layout.md) is used and the value `"chunk"` indicates that
+the [chunked layout](chunked-layout.md) is used.
 
 The array index is stored in the Parquet metadata of the
 [`data_arrays`](../archive/data-kinds.md) or [`peaks`](../archive/data-kinds.md) files under
@@ -54,7 +59,7 @@ spectra. The same key name construction is used for all signal data layouts rega
 
 ```json
 {
-  "prefix": "point",
+  "prefix": "point",                  // The root under which all arrays are nested. Hints layout.
   "entries": [
     {
       "context": "spectrum",          // This array describes a spectrum
@@ -81,7 +86,7 @@ spectra. The same key name construction is used for all signal data layouts rega
       "transform": null,
       "data_processing_id": null,
       "buffer_priority": "primary",   // Default column for m/z queries
-      "sorting_rank": 1               // Sorted within entries; other arrays sort after
+      "sorting_rank": 1               // Sorted within entries after sorting_rank 0
     },
     {
       "context": "spectrum",
@@ -125,7 +130,8 @@ chunked layout [MUST]{class="must-chip"} include a `chunk_start`, `chunk_end`, `
 `chunk_values` column *exactly once* each. This applies even if the `chunk_values` column
 is empty due to an opaque transform like MS-Numpress linear encoding being applied. The
 array index entries for the `chunk_start`, `chunk_end`, and `chunk_encoding` copy all fields
-from `chunk_values` *except* `path`, `transform` and `buffer_format`.
+from `chunk_values` *except* `path`, `transform` and `buffer_format`. `chunk_encoding` *always*
+contains a string value regardless of the `data_type` field.
 
 ### Buffer priority and naming
 
@@ -137,7 +143,7 @@ the array index and therefore have distinct names. While uncommon for spectra,
 this is unavoidable for [diagnostic traces](../archive/entity-types.md) stored as
 chromatograms.
 
-For ergonomics, common columns should have simple, consistent names — this makes
+For ergonomics, common columns should have simple, consistent names. This makes
 files easier to use from raw Parquet tooling. The most common version of each
 array type (as defined by the implementation) [SHOULD]{class="should-chip"} have a `buffer_priority`
 of `primary` and receive a short, consistent name. The recommended short names:
@@ -161,7 +167,12 @@ of `primary` and receive a short, consistent name. The recommended short names:
 | MS:1003155 | deconvoluted inverse reduced ion mobility array | `deconvoluted_inverse_reduced_ion_mobility` |
 | MS:1003153 | raw ion mobility drift time array | `raw_drift_time` |
 | MS:1002477 | mean ion mobility drift time array | `mean_drift_time` |
-| MS:1003156 | deconvoluted ion mobility drift time array | `deconvoluted_ion_mobility_drift_time` |
+| MS:1003156 | deconvoluted ion mobility drift time array | `deconvoluted_drift_time` |
+
+All instances of an array type which do not have `buffer_priority = primary` [MUST]{class="must-chip"}
+have `buffer_priority = secondary`. If a single entity has multiple arrays of the same
+type, only one [SHOULD]{class="should-chip"} be non-`null` for any given entry. The `null`-only versions [SHOULD]{class="should-chip"}
+be skipped.
 
 ## Indexing
 
@@ -176,9 +187,9 @@ to have `sorting_rank` 0. An example is shown in the JSON text in [The Array Ind
 In addition to the `<entity_type>_index` column, the writer [MAY]{class="may-chip"} include a parallel
 `<entity_type>_time` column which [MUST]{class="must-chip"} store the [scan start time](http://purl.obolibrary.org/obo/MS_1000016)
 associated with that entity, stored as a scalar float64. This applies naturally to mass spectra, but is redundant
-for chromatograms or traces. It's array index entry has a `buffer_format` of `index`, an `array_type` of
+for chromatograms or traces. Its array index entry has a `buffer_format` of `index`, an `array_type` of
 [`MS:1000595|time array`](http://purl.obolibrary.org/obo/MS_1000595), a `unit` of [`UO:0000031|minute`](http://purl.obolibrary.org/obo/UO_0000031)
-and a `data_type` of [`MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523).
+and a `data_type` of [`MS:1000523|64-bit float`](http://purl.obolibrary.org/obo/MS_1000523).
 
 ## Data arrays, encoding, transformations, and Parquet
 
@@ -192,7 +203,7 @@ of spectra but apply more broadly.
 
 ### Numerical precision
 
-There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If you use [delta encoding](./chunked-layout.md#delta-encoding), 64-bit doubles [SHOULD]{class="should-chip"} still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers. The writer [SHOULD]{class="should-chip"} choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [here](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
+There are no strict rules about which *physical* data types must be used for particular data arrays. Similar logic to that described in the [metadata tables section](metadata-tables.md#typing-parameter-values) should be applied here. For instance, that m/z arrays may be 32-bit floats or 64-bit doubles at the discretion of the writer. Some instrument vendors do not even export 64-bit precision values, defeating the purpose of storing them at 64-bit precision. If the [delta encoding](./chunked-layout.md#delta-encoding) is used, 64-bit doubles [SHOULD]{class="should-chip"} still be used for accurate reconstruction. Likewise, intensity arrays may be 32-bit float, 64-bit double, or even 32-bit integers. The writer [SHOULD]{class="should-chip"} choose how to most compactly store their data. Since all data are stored in Parquet, all physical values are stored according to their encoding as described in [the Parquet documentation](https://parquet.apache.org/docs/file-format/data-pages/encodings/), which is little endian in all cases.
 
 Opting for lossy compression like MS-Numpress carries its own precision costs. See [(4)](../reference/references.md) for more details.
 
@@ -203,10 +214,12 @@ points along a semi-regular m/z axis. These regions hold little information, so
 all but the first and last zero-intensity points of a run are removed. This is
 only meaningful for profile data. Readers [SHOULD]{class="should-chip"} assume that zero runs have
 been stripped. Writers [MAY]{class="may-chip"} strip zero runs, it is recommended but not
-required. Zero run stripping is not marked by a transform term. Most run formats
-do not store zero runs and might only produce them at read time if requested.
+required. Zero run stripping is not marked by a transform term, but [SHOULD]{class="should-chip"} be marked
+in the [data processing method](../archive/data_processing.md) using the
+[`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901)
+term. Most run formats do not store zero runs and might only produce them at read time if requested.
 Readers are **NOT** required to do so, though they may use either the coordinate
-spacing model stored in [`polynomial_delta_coordinate_interpolation`] derived in the
+spacing model stored in `polynomial_delta_coordinate_interpolation` derived in the
 [Null marking](#null-marking) section or the grid model if the [grid encoding](chunked-layout.md#grid-encoding)
 is provided in the chunked layout.
 
@@ -260,13 +273,20 @@ For spectra with many small gaps, even zero-run stripping leaves too much
 unhelpful information. Instead, we can replace the flanking zero-intensity points
 with `null` m/z and intensity values; Parquet then skips storing the expensive
 32- and/or 64-bit values, retaining only the validity-bitmap bit. Separately, we
-fit a simple m/z-spacing model by weighted least squares of the form:
+fit a simple m/z-spacing model by intensity weighted least squares of the form:
 
 $$
     \delta mz \sim \beta_0 + \beta_1\,mz + \beta_2\,mz^2 + \epsilon
 $$
 
 If null marking is used zero run stripping [MUST]{class="must-chip"} be used.
+
+Not all data will produce a solvable linear system of equations. Writers [SHOULD]{class="should-chip"}
+attempt to fit the weighted least squares regression and if that fails, fall back on
+the global second median of $δ mz$. Writers **SHOULD NOT** use a rank other than 2 or
+a different weighting for equivalence across implementations. A rank of 2 fits the both
+evenly spaced and variably ascending spacing data well enough to produce accurate solutions,
+and does not increase the computational burden or risk of an unsolvable model.
 
 ??? example "Python — fitting the weighted least-squares spacing model"
     ```python
@@ -315,11 +335,12 @@ If null marking is used zero run stripping [MUST]{class="must-chip"} be used.
     ```
 
 When reading null-marked data, use either the local second-median \(\delta mz\)
-or the learned model for that spectrum to compute the m/z spacing for singleton
-points, achieving an accurate reconstruction. Because the non-zero m/z points
-are unchanged, a peak's apex or centroid is unaffected. If a peak is composed of
-only three points, including the two zero-intensity flanks, no meaningful peak
-model can be fit anyway, so the minuscule angle change is effectively lossless.
+for groups of values with more than one point, or the learned model for that
+spectrum to compute the m/z spacing for singleton points, achieving an accurate
+reconstruction. Because the non-zero m/z points are unchanged, a peak's apex or
+centroid is unaffected. If a peak is composed of only three points, including the
+two zero-intensity flanks, no meaningful peak model can be fit anyway, so the
+minuscule angle change is effectively lossless.
 
 The model parameters learned for each entry [MUST]{class="must-chip"} be stored in that entry's
 row in the associated metadata table, as `polynomial_delta_coordinate_interpolation`.
@@ -470,8 +491,10 @@ from the single non-null value of a segment that has only one.
 Unless otherwise noted, readers [SHOULD]{class="should-chip"} treat `null` values in the sorting-
 rank-1 array of an entry as governed by this model, with parallel `null` values
 in any intensity arrays read as `0`. The sorting array, e.g. m/z array, should carry a `transform` of
-[`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902)
-and the intensity array should carry a `transform` of [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901).
+[`MS:1003902|zero intensity point trimming interpolation`](http://purl.obolibrary.org/obo/MS_1003902),
+which indicates that a model will be used to interpolate the values of the `null`s.
+The intensity array should carry a `transform` of [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901)
+which indicates that `null` values will be replaced with `0`.
 All other values at those points are read as-is, with null semantics meaning the
 value was absent. Writers using null marking [SHOULD]{class="should-chip"} use `null` only for the
 first sorting dimension and its associated intensity value; all other columns
@@ -485,14 +508,20 @@ is only lossless when the zero-filled regions are added at read time.
 ## Zero Stripping Null Marking Encoding Quick Reference
 
 <figure class="mzp-figure wide">
-<img src="../../assets/img/null_marking_encoding.svg" />
+<img src="../../assets/img/null_marking_encoding.svg" title="A quick visual reference showing the different stages of zero run stripping and null marking for writers" />
+<figcaption>
+The steps involved in zero run stripping, spacing model fitting and null marking for writers
+</figcaption>
 </figure>
 
 
 ## Null Marking Decoding Quick Reference
 
 <figure class="mzp-figure wide">
-<img src="../../assets/img/null_marking_decoding.svg" />
+<img src="../../assets/img/null_marking_decoding.svg" title="A quick visual reference showing the different stages of decoding null marking for readers" />
+<figcaption>
+The steps involved in decoding null marked data for readers
+</figcaption>
 </figure>
 
 

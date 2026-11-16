@@ -11,10 +11,10 @@ roughly what schema to expect.
 | `scans`        | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `wavelength_spectrum` | Instrument scan events for the `entity_type`, expected for `spectrum`, not `chromatogram` |
 | `precursors`   | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `chromatogram` | Precursor isolation and activation event tying the product scan to the precursor scan. Expected for `spectrum` and MRM or SRM `chromatogram` or similar |
 | `selected_ions`| [metadata table](../layouts/metadata-tables.md) | `spectrum`, `chromatogram` | Ions isolated during precursor selection. Like `precursors`, this is expected for `spectrum` and MRM or SRM `chromatogram` or similar |
-| `products`     | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `chromatogram` | Target isolation windows used for reaction monitoring. May appear SRM or MRM `spectrum` and `chromatogram`, but rare. |
-| `signature`    | [provenance](../schemas/provenance.md) | `provenance` | A table of cryptographic signatures of components of the archive used for certifying that the content as written was attested to by an instrument known to its owner or vendor. The public key chain of trust certificates are encoded in the file metadata |
-| `proprietary`  | implementation-defined | Any | Entirely the purview of the writer (often an instrument vendor). May not be Parquet. Should be ignored unless the reader is for that vendor. |
-| `other`        | implementation-defined | Any | None of the above. May not be Parquet. |
+| `products`     | [metadata table](../layouts/metadata-tables.md) | `spectrum`, `chromatogram` | Target isolation windows used for reaction monitoring. May appear in SRM or MRM `spectrum` and `chromatogram`, but rare. |
+| `signature`    | [provenance](../schemas/provenance.md) | `provenance` | A table of cryptographic signatures of components of the archive used for certifying that the content as written was attested to by an instrument known to its owner or vendor. |
+| `proprietary`  | implementation-defined | Any | Entirely the purview of the writer (often an instrument vendor). Might not be Parquet. Should be ignored unless the reader is for that vendor. |
+| `other`        | implementation-defined | Any | None of the above. Might not be Parquet. |
 
 Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"} preserve
 the value provided rather than discarding the data kind label and recording an

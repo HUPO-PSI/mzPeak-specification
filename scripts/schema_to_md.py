@@ -72,7 +72,7 @@ def render_properties(schema: dict, root: dict, level: int) -> list[str]:
     ]
     for name, prop in properties.items():
         resolved = resolve_ref(prop["$ref"], root) if "$ref" in prop else prop
-        req = "Yes" if name in required else "&nbsp;"
+        req = "Yes" if name in required else "No"
         desc = detect_link(resolved.get("description", "&nbsp;").replace("\n", " "))
         lines.append(f"| `{name}` | {type_str(prop, root)} | {req} | {desc} |")
     lines.append("")
@@ -187,6 +187,12 @@ def main():
     args = parser.parse_args()
     outfh = None
     if args.output:
+        if Path(args.output).exists():
+            out_stat = Path(args.output).stat()
+            schema_stat = Path(args.schema[0]).stat()
+            if schema_stat.st_mtime <= out_stat.st_mtime:
+                print(f"Schema last modified at time {schema_stat.st_mtime}, rendered at time {out_stat.st_mtime}, skipping")
+                return 0
         outfh: FileIO = args.output.open("wt")
     for schema_path in args.schema:
         schema = json.loads(schema_path.read_text(encoding="utf-8"))

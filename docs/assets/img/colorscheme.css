@@ -20,3 +20,13 @@
 .metadata-products { background-color: #A0E8B0;}
 
 .provenance { background-color: #FFFFCC;}
+
+
+/* value types */
+
+.structural { background-color: #A5B1C2;}
+
+.entity-index { background-color: #BAC8D3;}
+.mz { background-color: #7B7FE9;}
+.intensity { background-color: #FFA54C;}
+.ion-mobility { background-color: #0093a8;}

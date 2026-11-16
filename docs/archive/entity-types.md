@@ -2,15 +2,15 @@
 
 The `entity_type` tells the reader what is *being* described in a file and, in
 concert with the [`data_kind`](data-kinds.md), helps connect the right file to
-the right reader API. There are currently four controlled values:
+the right reader API.
 
 | `entity_type` | Description |
 | :-- | :-- |
 | `spectrum` | Mass spectra — entities occurring at a single point in time (or as close to that as framed or cycled acquisition allows), with a mass-related coordinate such as m/z or neutral mass. |
-| `chromatogram` | Measurements *over time* — chromatograms and, for now, diagnostic traces (see below). |
+| `chromatogram` | Measurements *over time*, e.g. chromatograms and, for now, diagnostic traces. |
 | `wavelength_spectrum` | Like `spectrum`, but the coordinate is an electromagnetic wavelength. Analyzers measuring wavelength are far more heterogeneous than mass analyzers. Time series over wavelength may instead be stored as `chromatogram` entries. |
 | `provenance`   | A cryptographic signature of components of the archive used for certifying that the content as written was attested to by an instrument known to its owner or vendor |
-| `proprietary`  | implementation-defined | Entirely the purview of the writer (often an instrument vendor). Should be ignored unless the reader is for that vendor. |
+| `proprietary`  | Entirely the purview of the writer (often an instrument vendor). Should be ignored unless the reader is for that vendor. |
 | `other` | None of the above — something not yet covered by this living specification. |
 
 Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"} preserve
@@ -35,12 +35,12 @@ added without updating existing code.
 ## Adding a new entity type
 
 When a genuinely new kind of measured entity appears that does not fit
-`spectrum`, `chromatogram`, or `wavelength spectrum`, a new entity type may be
+`spectrum`, `chromatogram`, or `wavelength_spectrum`, a new entity type may be
 introduced. Prefer a short, lower-case name, define its primary coordinate axis
 and the [data kinds](data-kinds.md) it supports, and describe its relationship to
 existing entity types.
 
-!!! question "Open item — naming"
+<!-- !!! question "Open item — naming"
     Should the `chromatogram` entity type be renamed to something broader such as
     *traces*, now that diagnostic traces are moving to their own namespace? Left
-    open.
+    open. -->

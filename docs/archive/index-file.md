@@ -385,9 +385,7 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
             "parameters": [
               {
                 "accession": "MS:1000079",
-                "name": "fourier transform ion cyclotron resonance mass spectrometer",
-                "unit": null,
-                "value": null
+                "name": "fourier transform ion cyclotron resonance mass spectrometer"
               }
             ]
           },
@@ -397,9 +395,7 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
             "parameters": [
               {
                 "accession": "MS:1000624",
-                "name": "inductive detector",
-                "unit": null,
-                "value": null
+                "name": "inductive detector"
               }
             ]
           }
@@ -408,14 +404,11 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
         "parameters": [
           {
             "accession": "MS:1000448",
-            "name": "LTQ FT",
-            "unit": null,
-            "value": null
+            "name": "LTQ FT"
           },
           {
             "accession": "MS:1000529",
             "name": "instrument serial number",
-            "unit": null,
             "value": "SN06061F"
           }
         ],
@@ -502,17 +495,13 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
               }
             ],
             "software_reference": "pwiz"
-          }
-        ]
-      },
-      {
-        "id": "mzpeak_conversion1",
-        "methods": [
+          },
           {
             "order": 1,
             "parameters": [
               {
-                "name": "conversion options",
+                "accession": "MS:1001885",
+                "name": "command-line parameters",
                 "value": "-p -c -y -z -u small.mzML -o small.chunked.mzpeak"
               }
             ],
@@ -524,10 +513,10 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
     "scan_settings_list": [],
     "run": {
       "default_data_processing_id": "pwiz_Reader_Thermo_conversion",
-      "default_instrument_id": 0,
+      "default_instrument_configuration_id": 0,
       "default_source_file_id": "RAW1",
       "id": "small",
-      "params": [],
+      "parameters": [],
       "start_time": "2005-07-20T19:44:22Z"
     },
     "cv_list": [
@@ -547,8 +536,8 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
     "version": "0.9.0",
     "sample_list": [
       {
-        "id": "_x0031_",
-        "name": "",
+        "id": "1",
+        "name": "1",
         "parameters": [
           {
             "accession": "MS:1000002",
@@ -571,15 +560,25 @@ reproducibly), and the [file-level metadata](#file-level-metadata) objects.
 Governed by the JSON Schema
 [`schema/mzpeak_index.json`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/mzpeak_index.json).
 
-Each entry pairs a [`data_kind`](data-kinds.md) with an
-[`entity_type`](entity-types.md). Both are *loose enumerations* expected to grow
-over time; resolving files by these controlled terms is more robust than matching
-file names.
 
-## Column mapping
+## Member files
+
+The entries of the `files` array are [file entries](./index_file_components.md#file) which describe a file that is
+part of the mzPeak archive itself. Each entry pairs a [`data_kind`](data-kinds.md) with an [`entity_type`](entity-types.md).
+Both are *loose enumerations* expected to grow over time; resolving files by these controlled terms is more robust than matching
+file names. Each entry has a checksum, a SHA-512 hex digest that can be computed by re-hashing the bytes of the file to check
+for data corruption. Hex-digest matching [MUST NOT]{class="must-chip"} be treated as proof the data have not been tampered with, as the checksum
+in the index is not protected. See the [provenance](../schemas/provenance.md) for a discussion of this. Each entry also contains
+a list of parameters that may be used similarly to [source files](./file_description.md#source_file), though some of these will
+be redundant with the existing attributes. For most common mzPeak archive members, this list is empty, but for other embedded files,
+like raster images, the parameters list provides a description of the file's format e.g. a [`MS:1001459|file format`](http://purl.obolibrary.org/obo/MS_1001459)
+and other metadata. Lastly, when describing a Parquet file, the entry [MAY]{class="may-chip"} contain [column mappings](#column-mapping),
+described below and further in the [metadata table layout](../layouts/metadata-tables.md).
+
+### Column mapping
 
 By mapping controlled vocabulary terms to Parquet columns, we can make mzPeak more efficient at storing,
-searching, and indexing cvParam-like data. The `column_mapping` object defines an explicit mapping from
+searching, and indexing `cvParam`-like data. The `column_mapping` object defines an explicit mapping from
 column to an externally controlled definition like a controlled vocabulary term or a user-defined column.
 
 When a column is defined in the appropriate schema, its `path` is pre-defined with the last entry in the
@@ -623,11 +622,14 @@ errors.
 
 A greater minor `version` indicates there [MAY]{class="may-chip"} be columns that are read using
 additional rules not compatible with previous versions, but which are not required for the overall
-integrity of the file outside of proprietary extensions.
+integrity of the file outside of proprietary extensions. A new minor version [MAY]{class="may-chip"} also add additional
+defined columns so they no longer require the `opt_` prefix, or add new `entity_type` or `data_kind`
+types which would otherwise be treated as `other` in previous versions.
 
-A greater patch version does not introduce new parsing rules, but [MAY]{class="may-chip"} add additional defined columns
-so they no longer require the `opt_` prefix, or add new `entity_type` or `data_kind` types which would
-otherwise be treated as `other` in previous versions.
+A greater patch version does not introduce new parsing rules, but [MAY]{class="may-chip"} revise wording,
+update guidance on recommended settings, and suggest new name mappings where adding these does not alter
+functional behavior. Anything that could read the previous patch versions can read the updated patch
+version.
 
 ### Profiles
 
@@ -637,6 +639,5 @@ is declared by setting `metadata.imaging.is_imaging` to `true`.
 
 ### For validation
 
-New minor or patch versions [MAY]{class="may-chip"} add additional validation rules, but new minor versions [SHOULD]{class="should-chip"} not
-make files valid under previous minor versions that were valid no longer valid. Profiles [SHOULD]{class="should-chip"} abide
-by the same rules.
+New minor or patch versions [MAY]{class="may-chip"} add additional validation rules, but new minor versions **SHOULD NOT**
+invalidate files valid under previous minor versions. Profiles [SHOULD]{class="should-chip"} abide by the same rules.

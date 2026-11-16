@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "mzPeak metadata file description",
-  "description": "Describe the JSON format of the file description section",
+  "description": "The JSON format of the file description section",
   "type": "object",
   "$meta": {
     "summary": "file:schema/meta/file_description.md"
@@ -44,7 +44,7 @@
             },
             "location": {
                 "type": "string",
-                "description": "The path to the source file, URI encoded. This includes file:// protocol as well as."
+                "description": "The path to the source file, URI encoded. This includes file:// protocol. UNC paths are also permitted, but will not resolve when the same mount is not available."
             },
             "parameters": {
                 "type": "array",
@@ -62,11 +62,11 @@
       "properties": {
         "contact_name": {
           "type": "string",
-          "description": "The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586)"
+          "description": "The name of the contact person. This is equivalent to and **MUST** be used instead of `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586)"
         },
         "contact_affiliation": {
           "type": "string",
-          "description": "The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590)"
+          "description": "The home institute of the contact person. This is equivalent to and **MUST** be used instead of `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590)"
         },
         "parameters": {
           "type": "array",

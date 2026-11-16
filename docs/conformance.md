@@ -62,7 +62,8 @@ A conformant reader [MUST]{class="must-chip"}:
 **Semantic.** A conformant archive [MUST]{class="must-chip"} satisfy:
 
 - Parallel columns of an entity have equal length.
-- The sorting-rank-0 coordinate array is ascending.
+- The sorting-rank-0 coordinate array is ascending, and each successive sorting-rank-n column sorts ascending within
+  the same value of the sorting-rank-0 column.
 - Every non-null foreign key resolves to an existing key/id.
 - Chunks of an entity are ascending by `chunk_start` and non-overlapping.
 - Within an entity, all `array_index` entries share one layout family — either every entry

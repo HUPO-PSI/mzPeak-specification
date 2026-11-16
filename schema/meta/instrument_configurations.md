@@ -6,7 +6,7 @@ This describes which components are engaged for a particular scan configuration.
 
 When handling an instrument with multiple mass analyzers like an [MS:1003971|ion trap fourier transform ion cyclotron resonance instrument](http://purl.obolibrary.org/obo/MS_1003971), there **SHOULD** be multiple [`instrument_configuration`](#instrument_configuration) instances.
 
-??? example "An example with two configurations, one using the ion trap, one using the fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
+??? example "An example with two configurations, one using the ion trap, one using the Fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
     ```json
     [
         {

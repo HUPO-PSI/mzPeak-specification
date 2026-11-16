@@ -3,7 +3,9 @@
 The **point layout** stores data arrays as-is in parallel columns alongside a
 repeated index column. The top-level schema node is named `point` and is a group
 with an arbitrary number of columns. The entity index column [MUST]{class="must-chip"} be the
-first column under `point`. All rows with the same index [MUST]{class="must-chip"} be contiguous.
+first column under `point`. All rows with the same index [MUST]{class="must-chip"} be contiguous
+and the index column [MUST]{class="must-chip"} be stored in ascending order. Because some entries might not have
+data points associated with them, there [MAY]{class="may-chip"} be gaps in the index values.
 
 <figure class="mzp-figure" markdown>
 <img src="../../assets/img/point_layout.svg" alt="Point-layout schema: a single top-level point group holding a repeated spectrum_index column alongside parallel mz and intensity columns, with one table row per data point." height="520"/>
@@ -51,9 +53,8 @@ To read a single entry (spectrum, chromatogram, …) stored in point layout:
    the pages that contain that index.
 2. Read the selected row group (or page row range) and filter to rows whose
    `<entity_type>_index` equals the entry's index.
-3. Read all rows for all columns where the entry's index equals the entry's index.
-   Apply any transforms to finish decoding the data. They may require first reading
-   from the entity's metadata table.
+3. Read all remaining rows for each column of interest. Apply any transforms to finish decoding the data.
+   They may require first reading from the entity's metadata table.
 4. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
    decode them from the metadata table.
 

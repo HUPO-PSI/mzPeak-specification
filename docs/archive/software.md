@@ -1,6 +1,6 @@
 # mzPeak metadata software list
 
-Describe the JSON format of software list
+The JSON format of software list
 
 
 Data acquisition, file conversion, and processing is all facilitated by software. The [software](#software)

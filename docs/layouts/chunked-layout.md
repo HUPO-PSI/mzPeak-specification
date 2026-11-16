@@ -9,6 +9,9 @@ Numpress, …). The start/end interval permits granular random access along *bot
 the main axis and the source index. The top-level schema node is named `chunk`,
 and the entity index column [MUST]{class="must-chip"} be its first column.
 
+All rows belonging to the same entity must be contiguous, in ascending order of
+chunk starting coordinate. As with the [point layout](point-layout.md), the
+
 <div class="mzp-figure" markdown>
 <img src="../../assets/img/chunked_layout.svg" alt="Chunked-layout schema: a top-level chunk group holding spectrum_index, mz_chunk_start and mz_chunk_end bounds, an encoded mz_chunk_values list, a chunk_encoding column, and an intensity list, with one table row per chunk." height="520"/>
 </div>
@@ -39,6 +42,10 @@ with very high precision for 64-bit floats. The m/z values inside
 so they can be byte-shuffled for further compression.
 
 ## Column naming rules
+
+For consistency throughout this section, the token `<array_name>` is used to refer to the column name
+for this array excluding the `prefix` in the `path`. For instance `chunk.mean_drift_time` would use
+`mean_drift_time` for `<array_name>`.
 
 1. **`<entity_type>_index`** (integer) — the index key for the entity this chunk
    belongs to.
@@ -129,7 +136,7 @@ efficiency.
 ??? info "Multi-dimensional chunking postponed for the future"
     Currently, chunking is only permitted in one dimension, the added complexity of chunking in multiple dimensions was not deemed necessary *yet*. Current instruments do not produce large enough and dense enough ion mobility dimensions to rival the m/z dimension for compression difficulty.
 
-    There may come a time when we have high enough density that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, chunk_encoding`, and `chunk_values` columns. If you believe you have a use case, let us know!
+    There may come a time when we have high enough density that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, `chunk_encoding`, and `chunk_values` columns. If you believe you have a use case, let us know!
 
 <figure class="mzp-figure wide">
     <img src="../../assets/img/chunking_process.svg" alt="The process of cutting the data array into chunks"/>
@@ -232,7 +239,7 @@ to a 4- or 8-byte type. It also has no concept of nullity, which makes it
 To store Numpress-linear-encoded arrays, an extra column
 `<array_name>_numpress_linear_bytes` is added alongside the
 `<array_name>_chunk_values` column. It is a list of byte arrays
-(`list<u8>` in Arrow parlance — **not** `binary`; see the
+(`list<uint8>` in Arrow parlance — **not** `binary`; see the
 [discussion of string-type optimization](https://arrow.apache.org/docs/format/Intro.html#variable-length-binary-and-string)).
 Its array-index entry [MUST]{class="must-chip"} have `buffer_format` `chunk_transform` and the
 same array type, array name, data type, unit, and data-processing ID as the
@@ -241,8 +248,9 @@ same array type, array name, data type, unit, and data-processing ID as the
 should be an empty list.
 
 !!! note
-    The start point is *included* in the chunk-values array — it is a specific
-    component of the Numpress-encoded bytes.
+    The start point is *included* in the encoded values array, it is a specific
+    component of the Numpress-encoded bytes. The `chunk_start` column [MUST]{class="must-chip"} still
+    contain this value.
 
 !!! warning
     MS-Numpress linear encoding prevents Parquet encodings from helping to make
@@ -259,8 +267,8 @@ extra column group `<array_name>_grid` is added. Like in the [Numpress linear en
 case, the `<array_name>_chunk_values` column is populated with an empty list when the chunked dimension is
 grid-encoded. The array index entry for `<array_name>_grid` column [MUST]{class="must-chip"} have `buffer_format` `chunk_transform` and
 the same array type, array name, data type, unit, and data-processing ID as the `_chunk_values` column, and the
-`transform` field [MUST]{class="must-chip"} be `MS:1003826`. The grid encoding is **incompatible with [null marking](signal-data.
-md#null-marking)** as to avoid the complication of stacking encodings. A parallel intensity array may still be null marked.
+`transform` field [MUST]{class="must-chip"} be `MS:1003826`. The grid encoding is **incompatible with [null marking](signal-data.md#null-marking)**
+as to avoid the complication of stacking encodings. A parallel intensity array may still be null marked.
 Other arrays may be grid encoded using the same methods described here, such as an IM-MS spectrum's ion mobility array, if
 desirable. In this case the array index entry should either define the data type, unit and array type for the column,
 or copy from another column defining the same array type. Only one distinction is made in the encoding of the grid indices,
@@ -297,14 +305,15 @@ same `grid_type` if the model permits it, and is expected to vary between differ
 These parameters are used in index/coordinate conversion. The `grid_type`'s term definition [MUST]{class="must-chip"} provide clear
 explanation for parameter packing order, and at least directions on where to find the conversion equation definitions.
 
-The `indices` column is a list of 32-bit (unsigned) integers that are mapped to the real 64-bit float coordinates
+The `indices` column is a list of 32-bit unsigned integers that are mapped to the real 64-bit float coordinates
 being encoded. These are produced for writing by using the grid model to convert real-valued coordinates *to* grid
 indices. When reading, the grid model is used to convert *from* indices back to their equivalent real-valued
 coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
 or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index [MUST]{class="must-chip"} be
 included in the `indices` column's array. The chunk dimension's `indices` column [MUST]{class="must-chip"} be delta-encoded, this is
-done to improve compressibility of a sorted array of indices. The indices use 32-bit integers because this provides
-an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
+done to improve compressibility of a sorted array of indices. Secondary arrays [MUST NOT]{class="must-chip"} be delta-encoded as they are not sorted and indices use
+unsigned storage and the bit-level representation of negative and positive numbers do not compress better than. The indices use 32-bit
+integers because this provides an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
 real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer [SHOULD]{class="should-chip"}
 fall back to another encoding.
 
@@ -322,9 +331,9 @@ prediction` while still being smaller.
 
 - The `grid_type` column should be encoded using `RLE_DICTIONARY`, the default behavior
 - The `parameters` column's bit-level will vary from model to model, `RLE_DICTIONARY` is usually best still.
-- The `indices` column, benefits from `BYTE_STREAM_SPLIT` most of the time, at least for the sorted dimension. However, when one index in particular dominates the result, such as when delta encoding profile data with consistent spacing or repeated values, `RLE_DICTIONARY` may still outperform it be a large margin.
+- The `indices` column, benefits from `BYTE_STREAM_SPLIT` most of the time, at least for the sorted dimension. However, when one index in particular dominates the result, such as when delta encoding profile data with consistent spacing or repeated values, `RLE_DICTIONARY` may still outperform it by a large margin.
 
-TODO: Collect a larger corpus of data to plot this accuracy claim.
+<!-- TODO: Collect a larger corpus of data to plot this accuracy claim. -->
 
 ??? example "A worked example"
 
@@ -362,7 +371,8 @@ TODO: Collect a larger corpus of data to plot this accuracy claim.
 
 
     Given $a=95.0$, $b=3.75e-7$ and $s=1.0$ we can compute the index `2190583200` maps to the coordinate `916.4687` using
-    the *from index* equation, $(95.0 + 2190583200×3.75e-7)×(1/1)$. Conversely, the *to index* equation, $(916.4687×1 - 95.0)/3.75e-7$.
+    the *from index* equation, $(95.0 + 2190583200×3.75e-7)×(1/1)$. Conversely, the *to index* equation, $(916.4687×1 - 95.0)/3.75e-7$
+    translates to the floating point number `2190583200.0` and truncates to the integer `2190583200`, reversing the transformation.
 
     The model [`MS:1003824|linear grid interpolation`](http://purl.obolibrary.org/obo/MS_1003824) can be learned from the raw
     data directly using simple linear regression:
@@ -395,15 +405,15 @@ TODO: Collect a larger corpus of data to plot this accuracy claim.
 
 ## Opaque array transforms for *other* dimensions
 
-Sometimes we prefer to store data in arrays other than the main axis loss-ily in non-uniform, unaligned, or otherwise
-non-standard types that have no physical representation in Parquet. MS-Numpress's
+Sometimes we prefer to store data in arrays other than the main axis lossy, in non-uniform,
+unaligned, or otherwise non-standard types that have no physical representation in Parquet. MS-Numpress's
 short logged float (SLOF) and positive-integer encodings are good examples. While
 Numpress-linear handles the coordinate dimension, opaque transforms can also
 encode the *secondary* arrays in chunks. These columns are recorded in the array
 index with `buffer_format` `chunk_transform`, and the `transform` field is the
 CURIE for the relevant method — for example
 [`MS:1002314`](http://purl.obolibrary.org/obo/MS_1002314) for MS-Numpress SLOF.
-The column's physical type [MUST]{class="must-chip"} be a list of byte arrays, though the type in
+The column's physical type [MUST]{class="must-chip"} be a list of byte (`list<uint8>`) arrays, though the type in
 the array index [MUST]{class="must-chip"} be the *decoded* array's real type. Column names
 [SHOULD]{class="should-chip"} be of the form `<array_name>_<transform_name>_bytes`, e.g.
 `intensity_numpress_slof_bytes`.
@@ -416,17 +426,25 @@ the array index [MUST]{class="must-chip"} be the *decoded* array's real type. Co
 When *writing* a file with an opaque transform on a column, the writer [MUST]{class="must-chip"} ensure
 that the necessary additional column to store the transformed value is present in the schema.
 If the writer expects the untransformed column to be present as well, this column [SHOULD]{class="should-chip"}
-be present. There [MUST]{class="must-chip"} be an array index entry for each column. The transformed array index
+be be written, and the rules for [buffer priority](signal-data.md#buffer-priority-and-naming) applied.
+There [MUST]{class="must-chip"} be an array index entry for each column. The transformed array index
 entry [MUST]{class="must-chip"} set the appropriate CURIE in the `.transform` field, and the untransformed array
-entry is left empty. Non-opaque transforms like null marking do not require this extra step.
+entry is left empty. Non-opaque transforms like null marking do not require this extra step. When more than one alternative
+`chunk_transform` column is available, only one [SHOULD]{class="should-chip"} contain a non-empty, non-null value.
 
 ## Encoding Strategies Quick Reference
 
+<figure id="chunk-encoding-quick-reference" class="mzp-figure wide" markdown>
 ![A quick reference diagram of encoding arrays in the chunked layout](../assets/img/chunk_encoding_processes.svg){: .panel-image }
+<figcaption>The way information flows from a raw array through various the chunk encoding process after partitioning</figcaption>
+</figure>
 
 ## Decoding Strategies Quick Reference
 
+<figure id="chunk-decoding-quick-reference" class="mzp-figure wide" markdown>
 ![A quick reference diagram of decoding arrays in the chunked layout](../assets/img/chunk_decoding_processes.svg){: .panel-image }
+<figcaption>The steps to decoding each type of chunk encoding</figcaption>
+</figure>
 
 ## Reading a single entry from the chunked layout
 
@@ -446,7 +464,7 @@ To read a single entry (spectrum, chromatogram, …) stored in chunks:
    decoding null marking using information from the metadata table like the
    coordinate spacing model or opaque transforms stored in additional columns
    like Numpress linear encoding.
-1. Unpack the `chunk_secondary` columns and apply any transforms, accumulating
+4. Unpack the `chunk_secondary` columns and apply any transforms, accumulating
    each column's arrays across rows.
-2. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
+5. If the entry has additional [auxiliary arrays](auxiliary-arrays.md), read and
    decode them from the metadata table.

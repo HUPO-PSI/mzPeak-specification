@@ -8,8 +8,9 @@ different length along a shared time axis, or be sub-sampled.
 
 Auxiliary data arrays have a schema similar to mzML's
 [`binaryDataArray`](https://peptideatlas.org/tmp/mzML1.1.0.html#binaryDataArray), encoded in Parquet. They are
-governed by the JSON Schema
-[`schema/auxiliary_array.json`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/auxiliary_array.json).
+alternatively described by the JSON Schema
+[`schema/auxiliary_array.json`](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/auxiliary_array.json)
+which provides a better description of the high-level fields and roles, but does not specify exact storage.
 
 ??? info "Parquet Schema"
     ```text
@@ -21,7 +22,7 @@ governed by the JSON Schema
               required int32 item (Int(bitWidth=8, isSigned=false));
             }
           }
-          optional group name {
+          required group name {
             optional group value {
               optional int64   integer;
               optional double  float;
@@ -29,7 +30,7 @@ governed by the JSON Schema
               optional boolean boolean;
             }
             optional binary accession (String);
-            optional binary name (String);
+            required binary name (String);
             optional binary unit (String);
           }
           required binary data_type (String);
@@ -68,16 +69,19 @@ governed by the JSON Schema
 
 Auxiliary arrays' data [MUST]{class="must-chip"} be stored as raw byte arrays in *little endian* order.
 The data type for the data stored [MUST]{class="must-chip"} be written in the `data_type` field of
-the auxiliary array structure referencing a child term of [MS:1000518|binary data type](http://purl.obolibrary.org/obo/MS_1000518) such as [MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523) or [MS:1000519|32-bit integer](http://purl.obolibrary.org/obo/MS_1000519).
-
+the auxiliary array structure referencing a child term of [MS:1000518|binary data type](http://purl.obolibrary.org/obo/MS_1000518)
+such as [MS:1000523|64-bit float](http://purl.obolibrary.org/obo/MS_1000523) or
+[MS:1000519|32-bit integer](http://purl.obolibrary.org/obo/MS_1000519). The Arrow type used to describe
+the stored bytes is a `list<uint8>`, not a `binary` array, see the discussion in [chunked layout](chunked-layout.md#numpress-linear-encoding)
+about how to store opaque byte arrays in Parquet and Arrow.
 
 ## Compression
 
 Auxiliary arrays' data are stored as raw byte arrays, with no data type-specific transformations
 to make them more compressible, but they receive the blanket compression codec and level that the
 entire Parquet file receives. Their `compression` field [SHOULD]{class="should-chip"} be [`MS:1000576|no compression`](http://purl.obolibrary.org/obo/MS_1000576)
-for no compression is applied *other than* the compression Parquet applies to the `auxiliary_arrays.list.item.data.list.item` column.
-If you wish to apply a specific compression algorithm to the data of a single entry *before* it
+if no compression is applied prior to the compression Parquet applies to the `auxiliary_arrays.list.item.data.list.item` column.
+To apply a specific compression algorithm such as one of the MS-Numpress encodings to the data of a single entry *before* it
 is compressed by Parquet, set the `compression` field for that entry to the appropriate controlled
 vocabulary term descending from [`MS:1000572|binary compression type`](http://purl.obolibrary.org/obo/MS_1000572)
 and store the compressed bytes in the `data` column. Keep in mind that Parquet only sees the raw bytes,

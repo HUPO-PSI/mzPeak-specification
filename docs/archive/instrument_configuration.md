@@ -1,6 +1,6 @@
 # mzPeak metadata instrument configurations
 
-Describe the JSON format of instrument configurations used to acquire a mass spectrometry experiment
+The JSON format of instrument configurations used to acquire a mass spectrometry experiment
 
 ## Use cases
 
@@ -140,7 +140,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 | `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This [MUST]{class="must-chip"} be a software_list[].id in the software list of the mzPeak archive. |
 | `id` | `integer` | Yes | A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
-| `scan_settings_reference` | `string` or `null` | &nbsp; | The identifier for a scan settings that was associated with this instrument configuration. If present, this [MUST]{class="must-chip"} be a scan_settings_list[].id in the scan settings list of the mzPeak archive. |
+| `scan_settings_reference` | `string` or `null` | No | The identifier for a scan settings that was associated with this instrument configuration. If present, this [MUST]{class="must-chip"} be a scan_settings_list[].id in the scan settings list of the mzPeak archive. |
 
 #### Property Details
 

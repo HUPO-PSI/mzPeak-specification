@@ -1,14 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "mzPeak auxiliary data array",
-  "description": "Describe the JSON format of auxiliary data array",
+  "description": "The JSON format of auxiliary data array",
   "type": "object",
   "required": [
     "name",
     "data",
     "data_type",
     "compression",
-    "unit"
+    "items"
   ],
   "properties": {
     "name": {
@@ -28,7 +28,7 @@
       "contentMediaType": "application/octet-stream",
       "description": "The encoded bytes of this array. They may be compressed or not according to `compression`. The binary data type is defined by `data_type`, is stored in little endian order. No base64 encoding is used."
     },
-    "length": {
+    "items": {
       "type": "number",
       "description": "The number of items of the native data type in the data array. The expectation is that the data array's length divided by the size of the data type in bytes equals this number."
     },
@@ -51,11 +51,12 @@
       "format": "curie"
     },
     "unit": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "The unit of the measurements in this array, encoded as a CURIE. Must be a child of UO:0000000.",
       "examples": ["MS:1000040", "MS:1000131", "UO:0000012", "UO:0000031"],
       "pattern": "\\S+:\\S+",
-      "format": "curie"
+      "format": "curie",
+      "default": null
     },
     "parameters": {
       "type": "array",

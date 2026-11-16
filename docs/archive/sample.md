@@ -1,6 +1,6 @@
 # mzPeak metadata sample list
 
-Describe the JSON format of the sample list. Multiple samples can be present in a single run in scenarios like multiplexing or pooling.
+The JSON format of the sample list. Multiple samples can be present in a single run in scenarios like multiplexing or pooling.
 
 ## Describing individual samples
 
@@ -60,7 +60,7 @@ A description (one) of the samples used to generate this dataset. Analogous to <
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | A unique identifier for this sample. |
-| `name` | `string` | &nbsp; | A human-readable name for this sample that might be easier to recognize. |
+| `name` | `string` | No | A human-readable name for this sample that might be easier to recognize. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this sample. |
 
 #### Property Details

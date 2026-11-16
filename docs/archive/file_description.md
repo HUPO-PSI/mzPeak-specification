@@ -1,6 +1,6 @@
 # mzPeak metadata file description
 
-Describe the JSON format of the file description section
+The JSON format of the file description section
 
 ## Use cases
 
@@ -25,7 +25,7 @@ When converting derived files, they [SHOULD]{class="should-chip"} be included in
 |----------|------|:--------:|-------------|
 | `contents` | `array` of [`param`](param.md) | Yes | Parameters describing the contents of the file, such as types of spectra. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#fileContent> |
 | `source_files` | `array` of [`source_file`](#source_file) | Yes | List of all files used as data sources for this mzPeak file. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#sourceFileList> |
-| `contacts` | `array` of [`contact`](#contact) | &nbsp; | Persons or entities responsible for the data contained here. |
+| `contacts` | `array` of [`contact`](#contact) | No | Persons or entities responsible for the data contained here. |
 
 ## Property Details
 
@@ -92,8 +92,8 @@ A person or entity that is responsible for some portion of the data or processin
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `contact_name` | `string` | &nbsp; | The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586) |
-| `contact_affiliation` | `string` | &nbsp; | The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590) |
+| `contact_name` | `string` | No | The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586) |
+| `contact_affiliation` | `string` | No | The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590) |
 | `parameters` | `array` of [`param`](param.md) | Yes | Parameters describing the contact, such as name, organization, email, website, or address. |
 
 #### Property Details

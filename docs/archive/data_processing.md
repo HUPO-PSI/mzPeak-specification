@@ -1,6 +1,6 @@
 # mzPeak metadata data processing method list
 
-Describe the JSON format of data processing method list
+The JSON format of data processing method list
 
 ## Use cases
 

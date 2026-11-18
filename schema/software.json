@@ -12,7 +12,7 @@
   "definitions": {
     "software": {
       "type": "object",
-      "description": "A piece of software. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#software.",
+      "description": "A piece of software. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#software",
       "required": ["id", "version", "parameters"],
       "properties": {
         "id": {

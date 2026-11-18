@@ -57,7 +57,7 @@ schema.
   [array index](../layouts/signal-data.md#the-array-index).
 - **`parameters`** (list).
 - **`number_of_auxiliary_arrays`** (integer) / **`auxiliary_arrays`** (list) - see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
-- [**`spectrum_type`**](http://purl.obolibrary.org/obo/MS_1000559) (CURIE) - e.g. [`MS:1000804`](http://purl.obolibrary.org/obo/MS_1000804) "electromagnetic radiation spectrum".
+- [**`spectrum_type`**](http://purl.obolibrary.org/obo/MS_1000559) (CURIE string) - e.g. [`MS:1000804`](http://purl.obolibrary.org/obo/MS_1000804) "electromagnetic radiation spectrum".
 - [**`number_of_data_points`**](http://purl.obolibrary.org/obo/MS_1003060) (integer) - profile points stored in `wavelength_spectra_data.parquet`.
 - [MAY]{class="may-chip"} supply a child of [`MS:1003058`](http://purl.obolibrary.org/obo/MS_1003058) (spectrum property) one or more times - e.g.
     - [`highest_observed_wavelength (MS:1000618)`](http://purl.obolibrary.org/obo/MS_1000618)
@@ -66,7 +66,7 @@ schema.
     - [`base_peak_intensity (MS:1000505)`](http://purl.obolibrary.org/obo/MS_1000505)
 - [MAY]{class="may-chip"} supply a child of [`MS:1000499`](http://purl.obolibrary.org/obo/MS_1000499) (spectrum attribute) one or more times - e.g.
     - [`spectrum_title (MS:1000796)`](http://purl.obolibrary.org/obo/MS_1000796).
-- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE) - how multiple scans were combined to construct this spectrum. [MUST]{class="must-chip"} be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value [SHOULD]{class="should-chip"} be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
+- [`spectra_combination (MS:1000570)`](http://purl.obolibrary.org/obo/MS_1000570) (CURIE string) - how multiple scans were combined to construct this spectrum. [MUST]{class="must-chip"} be a child term of [`MS:1000570|spectra combination`](http://purl.obolibrary.org/obo/MS_1000570) such as [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795) or [`MS:1000571|sum of spectra`](http://purl.obolibrary.org/obo/MS_1000571). If this column is absent, this value [SHOULD]{class="should-chip"} be assumed to be [`MS:1000795|no combination`](http://purl.obolibrary.org/obo/MS_1000795).
 
 
 ## Wavelength spectrum scan metadata - `wavelength_spectra_metadata_scans.parquet`

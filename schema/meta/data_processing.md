@@ -22,11 +22,11 @@ The data processing section is meant to describe a data processing pipeline, ass
           "parameters": [
             {
               "accession": "MS:1000035",
-              "name": "peak picking",
+              "name": "peak picking"
             },
             {
               "accession": "MS:1000593",
-              "name": "baseline reduction",
+              "name": "baseline reduction"
             },
             {
               "accession": "MS:1000780",
@@ -45,9 +45,9 @@ about which components of the processing steps are relevant to that context. For
 recalculation, but that is meaningless in the context of the m/z array. Data processing scopes do not cascade, only one `data_processing_method`
 is applicable at a time to avoid stacking contradictory operations.
 
-File writers **SHOULD** take care to avoid introducing contradictory steps like conflicting peak picking methods. If there are multiple configurations
-to distinguish between, then the writer **SHOULD** write multiple `data_processing_method` entries and reference them. If processing derived data, writers
-**SHOULD** append new `processing_method_step` to the source data's existing `data_processing_method` methods to reflect the full chain of operations,
+File writers [SHOULD]{class="should-chip"} take care to avoid introducing contradictory steps like conflicting peak picking methods. If there are multiple configurations
+to distinguish between, then the writer [SHOULD]{class="should-chip"} write multiple `data_processing_method` entries and reference them. If processing derived data, writers
+[SHOULD]{class="should-chip"} append new `processing_method_step` to the source data's existing `data_processing_method` methods to reflect the full chain of operations,
 not create a separate `data_processing_method` describing only the new steps.
 
 ## FAIR Data and Reproducibility
@@ -68,9 +68,18 @@ which scopes they apply to.
 
 <figure class="mzp-figure" markdown>
 <img src="../../assets/img/data-processing-resolution-order.svg" alt="The precedence of the data processing methods applied to the scopes." height="520"/>
+<figcaption>
+Data processing methods are looked up at scopes of differing specificity. The <code>data_processing_id</code> in the array index, if <code>null</code>,
+falls back to the value in the primary metadata table for that entry, and if that is <code>null</code>, the value in the file-level run is used instead.
+</figcaption>
 </figure>
 
 The data processing resolution order shown in the figure above demonstrates the process where each scope falls back to a higher level description.
 A data array may be processed in a specific way that is distinct from how the rest of its source entity was processed, such as when describing
 centroid and profile data processed with different software. A single spectrum might be processed differently than another, such as when applying
 one transformation to data from one mass analyzer and a different transformation to data acquired on another mass analyzer in hybrid instruments.
+The resolved data processing method does not combine with the default data processing method.
+
+This means that it is *possible* for an array index entry to override the metadata table, but not the other way around. The only way to allow for
+heterogeneity in the resolved data processing method within the same array index entry's column is if it is allowed to vary with the entity's metadata.
+Care [SHOULD]{class="should-chip"} be taken to keep these values compare-able.

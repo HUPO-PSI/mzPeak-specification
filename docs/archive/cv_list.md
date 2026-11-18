@@ -20,16 +20,16 @@ The JSON format of a controlled vocabulary, analogous to <https://peptideatlas.o
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | The short identifier used for this controlled vocabulary. This [SHOULD]{class="should-chip"} also be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others. |
+| `id` | `string` | Yes | The short identifier used for this controlled vocabulary. This [SHOULD]{class="should-chip"} be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others. |
 | `version` | `string` | Yes | The version for this controlled vocabulary, like a release number, date, or similar. The format of the version is controlled by the controlled vocabulary. |
 | `full_name` | `string` | No | The declared name for the resource (e.g. The PSI-MS Controlled Vocabulary). |
-| `uri` | `string` | Yes | The URI for the controlled vocabulary. The URI [SHOULD]{class="should-chip"} refer a fixed version of controlled vocabulary. |
+| `uri` | `string` | Yes | The URI for the controlled vocabulary. The URI [SHOULD]{class="should-chip"} refer to a fixed version of controlled vocabulary. |
 
 #### Property Details
 
 **`id`** - `string` *(required)*
 
-The short identifier used for this controlled vocabulary. This [SHOULD]{class="should-chip"} also be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others.
+The short identifier used for this controlled vocabulary. This [SHOULD]{class="should-chip"} be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others.
 
 *Examples:* `"MS"`, `"UO"`, `"NCIT"`, `"EFO"`, `"IMS"`, `"PATO"`
 
@@ -43,8 +43,8 @@ The declared name for the resource (e.g. The PSI-MS Controlled Vocabulary).
 
 **`uri`** - `string` *(required)*
 
-The URI for the controlled vocabulary. The URI [SHOULD]{class="should-chip"} refer a fixed version of controlled vocabulary.
+The URI for the controlled vocabulary. The URI [SHOULD]{class="should-chip"} refer to a fixed version of controlled vocabulary.
 
-*Examples:* `"http://purl.obolibrary.org/obo/ms/releases/4.2.12/psi-ms.obo"`, `"http://purl.obolibrary.org/obo/ms/releases/4.1.186/psi-ms.obo"`, `"http://purl.obolibrary.org/obo/uo/releases/2026-10-12/uo.obo"`
+*Examples:* `"http://purl.obolibrary.org/obo/ms/4.2.12/psi-ms.obo"`, `"http://purl.obolibrary.org/obo/ms/4.1.186/psi-ms.obo"`, `"http://purl.obolibrary.org/obo/uo/2026-10-12/uo.obo"`
 
 ---

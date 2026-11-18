@@ -538,13 +538,7 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
       {
         "id": "1",
         "name": "1",
-        "parameters": [
-          {
-            "accession": "MS:1000002",
-            "name": "sample name",
-            "value": "1"
-          }
-        ]
+        "parameters": []
       }
     ]
   }

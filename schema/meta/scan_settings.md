@@ -6,7 +6,7 @@ the data in the archive through a link to an [instrument configuration](../instr
 
 ### Targeted MS
 
-Targeted mass spectrometry methods may list their targeted ions **MAY** be added to a [`scan_settings`](#scan_settings)
+Targeted mass spectrometry methods [MAY]{class="may-chip"} list their targeted ions in a [`scan_settings`](#scan_settings)
 entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children
 of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792)
 or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510).

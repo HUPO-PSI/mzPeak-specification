@@ -14,7 +14,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The short identifier used for this controlled vocabulary. This **SHOULD** also be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others.",
+          "description": "The short identifier used for this controlled vocabulary. This **SHOULD** be the primary namespace identifier from CURIEs defined in these controlled vocabularies, though there may be others.",
           "examples": ["MS", "UO", "NCIT", "EFO", "IMS", "PATO"]
         },
         "version": {
@@ -27,7 +27,7 @@
         },
         "uri": {
           "type": "string",
-          "description": "The URI for the controlled vocabulary. The URI **SHOULD** refer a fixed version of controlled vocabulary.",
+          "description": "The URI for the controlled vocabulary. The URI **SHOULD** refer to a fixed version of controlled vocabulary.",
           "examples": [
             "http://purl.obolibrary.org/obo/ms/4.2.12/psi-ms.obo",
             "http://purl.obolibrary.org/obo/ms/4.1.186/psi-ms.obo",

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "mzPeak metadata scan settings list",
-  "description": "The list of scan settings pre-configuring acquisition settings. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.",
+  "description": "The list of scan settings pre-configuring acquisition settings. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList",
   "$meta": {
     "summary": "file:schema/meta/scan_settings.md"
   },
@@ -22,9 +22,9 @@
         "source_file_references": {
           "type": "array",
           "items": {
-            "type": "string",
-            "description": "A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list."
-          }
+            "type": "string"
+          },
+          "description": "A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list."
         },
         "targets": {
           "type": "array",

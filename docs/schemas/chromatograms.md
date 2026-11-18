@@ -1,7 +1,7 @@
 # Chromatograms
 
 Chromatograms are described by a **signal** file (`chromatograms_data.parquet`)
-and a **metadata** file (`chromatograms_metadata.parquet`). Diagnostic traces are
+and a set of **metadata** files (e.g. `chromatograms_metadata.parquet`). Diagnostic traces are
 currently carried here as well, pending their dedicated entity-type namespace.
 
 ## Chromatogram signal data - `chromatograms_data.parquet`
@@ -42,7 +42,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 - [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
   (integer) - `1`, `-1`, or `null`.
 - [**`chromatogram_type (MS:1000626)`**](http://purl.obolibrary.org/obo/MS_1000626)
-  (CURIE) - e.g. total ion current
+  (CURIE string) - e.g. total ion current
   ([`MS:1000235`](http://purl.obolibrary.org/obo/MS_1000235)), selected ion
   current ([`MS:1000627`](http://purl.obolibrary.org/obo/MS_1000627)), base peak
   ([`MS:1000628`](http://purl.obolibrary.org/obo/MS_1000628)), or absorption

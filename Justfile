@@ -61,4 +61,4 @@ render-diagrams:
 render-directives:
     python scripts/update_directives.py
 
-render-all: render-diagrams render-directives render-jsonschema
+render-all: render-diagrams render-jsonschema render-directives

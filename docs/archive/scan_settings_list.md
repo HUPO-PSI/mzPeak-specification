@@ -1,6 +1,6 @@
 # mzPeak metadata scan settings list
 
-The list of scan settings pre-configuring acquisition settings. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList.>
+The list of scan settings pre-configuring acquisition settings. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#scanSettingsList>
 
 ## Use cases
 
@@ -10,7 +10,7 @@ the data in the archive through a link to an [instrument configuration](../instr
 
 ### Targeted MS
 
-Targeted mass spectrometry methods may list their targeted ions [MAY]{class="may-chip"} be added to a [`scan_settings`](#scan_settings)
+Targeted mass spectrometry methods [MAY]{class="may-chip"} list their targeted ions in a [`scan_settings`](#scan_settings)
 entry's `targets` list. [Targets](#target) are described by any list of appropriate parameters, including terms like children
 of [`MS:1000455|ion selection attribute`](http://purl.obolibrary.org/obo/MS_1000455), [`MS:1000792|isolation window attribute`](http://purl.obolibrary.org/obo/MS_1000792)
 or [`MS:1000510|precursor activation attribute`](http://purl.obolibrary.org/obo/MS_1000510).
@@ -172,8 +172,8 @@ Description of the acquisition settings of the instrument prior to the start of 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | The unique identifier for this scan settings configuration |
-| `source_file_references` | `array` of `string` | &nbsp; | &nbsp; |
-| `targets` | `array` of [`target`](#target) | &nbsp; | A list of targeted ions or intervals on an inclusion list. |
+| `source_file_references` | `array` of `string` | No | A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list. |
+| `targets` | `array` of [`target`](#target) | No | A list of targeted ions or intervals on an inclusion list. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing the scan settings. |
 
 #### Property Details
@@ -183,6 +183,8 @@ Description of the acquisition settings of the instrument prior to the start of 
 The unique identifier for this scan settings configuration
 
 **`source_file_references`** - `array` of `string` *(optional)*
+
+A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list.
 
 **`targets`** - `array` of [`target`](#target) *(optional)*
 

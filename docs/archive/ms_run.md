@@ -22,12 +22,12 @@ metadata from the full run still applies. The `data_processing` entries [SHOULD]
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `parameters` | `array` of [`param`](param.md) | &nbsp; | Parameters describing the run not otherwise covered by the attributes. |
+| `parameters` | `array` of [`param`](param.md) | No | Parameters describing the run not otherwise covered by the attributes. |
 | `id` | `string` | Yes | A unique identifier for the run |
-| `default_data_processing_id` | `string` | Yes | The default data processing identifier, as drawn from [`data_processing_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json> |
+| `default_data_processing_id` | `string` | Yes | The default data processing identifier, as drawn from [`data_processing_method_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json> |
 | `default_instrument_configuration_id` | `integer` | Yes | The default instrument configuration, as drawn from [`instrument_configuration_list`](../instrument_configuration/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json> |
 | `default_source_file_id` | `string` | Yes | The default source file the content references, as drawn from [`file_description.source_files`](../file_description/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/file_description.json> |
-| `start_time` | `string` or `null` | &nbsp; | The time that data acquistion started, encoded in an RFC 3339 format <<https://datatracker.ietf.org/doc/html/rfc3339>.> If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined. |
+| `start_time` | `string` or `null` | No | The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined. |
 
 ## Property Details
 
@@ -41,7 +41,7 @@ A unique identifier for the run
 
 **`default_data_processing_id`** - `string` *(required)*
 
-The default data processing identifier, as drawn from [`data_processing_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json>
+The default data processing identifier, as drawn from [`data_processing_method_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json>
 
 **`default_instrument_configuration_id`** - `integer` *(required)*
 
@@ -53,6 +53,6 @@ The default source file the content references, as drawn from [`file_description
 
 **`start_time`** - `string` or `null` *(optional)*
 
-The time that data acquistion started, encoded in an RFC 3339 format <<https://datatracker.ietf.org/doc/html/rfc3339>.> If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined.
+The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined.
 
 *Examples:* `"2005-07-20T19:44:22Z"`, `null`

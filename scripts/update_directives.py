@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+from itertools import chain
 
 MUST_PATTERN = re.compile(r"\*+MUST\*+")
 MUST_NOT_PATTERN = re.compile(r"\*+MUST NOT\*+")
@@ -13,7 +14,7 @@ SHOULD_CHIP = """[SHOULD]{class="should-chip"}"""
 SHOULD_NOT_CHIP = """[SHOULD NOT]{class="should-chip"}"""
 MAY_CHIP = """[MAY]{class="may-chip"}"""
 
-for root, _, files in Path("./docs/").walk():
+for root, _, files in chain(Path("./docs/").walk(), Path("schema/meta").walk()):
     for f in files:
         if f.endswith('.md'):
             source = text = (root / f).read_text()

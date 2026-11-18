@@ -22,7 +22,7 @@ with the custom software's name as the value.
 ### software
 <a name="software"></a>
 
-A piece of software. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#software.>
+A piece of software. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#software>
 
 **Type:** `object`
 

@@ -4,7 +4,7 @@ This describes which components are engaged for a particular scan configuration.
 
 ### Multiple configurations
 
-When handling an instrument with multiple mass analyzers like an [MS:1003971|ion trap fourier transform ion cyclotron resonance instrument](http://purl.obolibrary.org/obo/MS_1003971), there **SHOULD** be multiple [`instrument_configuration`](#instrument_configuration) instances.
+When handling an instrument with multiple mass analyzers like an [MS:1003971|ion trap fourier transform ion cyclotron resonance instrument](http://purl.obolibrary.org/obo/MS_1003971), there [SHOULD]{class="should-chip"} be multiple [`instrument_configuration`](#instrument_configuration) instances.
 
 ??? example "An example with two configurations, one using the ion trap, one using the Fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
     ```json
@@ -17,11 +17,11 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000073",
-                "name": "electrospray ionization",
+                "name": "electrospray ionization"
             },
             {
                 "accession": "MS:1000057",
-                "name": "electrospray inlet",
+                "name": "electrospray inlet"
             }
             ]
         },
@@ -31,7 +31,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000079",
-                "name": "fourier transform ion cyclotron resonance mass spectrometer",
+                "name": "fourier transform ion cyclotron resonance mass spectrometer"
             }
             ]
         },
@@ -41,7 +41,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000624",
-                "name": "inductive detector",
+                "name": "inductive detector"
             }
             ]
         }
@@ -50,7 +50,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         "parameters": [
         {
             "accession": "MS:1000448",
-            "name": "LTQ FT",
+            "name": "LTQ FT"
         },
         {
             "accession": "MS:1000529",
@@ -59,7 +59,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         }
         ],
         "software_reference": "Xcalibur"
-        }
+        },
         {
         "components": [
             {
@@ -68,11 +68,11 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000073",
-                "name": "electrospray ionization",
+                "name": "electrospray ionization"
                 },
                 {
                 "accession": "MS:1000057",
-                "name": "electrospray inlet",
+                "name": "electrospray inlet"
                 }
             ]
             },
@@ -82,7 +82,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000083",
-                "name": "radial ejection linear ion trap",
+                "name": "radial ejection linear ion trap"
                 }
             ]
             },
@@ -92,7 +92,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000253",
-                "name": "electron multiplier",
+                "name": "electron multiplier"
                 }
             ]
             }
@@ -101,7 +101,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         "parameters": [
             {
             "accession": "MS:1000448",
-            "name": "LTQ FT",
+            "name": "LTQ FT"
             },
             {
             "accession": "MS:1000529",
@@ -113,3 +113,11 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         }
     ]
     ```
+
+### Repeated component types
+
+Many instruments have multiple analyzers that process ions in tandem like triple-quadrupole instruments, or which
+use a quadrupole as a mass filter before another mass analyzer like a time-of-flight mass analyzer. These instruments
+have multiple [`component`](#component) entries in the same [`instrument_configuration`](#instrument_configuration)
+with the same `component_type` property value(`analyzer`). The `order` property of these distinct analyzers [SHOULD]{class="should-chip"}
+reflect the order in which ions are introduced to the component.

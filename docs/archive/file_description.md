@@ -58,7 +58,7 @@ A data file that was read in order to produce this mzPeak file. Analogous to <ht
 |----------|------|:--------:|-------------|
 | `id` | `string` | Yes | A unique identifier for this source file. |
 | `name` | `string` | Yes | The name of the source file, not including parent directory |
-| `location` | `string` | Yes | The path to the source file, URI encoded. This includes file:// protocol as well as. |
+| `location` | `string` | Yes | The path to the source file, URI encoded. This includes file:// protocol for local files as well as those accessed over file system mount points and UNC paths. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this source file, like checksums, nativeID format, or file format |
 
 #### Property Details
@@ -73,7 +73,7 @@ The name of the source file, not including parent directory
 
 **`location`** - `string` *(required)*
 
-The path to the source file, URI encoded. This includes file:// protocol as well as.
+The path to the source file, URI encoded. This includes file:// protocol for local files as well as those accessed over file system mount points and UNC paths.
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 
@@ -92,19 +92,19 @@ A person or entity that is responsible for some portion of the data or processin
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `contact_name` | `string` | No | The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586) |
-| `contact_affiliation` | `string` | No | The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590) |
+| `contact_name` | `string` | No | The name of the contact person. This is equivalent to and [MUST]{class="must-chip"} be used instead of `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586) |
+| `contact_affiliation` | `string` | No | The home institute of the contact person. This is equivalent to and [MUST]{class="must-chip"} be used instead of `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590) |
 | `parameters` | `array` of [`param`](param.md) | Yes | Parameters describing the contact, such as name, organization, email, website, or address. |
 
 #### Property Details
 
 **`contact_name`** - `string` *(optional)*
 
-The name of the contact person. This is equivalent to `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586)
+The name of the contact person. This is equivalent to and [MUST]{class="must-chip"} be used instead of `MS:1000586|contact name` (http://purl.obolibrary.org/obo/MS_1000586)
 
 **`contact_affiliation`** - `string` *(optional)*
 
-The home institute of the contact person. This is equivalent to `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590)
+The home institute of the contact person. This is equivalent to and [MUST]{class="must-chip"} be used instead of `MS:1000590|contact affiliation` (http://purl.obolibrary.org/obo/MS_1000590)
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 

@@ -10,7 +10,7 @@ This describes which components are engaged for a particular scan configuration.
 
 When handling an instrument with multiple mass analyzers like an [MS:1003971|ion trap fourier transform ion cyclotron resonance instrument](http://purl.obolibrary.org/obo/MS_1003971), there [SHOULD]{class="should-chip"} be multiple [`instrument_configuration`](#instrument_configuration) instances.
 
-??? example "An example with two configurations, one using the ion trap, one using the fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
+??? example "An example with two configurations, one using the ion trap, one using the Fourier transform ion cyclotron resonance mass spectrometer (FT-ICR)"
     ```json
     [
         {
@@ -21,11 +21,11 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000073",
-                "name": "electrospray ionization",
+                "name": "electrospray ionization"
             },
             {
                 "accession": "MS:1000057",
-                "name": "electrospray inlet",
+                "name": "electrospray inlet"
             }
             ]
         },
@@ -35,7 +35,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000079",
-                "name": "fourier transform ion cyclotron resonance mass spectrometer",
+                "name": "fourier transform ion cyclotron resonance mass spectrometer"
             }
             ]
         },
@@ -45,7 +45,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
             {
                 "accession": "MS:1000624",
-                "name": "inductive detector",
+                "name": "inductive detector"
             }
             ]
         }
@@ -54,7 +54,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         "parameters": [
         {
             "accession": "MS:1000448",
-            "name": "LTQ FT",
+            "name": "LTQ FT"
         },
         {
             "accession": "MS:1000529",
@@ -63,7 +63,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         }
         ],
         "software_reference": "Xcalibur"
-        }
+        },
         {
         "components": [
             {
@@ -72,11 +72,11 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000073",
-                "name": "electrospray ionization",
+                "name": "electrospray ionization"
                 },
                 {
                 "accession": "MS:1000057",
-                "name": "electrospray inlet",
+                "name": "electrospray inlet"
                 }
             ]
             },
@@ -86,7 +86,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000083",
-                "name": "radial ejection linear ion trap",
+                "name": "radial ejection linear ion trap"
                 }
             ]
             },
@@ -96,7 +96,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
             "parameters": [
                 {
                 "accession": "MS:1000253",
-                "name": "electron multiplier",
+                "name": "electron multiplier"
                 }
             ]
             }
@@ -105,7 +105,7 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         "parameters": [
             {
             "accession": "MS:1000448",
-            "name": "LTQ FT",
+            "name": "LTQ FT"
             },
             {
             "accession": "MS:1000529",
@@ -117,6 +117,15 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
         }
     ]
     ```
+
+### Repeated component types
+
+Many instruments have multiple analyzers that process ions in tandem like triple-quadrupole instruments, or which
+use a quadrupole as a mass filter before another mass analyzer like a time-of-flight mass analyzer. These instruments
+have multiple [`component`](#component) entries in the same [`instrument_configuration`](#instrument_configuration)
+with the same `component_type` property value(`analyzer`). The `order` property of these distinct analyzers [SHOULD]{class="should-chip"}
+reflect the order in which ions are introduced to the component.
+
 
 **Type:** `array`
 **Items:** [`instrument_configuration`](#instrument_configuration)
@@ -136,7 +145,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `components` | `array` of [`component_type`](#component_type) | Yes | &nbsp; |
+| `components` | `array` of [`component`](#component) | Yes | &nbsp; |
 | `software_reference` | `string` | Yes | The identifier for a software that was associated with the data acquisition process. This [MUST]{class="must-chip"} be a software_list[].id in the software list of the mzPeak archive. |
 | `id` | `integer` | Yes | A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this configuration, like the instrument model and serial number |
@@ -144,7 +153,7 @@ Describes a single instrument configuration that was used. Analogous to <https:/
 
 #### Property Details
 
-**`components`** - `array` of [`component_type`](#component_type) *(required)*
+**`components`** - `array` of [`component`](#component) *(required)*
 
 **`software_reference`** - `string` *(required)*
 
@@ -164,8 +173,8 @@ The identifier for a scan settings that was associated with this instrument conf
 
 ---
 
-### component_type
-<a name="component_type"></a>
+### component
+<a name="component"></a>
 
 Describes an instrument component like the ion source, mass analyzer, or detector
 

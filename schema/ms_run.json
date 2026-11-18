@@ -27,7 +27,7 @@
     },
     "default_data_processing_id": {
       "type": "string",
-      "description": "The default data processing identifier, as drawn from [`data_processing_list`](../data_processing/) https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json"
+      "description": "The default data processing identifier, as drawn from [`data_processing_method_list`](../data_processing/) https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json"
     },
     "default_instrument_configuration_id": {
       "type": "integer",
@@ -39,7 +39,7 @@
     },
     "start_time": {
       "type": ["string", "null"],
-      "description": "The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339>. If UTC is not used, the local time offset **SHOULD** be defined.",
+      "description": "The time that data acquistion started, encoded in an RFC 3339 format https://datatracker.ietf.org/doc/html/rfc3339 . If UTC is not used, the local time offset **SHOULD** be defined.",
       "format": "date-time",
       "examples": ["2005-07-20T19:44:22Z", null],
       "default": null

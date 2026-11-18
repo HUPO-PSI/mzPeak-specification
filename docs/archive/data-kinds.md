@@ -15,9 +15,10 @@ roughly what schema to expect.
 | `signature`    | [provenance](../schemas/provenance.md) | `provenance` | A table of cryptographic signatures of components of the archive used for certifying that the content as written was attested to by an instrument known to its owner or vendor. |
 | `proprietary`  | implementation-defined | Any | Entirely the purview of the writer (often an instrument vendor). Might not be Parquet. Should be ignored unless the reader is for that vendor. |
 | `other`        | implementation-defined | Any | None of the above. Might not be Parquet. |
+| `sdrf`         | TSV  | `other` | An embedded [SDRF](https://www.psidev.info/sdrf-sample-data-relationship-format) file for this archive |
 
-Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"} preserve
-the value provided rather than discarding the data kind label and recording an
+Any value outside this list is treated as `other`, but implementations [MUST]{class="must-chip"}
+preserve the value provided rather than discarding the data kind label and recording an
 undifferentiated "other". This permits forward compatibility as new data kinds are
 added without updating existing code.
 

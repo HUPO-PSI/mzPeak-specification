@@ -44,7 +44,7 @@
             },
             "location": {
                 "type": "string",
-                "description": "The path to the source file, URI encoded. This includes file:// protocol. UNC paths are also permitted, but will not resolve when the same mount is not available."
+                "description": "The path to the source file, URI encoded. This includes file:// protocol for local files as well as those accessed over file system mount points and UNC paths."
             },
             "parameters": {
                 "type": "array",

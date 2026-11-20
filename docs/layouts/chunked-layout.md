@@ -94,7 +94,7 @@ efficiency.
             else:
                 i += 1
 
-        # If we never found a non-null position, just return a single chunk
+        # If a non-null position is never found, just return a single chunk
         if start is None:
             return [(0, n)]
 
@@ -136,7 +136,7 @@ efficiency.
 ??? info "Multi-dimensional chunking postponed for the future"
     Currently, chunking is only permitted in one dimension, the added complexity of chunking in multiple dimensions was not deemed necessary *yet*. Current instruments do not produce large enough and dense enough ion mobility dimensions to rival the m/z dimension for compression difficulty.
 
-    There may come a time when we have high enough density that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, `chunk_encoding`, and `chunk_values` columns. If you believe you have a use case, let us know!
+    There may come a time when data density is high enough that it becomes worthwhile to support by adding additional `chunk_start`, `chunk_end`, `chunk_encoding`, and `chunk_values` columns.
 
 <figure class="mzp-figure wide">
     <img src="../../assets/img/chunking_process.svg" alt="The process of cutting the data array into chunks"/>
@@ -161,7 +161,7 @@ entries that *would* benefit from a different encoding.
 > Chunk-encoding CV term: [`MS:1003089` — truncation, delta prediction and zlib compression](http://purl.obolibrary.org/obo/MS_1003089)
 
 When data lie on a locally (*almost*) uniform grid using 64-bit floats, compression improves by computing a delta
-encoding of the coordinates. While the same encoding *could* be done on 32-bit floats, it **SHOULD NOT** be done as
+encoding of the coordinates. While the same encoding *could* be done on 32-bit floats, it [SHOULD NOT]{class="should-chip"} be done as
 the loss of precision is substantial.
 
 !!! note
@@ -311,7 +311,7 @@ indices. When reading, the grid model is used to convert *from* indices back to 
 coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
 or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index [MUST]{class="must-chip"} be
 included in the `indices` column's array. The chunk dimension's `indices` column [MUST]{class="must-chip"} be delta-encoded, this is
-done to improve compressibility of a sorted array of indices. Secondary arrays [MUST NOT]{class="must-chip"} be delta-encoded as they are not sorted and indices use
+done to improve compressibility of a sorted array of indices. Secondary arrays [MUST NOT]{class="must-not-chip"} be delta-encoded as they are not sorted and indices use
 unsigned storage and the bit-level representation of negative and positive numbers do not compress better than. The indices use 32-bit
 integers because this provides an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
 real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer [SHOULD]{class="should-chip"}
@@ -370,7 +370,7 @@ prediction` while still being smaller.
     ```
 
 
-    Given $a=95.0$, $b=3.75e-7$ and $s=1.0$ we can compute the index `2190583200` maps to the coordinate `916.4687` using
+    Given $a=95.0$, $b=3.75e-7$ and $s=1.0$ the index `2190583200` maps to the coordinate `916.4687` using
     the *from index* equation, $(95.0 + 2190583200×3.75e-7)×(1/1)$. Conversely, the *to index* equation, $(916.4687×1 - 95.0)/3.75e-7$
     translates to the floating point number `2190583200.0` and truncates to the integer `2190583200`, reversing the transformation.
 
@@ -405,7 +405,7 @@ prediction` while still being smaller.
 
 ## Opaque array transforms for *other* dimensions
 
-Sometimes we prefer to store data in arrays other than the main axis lossy, in non-uniform,
+Sometimes a user would prefer to store data in arrays other than the main axis lossy, in non-uniform,
 unaligned, or otherwise non-standard types that have no physical representation in Parquet. MS-Numpress's
 short logged float (SLOF) and positive-integer encodings are good examples. While
 Numpress-linear handles the coordinate dimension, opaque transforms can also
@@ -419,7 +419,9 @@ the array index [MUST]{class="must-chip"} be the *decoded* array's real type. Co
 `intensity_numpress_slof_bytes`.
 
 ??? question "Transform name or accession code?"
-    We use a human readable name here, but it is not obviously stable. We could embed a CURIE in the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314) instead for `intensity_MS_1002314_bytes`, but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
+    mzPeak uses a human readable name here, but it is not obviously stable. mzPeak could embed a CURIE in
+    the column name like [MS_1002314](http://purl.obolibrary.org/obo/MS_1002314) instead for `intensity_MS_1002314_bytes`,
+    but this is unnecessarily cryptic when the source of truth is the [array index](./signal-data.md#the-array-index)
 
 ### Opaque transforms and the array index
 

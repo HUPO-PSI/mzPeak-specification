@@ -88,7 +88,7 @@ metadata. mzPeak uses CV terms in three ways:
    shape.
 3. **As pluggable metadata carriers** in `parameters` arrays, analogous to
    `<cvParam/>` in mzML. Every schema facet of a metadata table may carry a
-   `parameters` column. Writers [MUST NOT]{class="must-chip"} write the same parameter to both
+   `parameters` column. Writers [MUST NOT]{class="must-not-chip"} write the same parameter to both
    the `parameters` list and as a column to avoid differences in interpretation
    depending upon which copy is promoted, or if the two values would need to be
    considered in combination to understand the semantics.
@@ -119,7 +119,7 @@ group field_id=-1 parameters (List) {
 The `parameters.list.item.value` group has a slot for each data type, so a
 parameter can take exactly one of these value types. Unused slots [MUST]{class="must-chip"} be
 `null`. A value with all slots set to `null` has `null` as its value. A small number of PSI-MS-defined parameters may have a list of
-values instead of a scalar. When list-valued parameters are **NOT** promoted to columns,
+values instead of a scalar. When list-valued parameters are [NOT]{class="not-chip"} promoted to columns,
 their values [MUST]{class="must-chip"} be serialized as JSON strings. Parquet's `variant` type is
 still experimental and not widely supported. As the `variant` type's support matures,
 value storage for parameters may change to use it in the future.

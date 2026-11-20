@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="r3Y9r0_P2cOZGlUN8H8n" name="Page-1">
-        <mxGraphModel dx="779" dy="308" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
+        <mxGraphModel dx="400" dy="177" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -147,7 +147,7 @@
                 <mxCell id="Yx8K8lhkaW0nLblFUHCx-56" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=top;rounded=0;" value="&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;&lt;font face=&quot;Courier New&quot;&gt;&lt;b style=&quot;background-color: rgb(204, 229, 255);&quot;&gt;MS:1003060|number of data points&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;holds&amp;nbsp; the number of profile data points found for the spectrum.&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="52" width="262" x="515" y="119" as="geometry"/>
                 </mxCell>
-                <mxCell id="Yx8K8lhkaW0nLblFUHCx-58" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Choose &lt;i&gt;a &lt;/i&gt;modality to fall back to. Here we use profile, but it is up to the reader" vertex="1">
+                <mxCell id="Yx8K8lhkaW0nLblFUHCx-58" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Choose &lt;i&gt;a &lt;/i&gt;modality to fall back to. Here uses profile, but it is up to the reader" vertex="1">
                     <mxGeometry height="80" width="90" x="450" y="300" as="geometry"/>
                 </mxCell>
             </root>

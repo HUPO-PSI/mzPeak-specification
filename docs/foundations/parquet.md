@@ -94,9 +94,9 @@ When size is important, and truly random access granularity is less important:
 - 4-8 million rows per row group
 
 Truly random access usually happens when there is weak/no temporal or proximal association between reads. This may happen
-when reading indices sorted by precursor mass for example. The consequence is that you repeatedly decompress whole data pages
+when reading indices sorted by precursor mass for example. The consequence is that readers repeatedly decompress whole data pages
 to read a single entry from them, wasting effort as described above. When these access patterns are required, it is usually
-sufficient to read batches at a time. This naturally trades space for time as you must be able to hold each batch in
+sufficient to read batches at a time. This naturally trades space for time as readers must be able to hold each batch in
 memory to realize the speedup.
 
 !!! note

@@ -1,7 +1,7 @@
 # Notational Conventions
 
-The key words [MUST]{class="must-chip"}, [MUST NOT]{class="must-chip"}, **REQUIRED**, **SHALL**, **SHALL NOT**,
-[SHOULD]{class="should-chip"}, **SHOULD NOT**, **RECOMMENDED**, [MAY]{class="may-chip"}, and **OPTIONAL** in this
+The key words [MUST]{class="must-chip"}, [MUST NOT]{class="must-not-chip"}, **REQUIRED**, **SHALL**, **SHALL NOT**,
+[SHOULD]{class="should-chip"}, [SHOULD NOT]{class="should-chip"}, **RECOMMENDED**, [MAY]{class="may-chip"}, and **OPTIONAL** in this
 document are to be interpreted as described in BCP 14
 [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)
 [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) when, and only when, they

@@ -9,7 +9,7 @@ Apache Parquet
 :   The strongly-typed, compressed, columnar on-disk format in which each facet of an mzPeak archive is stored. See [Anatomy of a Parquet file](../foundations/parquet.md).
 
 Archive Member
-:   A file in an mzPeak archive, regardless of whether or not it is a Parquet file or not. An archive member [SHOULD]{class="should-chip"} be listed in the [index file](../archive/index-file.md)
+:   A file in an mzPeak archive, regardless of whether it is a Parquet file. An archive member [SHOULD]{class="should-chip"} be listed in the [index file](../archive/index-file.md)
 
 Array Index
 :   The set of signal arrays mapped to a column or sub-tree. Encoded as a JSON object in the Parquet key-value metadata in `data_arrays` and `peaks` `data_kind`s for the relevant `entity_type`. The schema is defined in [The Array Index](../layouts/signal-data.md#the-array-index).
@@ -23,9 +23,6 @@ Buffer Format
 Buffer Priority
 :   Whether the column defines the primary representation of an [array type](http://purl.obolibrary.org/obo/MS_1000513) or an alternative data type or unit. See [Buffer priority](../layouts/signal-data.md#buffer-priority-and-naming).
 
-Column Mapping
-:   A data structure rule mapping a column in a `metadata` table to a controlled vocabulary term. Defined in [Column mapping](../layouts/metadata-tables.md#column-mapping) and stored in the [index file](../archive/index_file_components.md#column_mapping).
-
 Centroid
 :   A spectrum (or peak list) reduced to discrete m/z–intensity peaks, as opposed to profile data.
 
@@ -35,10 +32,13 @@ Chromatogram
 Chunked layout
 :   A signal-data layout that cuts the sorted main axis into non-overlapping chunks (for example fixed m/z windows) - recording each chunk's start, end, and index - to allow random access along the axis. See [Chunked Layout](../layouts/chunked-layout.md).
 
+Column Mapping
+:   A data structure rule mapping a column in a `metadata` table to a controlled vocabulary term. Defined in [Column mapping](../layouts/metadata-tables.md#column-mapping) and stored in the [index file](../archive/index_file_components.md#column_mapping).
+
 Controlled vocabulary (CV)
 :   A curated set of defined terms with stable accessions, used to annotate metadata unambiguously. mzPeak uses the PSI-MS controlled vocabulary.
 
-Cryptographic Messaging Syntax (CMS)
+Cryptographic Message Syntax (CMS)
 : <https://www.rfc-editor.org/info/rfc5652/> The recommendation for sharing public key verifiable messages with a chain of trust. This is used to check that an mzPeak archive was produced by who and/or what claims to have produced it and verify it with a third party.
 
 CURIE
@@ -53,16 +53,14 @@ Delta encoding
 Entity type
 :   An index-file field declaring what a member describes, e.g.: `spectrum`, `chromatogram`, `wavelength_spectrum`, or `other`. See [Entity Type](../archive/entity-types.md).
 
-Entity Index
-:   The column in a `data_arrays`, `peaks`, or `metadata` table that is named `<entity_type>_index`. This column binds the row to a specific
-instance of the specified entity. These rows are usually the primary key or a component of a compound primary key, in relational database terms.
+Entity index
+:   The column in a `data_arrays`, `peaks`, or `metadata` table that is named `<entity_type>_index`. This column binds the row to a specific instance of the specified entity. These rows are usually the primary key or a component of a compound primary key, in relational database terms.
 
 Facet
 :   A file in an mzPeak archive defined by an `entity_type` and `data_kind` together.
 
-Grid Encoding
-:   A model that converts real-valued coordinate observations to a theoretical grid index and back again. These grid indices may come with some
-loss of precision, but can be much easier to compress. Defined in [Grid encoding](../layouts/chunked-layout.md#grid-encoding).
+Grid encoding
+:   A model that converts real-valued coordinate observations to a theoretical grid index and back again. These grid indices may come with some loss of precision, but can be much easier to compress. Defined in [Grid encoding](../layouts/chunked-layout.md#grid-encoding).
 
 HUPO-PSI
 :   The Human Proteome Organization Proteomics Standards Initiative, the body that governs mzPeak and maintains the PSI-MS controlled vocabulary.
@@ -86,8 +84,7 @@ mzPeak
 :   An open, columnar mass-spectrometry data format: a ZIP archive (or directory) of Apache Parquet facets plus a JSON index, annotated using the PSI-MS controlled vocabulary under HUPO-PSI.
 
 nativeID
-:   A consistent, multi-component textual representation of an entity formatted to follow a vendor-specific pattern. These are governed by children of
-the [native spectrum identifier format](http://purl.obolibrary.org/obo/MS_1000767).
+:   A consistent, multi-component textual representation of an entity formatted to follow a vendor-specific pattern. These are governed by children of the [native spectrum identifier format](http://purl.obolibrary.org/obo/MS_1000767).
 
 Null marking
 :   A profile-data compression technique that replaces flanking zero-intensity points with `null` m/z and intensity values — so Parquet stores only a validity bit — reconstructing positions from a fitted m/z-spacing model. See [Null Marking](../layouts/signal-data.md#null-marking).
@@ -96,7 +93,7 @@ Numpress (MS-Numpress)
 :   A family of lossy and lossless numeric compression schemes for m/z and intensity arrays, usable in mzPeak as an opaque transform.
 
 Opaque transform
-:   A per-array encoding (for example delta encoding or Numpress) applied within a chunk and recorded so a reader can decode it. Some transforms (such as certain Numpress modes) are lossy.
+:   A per-array encoding (for example delta encoding or Numpress) applied within a chunk in the [Chunked layout](../layouts/chunked-layout.md). It is "opaque" in that when the Parquet indexing machinery sees the encoded data, it cannot store index the "real" values that were encoded, only their encoded form. The encoded form itself is usually not helpful for planning how to read the file. This is distinct from the encodings that Parquet itself applies to the data after it has been indexed, which can be instead viewed as "transparent".
 
 Metadata tables
 :   The metadata layout that stores a table of a single facet of an entry for an `entity_type`, linked by primary- and foreign-key index columns. See [Metadata Tables](../layouts/metadata-tables.md).
@@ -107,8 +104,11 @@ Page index
 Point layout
 :   A signal-data layout that stores arrays as-is in parallel columns alongside a repeated entity-index column. See [Point Layout](../layouts/point-layout.md).
 
-Profile
+Profile data
 :   A spectrum stored as a quasi-continuous trace of m/z–intensity samples, as opposed to centroid data.
+
+Profile
+:   An mzPeak extension document that defines a set of additional requirements or constraints that make an mzPeak archive well-formed for a specific domain or use-case. These additions may change validation rules, require additional content, and/or act as markers that other software might look for when detecting what features an mzPeak file supports. An exemplar profile is the [Imaging profile](../profiles/imaging.md). This is distinct from "profile data", which has to do with a single entry.
 
 PSI-MS CV
 :   The controlled vocabulary of mass-spectrometry terms maintained by HUPO-PSI; the semantic backbone of mzPeak metadata.
@@ -117,7 +117,7 @@ Row group
 :   A horizontal partition of a Parquet file — the unit of columnar compression and coarse random access.
 
 Sorting rank
-:   An array's ordering role within a signal layout; sorting rank 1 is the sorted "main axis" around which all parallel arrays are arranged. Arrays of differing length SHOULD instead be stored as auxiliary arrays. Sorting rank 0 is currently used for the index column.
+:   An array's ordering role within a signal layout; sorting rank 1 is the sorted "main axis" around which all parallel arrays are arranged. Arrays of differing length [SHOULD]{class="should-chip"} instead be stored as auxiliary arrays. Sorting rank 0 is currently used for the index column.
 
 Term marker
 :   A column mapping that indicates the presence absence of a specific value-less term (boolean) *OR* a child of a specific term (string). Defined in [Controlled Vocabulary Terms](../layouts/metadata-tables.md#controlled-vocabulary-terms).

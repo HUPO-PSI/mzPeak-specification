@@ -38,7 +38,7 @@ Pixel positions are columns of the
 - Several scans [MAY]{class="may-chip"} share one position.
 
 **Positions define the image.** Terms that describe how the instrument scanned the sample, such as
-scan pattern or line scan direction, are a record of the acquisition. A reader [MUST NOT]{class="must-chip"} use
+scan pattern or line scan direction, are a record of the acquisition. A reader [MUST NOT]{class="must-not-chip"} use
 them to place pixels.
 
 ## Grid geometry

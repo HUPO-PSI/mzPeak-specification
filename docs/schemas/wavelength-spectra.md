@@ -5,7 +5,8 @@ are stored independently from mass spectra so the two modalities can have
 divergent schemas without inflating the number of empty columns, and so a reader
 need not sift through mass spectra to find EMR spectra (or vice versa). These
 files [SHOULD]{class="should-chip"} be present only if wavelength spectra are included in the
-archive.
+archive. Wavelength spectra do not have sufficient resolution to make peak picking
+meaningful, and so do not have a `peaks` facet at this time.
 
 ## Wavelength spectrum signal data - `wavelength_spectra_data.parquet`
 
@@ -45,8 +46,7 @@ schema.
 
 - **`index`** (uint64) - ascending 0-based index, incrementing by 1 per entry,
   [SHOULD]{class="should-chip"} be time-sorted. Primary key.
-- **`id`** (string) - the "nativeID" string, per a
-  [native identifier format](http://purl.obolibrary.org/obo/MS_1000767).
+- **`id`** (string) - the "nativeID" string, per a [native identifier format](http://purl.obolibrary.org/obo/MS_1000767). Not all vendors use the same schema for MS and non-MS spectra.
 - **`time`** (float64) - the data-acquisition start time. [SHOULD]{class="should-chip"} be
   replicated from the `scans` table for simpler filtering; for a spectrum
   with multiple scans it [SHOULD]{class="should-chip"} be the minimum value if the run is in
@@ -79,7 +79,7 @@ schema.
 }
 ```
 
-This table uses the [metadata table](../layouts/metadata-tables.md) schema.
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 A scan or acquisition from the original raw file used to create a spectrum.
 
@@ -94,8 +94,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
 - **`parameters`** (list).
 - **`scan_windows`** (list) - the list of windows in the main axis (wavelength array usually) that were acquired in this scan. This [SHOULD]{class="should-chip"} be an empty list if no window metadata was stored.
   - (group)
-    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower bound of a scan window.
-    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper of a scan window.
+    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower bound of a scan window. It's unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
+    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper bound of a scan window. It's unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
 - [MAY]{class="may-chip"} supply children of [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute), [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction, once), and [`MS:1000019`](http://purl.obolibrary.org/obo/MS_1000019) (scan law, once).
     - [`scan_rate (MS:1000015)`](http://purl.obolibrary.org/obo/MS_1000015)
     - [`dwell_time (MS:1000502)`](http://purl.obolibrary.org/obo/MS_1000502)

@@ -3,7 +3,7 @@
 ## Minimum archive
 
 A conformant archive [MUST]{class="must-chip"} contain `mzpeak_index.json` at its root. All other members are
-discovered through it; readers [MUST]{class="must-chip"} NOT depend on member names other than `mzpeak_index.json`.
+discovered through it; readers [MUST NOT]{class="must-not-chip"} depend on member names other than `mzpeak_index.json`.
 mzPeak files containing only metadata (no spectra, no chromatograms) are thus still legal
 mzPeak archives. Additionally, any of the Parquet files [MAY]{class="may-chip"} be empty but present, and readers must gracefully handle these files being valid schematically but containing no rows.
 
@@ -28,7 +28,7 @@ A conformant archive [MUST]{class="must-chip"}:
    array-index `prefix`.
 - Satisfy the [semantic invariants](#validation).
 
-Additional members and metadata keys are permitted and [MUST NOT]{class="must-chip"} cause rejection.
+Additional members and metadata keys are permitted and [MUST NOT]{class="must-not-chip"} cause rejection.
 
 ## Conformant writer
 
@@ -67,7 +67,7 @@ A conformant reader [MUST]{class="must-chip"}:
 - Every non-null foreign key resolves to an existing key/id.
 - Chunks of an entity are ascending by `chunk_start` and non-overlapping.
 - Within an entity, all `array_index` entries share one layout family — either every entry
-  is `point` or every entry is one of the `chunk_*` formats. the two [MUST NOT]{class="must-chip"} be mixed.
+  is `point` or every entry is one of the `chunk_*` formats. the two [MUST NOT]{class="must-not-chip"} be mixed.
 - Time columns (for example `spectrum.time` and `wavelength_spectrum_time`) are expressed in
   [minutes](http://purl.obolibrary.org/obo/UO_0000031).
 - Each signal Parquet file carries a [page index](https://parquet.apache.org/docs/file-format/pageindex/).
@@ -95,7 +95,7 @@ below.
 
 ### Provenance
 
-Confirming that the file you have received was not modified following data acquisition is more challenging when the chain of custody
+Confirming that the file was not modified following data acquisition is more challenging when the chain of custody
 contains unknown or untrusted intermediate parties. To allow users to verify that an mzPeak file has not been manipulated, without
 encrypting all of the data, the `provenance.parquet` [SHOULD]{class="should-chip"} be provided when the chain of trust from the instrument is available.
 Failure to do so does not render the .mzPeak archive invalid, but does make it unverifiable and unsuitable for some forms of

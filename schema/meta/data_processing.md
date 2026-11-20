@@ -55,7 +55,7 @@ not create a separate `data_processing_method` describing only the new steps.
 When publishing files that contain processed data, data transformations alone may not be enough to explain how the software used produced
 the data published. Providing a [`MS:1001885|command-line parameters`](http://purl.obolibrary.org/obo/MS_1001885) parameter that embeds the
 command line used may help future readers to understand how the software was instructed to operate. This is a compromise between creating a
-parameter for each and every setting or argument that a piece of software took, which tells you semantically what was done in-so-far as the
+parameter for each and every setting or argument that a piece of software took, which tells the reader semantically what was done in-so-far as the
 software functionality can be defined by its inputs, but doesn't explain *how* it was told to do that. The command line tells the reader how
 the software was invoked, and the same software and version with the same command line and input data should, if the software is reproducible,
 be able to recreate the same output.

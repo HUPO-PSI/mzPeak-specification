@@ -276,3 +276,31 @@ img.panel-image {
   margin-top: 1px;
   font-size: 0.7rem;
 }
+
+.not-chip {
+  font-weight: 900;
+  display: inline-block;
+  background-color: whitesmoke;
+  color: #ff3636;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 3px;
+  border-width: 0.05rem;
+  border: solid #ff3636;
+  margin-top: 1px;
+  font-size: 0.7rem;
+}
+
+.must-not-chip {
+  font-weight: 900;
+  display: inline-block;
+  background-color: #000b3b;
+  color: white;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 3px;
+  border-width: 0.05rem;
+  border: solid black;
+  margin-top: 1px;
+  font-size: 0.7rem;
+}

@@ -561,7 +561,7 @@ The entries of the `files` array are [file entries](./index_file_components.md#f
 part of the mzPeak archive itself. Each entry pairs a [`data_kind`](data-kinds.md) with an [`entity_type`](entity-types.md).
 Both are *loose enumerations* expected to grow over time; resolving files by these controlled terms is more robust than matching
 file names. Each entry has a checksum, a SHA-512 hex digest that can be computed by re-hashing the bytes of the file to check
-for data corruption. Hex-digest matching [MUST NOT]{class="must-chip"} be treated as proof the data have not been tampered with, as the checksum
+for data corruption. Hex-digest matching [MUST NOT]{class="must-not-chip"} be treated as proof the data have not been tampered with, as the checksum
 in the index is not protected. See the [provenance](../schemas/provenance.md) for a discussion of this. Each entry also contains
 a list of parameters that may be used similarly to [source files](./file_description.md#source_file), though some of these will
 be redundant with the existing attributes. For most common mzPeak archive members, this list is empty, but for other embedded files,
@@ -571,14 +571,14 @@ described below and further in the [metadata table layout](../layouts/metadata-t
 
 ### Column mapping
 
-By mapping controlled vocabulary terms to Parquet columns, we can make mzPeak more efficient at storing,
-searching, and indexing `cvParam`-like data. The `column_mapping` object defines an explicit mapping from
+By mapping controlled vocabulary terms to Parquet columns, mzPeak can more efficiently store,
+search, and index `cvParam`-like data. The `column_mapping` object defines an explicit mapping from
 column to an externally controlled definition like a controlled vocabulary term or a user-defined column.
 
 When a column is defined in the appropriate schema, its `path` is pre-defined with the last entry in the
 `path` being the actual column name. When not defined, the column name [SHOULD]{class="should-chip"} start with `opt_`. This
-provision ensures that if we later decide to add a new column to the specification, it will not collide
-with an existing user-defined column name.
+provision ensures that if a new column is added to the specification, it will not collide with an existing user-defined
+column name.
 
 More is described in [the components section](./index_file_components.md)
 
@@ -633,5 +633,5 @@ is declared by setting `metadata.imaging.is_imaging` to `true`.
 
 ### For validation
 
-New minor or patch versions [MAY]{class="may-chip"} add additional validation rules, but new minor versions **SHOULD NOT**
+New minor or patch versions [MAY]{class="may-chip"} add additional validation rules, but new minor versions [SHOULD NOT]{class="should-chip"}
 invalidate files valid under previous minor versions. Profiles [SHOULD]{class="should-chip"} abide by the same rules.

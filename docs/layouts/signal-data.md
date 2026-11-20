@@ -218,7 +218,7 @@ required. Zero run stripping is not marked by a transform term, but [SHOULD]{cla
 in the [data processing method](../archive/data_processing.md) using the
 [`MS:1003901|zero intensity point trimming`](http://purl.obolibrary.org/obo/MS_1003901)
 term. Most run formats do not store zero runs and might only produce them at read time if requested.
-Readers are **NOT** required to do so, though they may use either the coordinate
+Readers are [NOT]{class="not-chip"} required to do so, though they may use either the coordinate
 spacing model stored in `polynomial_delta_coordinate_interpolation` derived in the
 [Null marking](#null-marking) section or the grid model if the [grid encoding](chunked-layout.md#grid-encoding)
 is provided in the chunked layout.
@@ -240,8 +240,8 @@ be reconstructed beyond the flanking points, the same method used for filling
           2. ``(i == 0) or (x[i - 1] == 0)``
           3. ``(i == (len(x) - 1)) or (x[i + 1] == 0)``
 
-        We build a position list because we need to extract these positions
-        from ALL dimension arrays for this entity, not just the current array.
+        Builds a position list to extract these positions from ALL dimension arrays
+        for this entity, not just the current array.
         """
         n = len(data)
         n1 = n - 1
@@ -270,7 +270,7 @@ be reconstructed beyond the flanking points, the same method used for filling
 ### Null marking
 
 For spectra with many small gaps, even zero-run stripping leaves too much
-unhelpful information. Instead, we can replace the flanking zero-intensity points
+unhelpful information. Instead, mzPeak replaces the flanking zero-intensity points
 with `null` m/z and intensity values; Parquet then skips storing the expensive
 32- and/or 64-bit values, retaining only the validity-bitmap bit. Separately, we
 fit a simple m/z-spacing model by intensity weighted least squares of the form:
@@ -283,7 +283,7 @@ If null marking is used zero run stripping [MUST]{class="must-chip"} be used.
 
 Not all data will produce a solvable linear system of equations. Writers [SHOULD]{class="should-chip"}
 attempt to fit the weighted least squares regression and if that fails, fall back on
-the global second median of $δ mz$. Writers **SHOULD NOT** use a rank other than 2 or
+the global second median of $δ mz$. Writers [SHOULD NOT]{class="should-chip"} use a rank other than 2 or
 a different weighting for equivalence across implementations. A rank of 2 fits the both
 evenly spaced and variably ascending spacing data well enough to produce accurate solutions,
 and does not increase the computational burden or risk of an unsolvable model.

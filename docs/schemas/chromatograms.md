@@ -2,7 +2,9 @@
 
 Chromatograms are described by a **signal** file (`chromatograms_data.parquet`)
 and a set of **metadata** files (e.g. `chromatograms_metadata.parquet`). Diagnostic traces are
-currently carried here as well, pending their dedicated entity-type namespace.
+currently carried here as well, pending their dedicated entity-type namespace. Chromatograms
+do not have a concept of processed centroids, as their profile shape is less consistent, which
+is why there is no `peaks` facet for this `entity_type`.
 
 ## Chromatogram signal data - `chromatograms_data.parquet`
 
@@ -16,14 +18,15 @@ currently carried here as well, pending their dedicated entity-type namespace.
 
 The signal data is encoded using either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md).
 The entity index column [MUST]{class="must-chip"} be named `chromatogram_index`. The default primary axis is a [`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595).
-For consistency, the units [SHOULD]{class="should-chip"} be minutes.
+For consistency, the units [MUST]{class="must-chip"} be minutes.
 
 ### Recommended Parquet encodings
 
 | Column | Encoding |
 | :-- | :-- |
 | `chromatogram_index` | [delta encoding](https://parquet.apache.org/docs/file-format/data-pages/encodings/#delta-encoding-delta_binary_packed--5) |
-| time arrays | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling) |
+| `time array` | [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling) |
+| intensity arrays | When stored as integers as some instruments do, [byte stream split](https://parquet.apache.org/docs/file-format/data-pages/encodings/#byte-stream-split-byte_stream_split--9) (byte shuffling) can efficiently reduce size, but shows limited benefit for floating point storage |
 
 ## Chromatogram metadata - `chromatograms_metadata.parquet`
 
@@ -37,7 +40,7 @@ For consistency, the units [SHOULD]{class="should-chip"} be minutes.
 
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
-- **`index`** (integer) - the ascending 0-based index, incrementing by 1 per entry. Primary key for the `chromatogram` facet.
+- **`index`** (uint64) - the ascending 0-based index, incrementing by 1 per entry. Primary key for the `chromatogram` facet.
 - **`id`** (string) - a unique string identifier. Unlike for spectra, there is no "nativeId" format definition for chromatograms at this time.
 - [**`scan_polarity (MS:1000465)`**](http://purl.obolibrary.org/obo/MS_1000465)
   (integer) - `1`, `-1`, or `null`.
@@ -76,8 +79,12 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 }
 ```
 
+This table uses the [metadata table](../layouts/metadata-tables.md) layout.
+
 The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring,
 this table will be empty or absent. Its schema is identical to the [spectrum precursor schema](./spectra.md#spectrum-precursor-metadata-spectra_metadata_precursorsparquet)
+save that everywhere a precursor is referred to, it refers to a `chromatogram`, not a `spectrum` so `precursor_index` is
+a `chromatogram.index`, not a `spectrum.index`, and `precursor_id` is a `chromatogram.id` instead of a `spectrum.id`.
 
 
 
@@ -94,7 +101,8 @@ this table will be empty or absent. Its schema is identical to the [spectrum pre
 This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 Like the `precursor` group, outside of sequential, multiple or parallel reaction monitoring, this table will be empty
-or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata-spectra_metadata_selected_ionsparquet).
+or absent. Its schema is identical to the [spectrum selected ion schema](./spectra.md#spectrum-selected-ion-metadata-spectra_metadata_selected_ionsparquet)
+save that any time a precursor is referred to, it is a `chromatogram`, not a `spectrum`.
 
 ## Chromatogram product selection metadata - `chromatograms_metadata_products.parquet`
 
@@ -110,6 +118,6 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is
 isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to
-the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet). For
-SRM or MRM acquisitions, the precursor isolation window and selected ion describe Q1 and the product isolation window
-describe Q3.
+the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet) save
+that any time a precursor is referred to, it is a `chromatogram`, not a `spectrum`. For SRM or MRM acquisitions, the
+precursor isolation window and selected ion describe Q1 and the product isolation window describe Q3.

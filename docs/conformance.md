@@ -57,7 +57,8 @@ A conformant reader [MUST]{class="must-chip"}:
 **Syntactic.** A conformant archive [MUST]{class="must-chip"} satisfy:
 
 - `mzpeak_index.json` and JSON metadata [MUST]{class="must-chip"} validate against the `schema/` JSON Schemas.
-- Each Parquet file's Arrow schema [MUST]{class="must-chip"} match this specification.
+- Each Parquet file's schema [MUST]{class="must-chip"} match this specification's fields. It [MAY]{class="may-chip"} use
+  additional fields that are properly annotated using the data layout's mechanisms (column mappings for metadata tables, array index entries for signal data tables).
 
 **Semantic.** A conformant archive [MUST]{class="must-chip"} satisfy:
 

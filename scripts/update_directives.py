@@ -1,6 +1,6 @@
 import re
-from pathlib import Path
 from itertools import chain
+from pathlib import Path
 
 MUST_PATTERN = re.compile(r"\*+MUST\*+")
 MUST_NOT_PATTERN = re.compile(r"\*+MUST NOT\*+|(?:\*+MUST\*+ not)")

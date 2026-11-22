@@ -62,3 +62,6 @@ render-directives:
     python scripts/update_directives.py
 
 render-all: render-diagrams render-jsonschema render-directives
+
+print-pdf:
+    node export_to_pdf.js http://localhost:8000/mzPeak-specification/print_page/ out.pdf 'mzPeak'

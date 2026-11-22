@@ -120,6 +120,26 @@ plugins:
       increment_across_pages: true # continuous numbering in nav order (each page = next top-level section)
       exclude:
         - index.md                 # the hero/abstract home page is not "Section 1"
+  - print-site:
+      add_to_navigation: false
+      print_page_title: 'Print Site'
+      print_page_basename: 'print_page'
+      add_print_site_banner: true
+      # Table of contents
+      add_table_of_contents: true
+      toc_title: 'Table of Contents'
+      toc_depth: 6
+      # Content-related
+      add_full_urls: false
+      enumerate_headings: true
+      enumerate_figures: true
+      add_cover_page: true
+      cover_page_template: ""
+      path_to_pdf: "to_pdf"
+      include_css: true
+      enabled: true
+      exclude:
+        - index.md
   # - exporter:
   #     formats:
   #       pdf:

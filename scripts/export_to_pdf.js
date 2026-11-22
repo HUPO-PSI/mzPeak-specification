@@ -33,7 +33,7 @@ footerHtml = ` `;
     await page.goto(url, { waitUntil: 'networkidle2' });
     await page.pdf({
         path: pdfPath, // path to save pdf file
-        format: 'A4', // page format
+        format: 'A4', // page formats
         displayHeaderFooter: true, // display header and footer (in this example, required!)
         printBackground: true, // print background
         landscape: false, // use horizontal page layout

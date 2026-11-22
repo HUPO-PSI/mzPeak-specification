@@ -39,6 +39,7 @@ the column does not map to a controlled vocabulary term.
 
 This is the primary metadata table for mass spectra. There is an `index` column that uniquely identifies rows.
 
+<div class="wide-table" markdown>
 |   **index** | id                                         |   ms_level |       time |   scan_polarity | spectrum_representation   | spectrum_type   |   lowest_observed_mz |   highest_observed_mz |   number_of_data_points |   number_of_peaks |   base_peak_mz |   base_peak_intensity |   total_ion_current | data_processing_id   | parameters   | auxiliary_arrays   |   number_of_auxiliary_arrays | polynomial_delta_coordinate_interpolation                            |
 |--------:|:-------------------------------------------|-----------:|-----------:|----------------:|:--------------------------|:----------------|---------------------:|----------------------:|------------------------:|------------------:|---------------:|----------------------:|--------------------:|:---------------------|:-------------|:-------------------|-----------------------------:|:--------------------------------------------------|
 |       0 | controllerType=0 controllerNumber=1 scan=1 |          1 | 0.004935   |               1 | MS:1000128                | MS:1000579      |              200     |               1999.99 |                   13589 |               null |        810.415 |           1.47122e+06 |         7.12632e+07 |                      | []           | []                 |                            0 | [-2.21139275e-08  9.69754604e-11  6.05422863e-09] |
@@ -46,17 +47,19 @@ This is the primary metadata table for mass spectra. There is an `index` column 
 |       2 | controllerType=0 controllerNumber=1 scan=3 |          2 | 0.0112183  |               1 | MS:1000127                | MS:1000580      |              231.389 |               1560.72 |                     null |               485 |        736.637 |      161141           |    586279           |                      | []           | []                 |                            0 |                                                   |
 |       3 | controllerType=0 controllerNumber=1 scan=4 |          2 | 0.0228383  |               1 | MS:1000127                | MS:1000580      |              236.047 |               1636.43 |                     null |              1006 |        780.536 |       29161.9         |    441570           |                      | []           | []                 |                            0 |                                                   |
 |       4 | controllerType=0 controllerNumber=1 scan=5 |          2 | 0.034925   |               1 | MS:1000127                | MS:1000580      |              203.222 |               1412.57 |                     null |               837 |        578.986 |        8601.8         |    114332           |                      | []           | []                 |                            0 |                                                   |
+</div>
 
 ### Example 2: `entity_type=spectrum` `data_kind=selected_ions`
 
 This is a secondary metadata file, it has `source_index` column. This identifies the `index` value of the `spectrum` row in the table above in [Example 1](#example-1-entity_typespectrum-data_kindmetadata). It has a second key, `precursor_index` denoting the index of the precursor spectrum that the selected ion was isolated in. When there is only one selected ion per spectrum, this will look unique, but this isn't guaranteed!
 
+<div class="wide-table" markdown>
 |   source_index |   precursor_index | selected_ion_index |   selected_ion_mz |   charge_state |        intensity |   ion_mobility_value | ion_mobility_type   | parameters   |
 |---------------:|------------------:|------------------:|------------------:|---------------:|-----------------:|---------------------:|:--------------------|:-------------|
 |              2 |                 1 |                 0 |           810.789 |            null |      1.99404e+06 |                  null |                null | []           |
 |              3 |                 1 |                 1 |           837.345 |            null | 999937           |                  null |                null | []           |
 |              4 |                 1 |                 2 |           725.362 |            null | 313667           |                  null |                null | []           |
-
+</div>
 
 ## Controlled Vocabulary Terms
 
@@ -245,12 +248,14 @@ With the table rendered in [example 3](#example-3-entity_typespectrum-data_kinds
 
 ##### Example 3: `entity_type=spectrum` `data_kind=scans`
 
+<div class="wide-table" markdown>
 |   source_index |   scan_index |   scan_start_time | *preset_scan_ configuration* <<< | filter_string                                        |   ion_injection_ time |   instrument_ configuration_id | scan_windows |
 |---------------:|-------------:|------------------:|------------------------------:|:-------------------------------------------------------|---------------------:|------------------------------:| --------:|
 |              0 |            0 |        0.004935   |                           1 | FTMS + p ESI Full ms [200.00-2000.00]                    |             68.2275  |                             0 | [{**scan_window_lower_limit <<<** : 200, scan_window_upper_limit: 2000}]
 |              1 |            1 |        0.00789667 |                           2 | ITMS + p ESI Full ms [200.00-2000.00]                    |              2.07659 |                             1 | [{**scan_window_lower_limit**: 200, scan_window_upper_limit: 2000}]
 |              2 |            2 |        0.0112183  |                           3 | ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00] |              7.99301 |                             1 | [{**scan_window_lower_limit**: 210, scan_window_upper_limit: 1635}]
 |              3 |            3 |        0.0228383  |                           4 | ITMS + c ESI d Full ms2 837.34@cid35.00 [220.00-1685.00] |             15.5505  |                             1 | [{**scan_window_lower_limit**: 220, scan_window_upper_limit: 1685}]
+</div>
 
 In the first case, [MS:1000616|preset scan configuration](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000616) maps to `preset_scan_configuration` with values `[1, 2, 3, 4, ...]`. The second is more complex as it maps [MS:1000501|scan window lower limit](https://ontobee.org/ontology/MS?iri=http://purl.obolibrary.org/obo/MS_1000501) to a column nested under of the `scan_windows` list with values `[200, 200, 210, 220, ...]`. This arrangement encourages readers to use some form of tree traversal approach.
 
@@ -296,6 +301,7 @@ interest otherwise and could be ignored by another piece of software not interes
 ]
 ```
 
+<div class="wide-table" markdown>
 |   index | id                          |   ms_level |      time |   scan_polarity | spectrum_representation   | opt_calibration_spectrum   |
 |--------:|:----------------------------|-----------:|----------:|----------------:|:--------------------------|:---------------------------|
 |       0 | merged=1 function=3 block=1 |          1 | 0.0270333 |               1 | MS:1000128                | True                       |
@@ -303,6 +309,7 @@ interest otherwise and could be ignored by another piece of software not interes
 |       2 | merged=3 function=2 block=1 |          2 | 0.0456167 |               1 | MS:1000128                | False                      |
 |       3 | merged=4 function=1 block=2 |          1 | 0.0542    |               1 | MS:1000128                | False                      |
 |       4 | merged=5 function=2 block=2 |          2 | 0.0627667 |               1 | MS:1000128                | False                      |
+</div>
 
 ##### Example 5: `entity_type=spectrum` `data_kind=precursors`
 
@@ -340,6 +347,7 @@ type column with multiple children. Care [MUST]{class="must-chip"} be taken to s
 ]
 ```
 
+<div class="wide-table" markdown>
 |   source_index |   precursor_index | activation. dissociation_method  |  activation. collision_energy |   activation. opt_MS_1002678_supplemental_beam_type_dissociation |
 |---------------:|------------------:|:---------------------------------|------------------------------:| ---------------------------------------------:|
 |           6705 |              6683 | MS:1000422                       |                       28      | False
@@ -347,7 +355,7 @@ type column with multiple children. Care [MUST]{class="must-chip"} be taken to s
 |           6707 |              6683 | MS:1000133                       |                       30      | False
 |           6708 |              6683 | MS:1000598                       |                       33.0785 | True
 |           6709 |              6683 | MS:1000133                       |                       30      | False
-
+</div>
 
 ## Column statistics
 

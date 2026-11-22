@@ -34,7 +34,10 @@ user metadata. For the conventions used in the normative text, see
 
 ## Components of an archive
 
-![An overview diagram of an mzPeak archive](../assets/img/archive-layout.svg)
+<figure>
+<img src="../../assets/img/archive-layout.svg" />
+<figcaption>An overview diagram of an mzPeak archive</figcaption>
+</figure>
 
 Typical members include:
 - **`mzpeak_index.json`** - definition of the files present in the archive,
@@ -63,10 +66,10 @@ high levels of nesting. This information is inexpensive to parse and can be usef
 of interest before committing to parsing one or more of the Parquet tables.
 
 <figure markdown="block">
-![How the file-level metadata is cross-referenced](../assets/img/index-relation.svg)
-<caption>
+<img  src="../../assets/img/index-relation.svg"/>
+<figcaption>
 How the file-level metadata is cross-referenced
-</caption>
+</figcaption>
 </figure>
 
 Some Parquet tables reference file-level metadata, like the `spectra_metadata_scans.parquet` table shown above referencing
@@ -75,4 +78,7 @@ particular scan.
 
 ### Reading the *n*th spectrum
 
-![The process of reading an arbitrary spectrum from an mzPeak archive](../assets/img/reading-from-0.svg)
+<figure>
+<img src="../../assets/img/reading-from-0.svg" />
+<figcaption>The process of reading an arbitrary spectrum from an mzPeak archive</figcaption>
+</figure>

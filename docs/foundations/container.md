@@ -25,6 +25,9 @@ file system page size.
 
 <figure class="mzp-figure wide" markdown>
 <img src="../../assets/img/zip-structure-p1.svg" width="100%" />
+<figcaption>
+The arrangement of members in a packed mzPeak archive
+</figcaption>
 </figure>
 
 To read an mzPeak archive from an uncompressed ZIP archive, the ZIP reader follows the
@@ -36,6 +39,9 @@ ranges needed to read Parquet metadata, then read the relevant parts of the Parq
 
 <figure class="mzp-figure wide" markdown>
 <img src="../../assets/img/zip-structure-p2.svg" width="100%" />
+<figcaption>
+The steps to initiate the reading of a packed mzPeak archive
+</figcaption>
 </figure>
 
 ### Why not TAR?

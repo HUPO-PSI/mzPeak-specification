@@ -10,3 +10,4 @@ index.html
 __pycache__/
 *.pyc
 *.bkp
+node_modules

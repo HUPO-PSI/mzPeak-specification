@@ -304,3 +304,42 @@ img.panel-image {
   margin-top: 1px;
   font-size: 0.7rem;
 }
+
+body {
+  counter-reset: figure;
+  counter-reset: figurecounter;
+}
+
+figcaption::before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+}
+
+@media print {
+  @page wide-table {
+    size: 17in 11in;
+    margin: 1cm;
+  }
+
+  .wide-table {
+    break-before: always;
+    break-after: always;
+    page: wide-table;
+    overflow: visible !important;
+    width: 17in !important;
+    max-width: 17in;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    zoom: 80%;
+  }
+
+  .wide-table table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

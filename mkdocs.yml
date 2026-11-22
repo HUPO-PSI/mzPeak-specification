@@ -115,26 +115,33 @@ markdown_extensions:
 plugins:
   - search
   - enumerate-headings:
-      toc_depth: 3                 # number down to 1.1.1, matching the existing TOC depth
+      toc_depth: 6                 # number down to 1.1.1, matching the existing TOC depth
       strict: false                # don't fail the --strict build on pages that skip a heading level
       increment_across_pages: true # continuous numbering in nav order (each page = next top-level section)
       exclude:
         - index.md                 # the hero/abstract home page is not "Section 1"
-  # - exporter:
-  #     formats:
-  #       pdf:
-  #         # enabled: !ENV [MKDOCS_EXPORTER_PDF, true]
-  #         enabled: false
-  #         concurrency: 8
-  #         # stylesheets:
-  #         #   - resources/stylesheets/pdf.scss
-  #         # covers:
-  #         #   front: resources/templates/covers/front.html.j2
-  #         #   back: resources/templates/covers/back.html.j2
-  #         aggregator:
-  #           enabled: true
-  #           output: document.pdf
-  #           covers: all
+  - print-site:
+      add_to_navigation: false
+      print_page_title: 'Print Site'
+      print_page_basename: 'print_page'
+      add_print_site_banner: true
+      # Table of contents
+      add_table_of_contents: true
+      toc_title: 'Table of Contents'
+      toc_depth: 6
+      # Content-related
+      add_full_urls: false
+      enumerate_headings: true
+      enumerate_figures: true
+      add_cover_page: true
+      cover_page_template: ""
+      path_to_pdf: "to_pdf"
+      include_css: true
+      enabled: true
+      exclude:
+        - index.md
+        - implementations.md
+        - tools.md
 
 nav:
   - Home: index.md

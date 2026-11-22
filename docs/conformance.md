@@ -21,7 +21,7 @@ A conformant archive [MUST]{class="must-chip"}:
 
 - Have `mzpeak_index.json` valid against `schema/mzpeak_index.json`, carrying `metadata.version`
    (SemVer `MAJOR.MINOR.PATCH`).
-- Reference only present, valid Parquet files whose Arrow schema matches their
+- Reference only present, valid Parquet files whose schema matches their
    `entity_type`/`data_kind`.
 - Declare in `metadata.cv_list` every CV prefix used anywhere, with `uri` and `version`.
 - Use exactly one signal layout per data/peak file (`point` or `chunk`), identified by the
@@ -35,7 +35,7 @@ Additional members and metadata keys are permitted and [MUST NOT]{class="must-no
 A conformant writer [MUST]{class="must-chip"}:
 
 - Produce a conformant archive.
-- Write a Parquet **page index** for all columns and column statistics for row groups.
+- Write a Parquet **page index** for all columns and **column statistics** for row groups.
 - Declare every CV used in `cv_list`, with a `uri` that identifies a fixed release or snapshot
   and the matching `version`.
 - Record an array index sufficient to reconstruct every array **without parsing column names**.

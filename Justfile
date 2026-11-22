@@ -62,3 +62,6 @@ render-directives:
     python scripts/update_directives.py
 
 render-all: render-diagrams render-jsonschema render-directives
+
+print-pdf:
+    uv run "scripts/export_workflow.py"

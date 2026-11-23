@@ -39,7 +39,7 @@ and metadata demands. mzPeak is designed to address these needs as a community s
 the motivation and design rationale are set out in the accompanying white paper [(1)](reference/references.md).
 
 The on-disk structure is language-independent, but uses widely available libraries across
-many languages to decode a entries without parsing an entire run. It works with any byte storage,
+many languages to decode individual entries without parsing an entire run. It works with any byte storage,
 on local disk, object storage, or over HTTP. This document specifies that format: its
 container, data layouts, index file, and metadata model.
 

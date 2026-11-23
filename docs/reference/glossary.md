@@ -93,7 +93,7 @@ Numpress (MS-Numpress)
 :   A family of lossy and lossless numeric compression schemes for m/z and intensity arrays, usable in mzPeak as an opaque transform.
 
 Opaque transform
-:   A per-array encoding (for example delta encoding or Numpress) applied within a chunk in the [Chunked layout](../layouts/chunked-layout.md). It is "opaque" in that when the Parquet indexing machinery sees the encoded data, it cannot store index the "real" values that were encoded, only their encoded form. The encoded form itself is usually not helpful for planning how to read the file. This is distinct from the encodings that Parquet itself applies to the data after it has been indexed, which can be instead viewed as "transparent".
+:   A per-array encoding (for example delta encoding or Numpress) applied within a chunk in the [Chunked layout](../layouts/chunked-layout.md). It is "opaque" in that when the Parquet indexing machinery sees the encoded data, it cannot index the "real" values that were encoded, only their encoded form. The encoded form itself is usually not helpful for planning how to read the file. This is distinct from the encodings that Parquet itself applies to the data after it has been indexed, which can be instead viewed as "transparent".
 
 Metadata tables
 :   The metadata layout that stores a table of a single facet of an entry for an `entity_type`, linked by primary- and foreign-key index columns. See [Metadata Tables](../layouts/metadata-tables.md).
@@ -120,7 +120,7 @@ Sorting rank
 :   An array's ordering role within a signal layout; sorting rank 1 is the sorted "main axis" around which all parallel arrays are arranged. Arrays of differing length [SHOULD]{class="should-chip"} instead be stored as auxiliary arrays. Sorting rank 0 is currently used for the index column.
 
 Term marker
-:   A column mapping that indicates the presence absence of a specific value-less term (boolean) *OR* a child of a specific term (string). Defined in [Controlled Vocabulary Terms](../layouts/metadata-tables.md#controlled-vocabulary-terms).
+:   A column mapping that indicates the presence or absence of a specific value-less term (boolean) *OR* a child of a specific term (string). Defined in [Controlled Vocabulary Terms](../layouts/metadata-tables.md#controlled-vocabulary-terms).
 
 Total ion current (TIC)
 :   The summed intensity recorded for a spectrum; frequently traced over time as a chromatogram.

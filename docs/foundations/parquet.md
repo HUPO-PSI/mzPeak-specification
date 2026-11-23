@@ -45,7 +45,7 @@ concert with Apache Arrow's in-memory structured columnar format.
     implementations [MUST]{class="must-chip"} handle both the `large_*` and non-`large_*`
     variants of collection types: `list`, `string`, and `binary`.
 
-When stored on disk, columns are are *encoded* with one of a small list
+When stored on disk, columns are *encoded* with one of a small list
 of light-weight encodings described at <https://parquet.apache.org/docs/file-format/data-pages/encodings/>
 and then compressed using a general purpose compression codec listed at
 <https://parquet.apache.org/docs/file-format/data-pages/compression/>.

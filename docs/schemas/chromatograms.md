@@ -52,7 +52,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
   ([`MS:1000812`](http://purl.obolibrary.org/obo/MS_1000812)).
 - **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this chromatogram if it differs from
   `run.default_data_processing_id`; `null` otherwise. This applies to how chromatogram properties were calculated.
-  Data arrays for this chromatogram inherit these as well unless they specify a data processing methods in the
+  Data arrays for this chromatogram inherit these as well unless they specify a data processing method in the
   [array index](../layouts/signal-data.md#the-array-index).
 - **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
@@ -120,4 +120,4 @@ When describing single reaction monitoring (SRM) or multiple reaction monitoring
 isolated separately with a different isolation window. This table is usually empty or absent. Its schema is identical to
 the [spectrum products schema](./spectra.md#spectrum-product-selection-metadata-spectra_metadata_productsparquet) save
 that any time a precursor is referred to, it is a `chromatogram`, not a `spectrum`. For SRM or MRM acquisitions, the
-precursor isolation window and selected ion describe Q1 and the product isolation window describe Q3.
+precursor isolation window and selected ion describe Q1 and the product isolation window describes Q3.

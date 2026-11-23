@@ -20,7 +20,7 @@ for modern, large-scale mass spectrometry.
   <span class="mzp-badge">Status: Draft</span>
   <span class="mzp-badge">Version 0.9 - Draft 6</span>
   <span class="mzp-badge mzp-badge--ghost">Built on Apache Parquet</span>
-  <span class="mzp-badge mzp-badge--ghost">CC-BY-ND 4.0</span>
+  <span class="mzp-badge mzp-badge--ghost">CC BY-NC 4.0</span>
 </div>
 </div>
 

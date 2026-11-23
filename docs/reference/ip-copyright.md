@@ -30,4 +30,4 @@ DOI [10.5281/zenodo.20054899](https://doi.org/10.5281/zenodo.20054899).
 
 Copyright © 2026 by the Human Proteome Organization (HUPO) Proteomics Standards
 Initiative (PSI), under the
-[CC-BY-ND 4.0 license](https://creativecommons.org/licenses/by-nd/4.0/).
+[CC BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/).

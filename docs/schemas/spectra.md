@@ -304,7 +304,7 @@ the case, writers [SHOULD]{class="should-chip"} write the `selected_ion_index` c
 - **`source_index`** (uint64) - the spectrum this selected ion belongs to
   (foreign key).
 - **`precursor_index`** (uint64) - the spectrum the selected ion was created from
-  (foreign key). This [MAY]{class="may-chip"} be `null` when the precursor spectrum is not included in the written file.
+  (foreign key). This [MUST]{class="must-chip"} be `null` when the precursor spectrum is not included in the written file.
 - **`selected_ion_index`** (uint64) - optional index value unique to this selected ion.
 - **`ion_mobility_value`** (float64) / **`ion_mobility_type`** (CURIE string) - See the [`scan.ion_mobility_value`](#spectrum-scan-metadata-spectra_metadata_scansparquet) for details storing scalar values. If multiple ion mobility values are available for the selected ion that have been combined, but no ion mobility centroid is available as when a ramp has been used, report multiple `selected_ion` records, one for the ramp start and one for the ramp end.
 - **`parameters`** (list) - controlled or uncontrolled parameters; see [the parameters list](../layouts/metadata-tables.md#the-parameters-list).

@@ -53,7 +53,7 @@ schema.
   acquisition-time order. The time unit [MUST]{class="must-chip"} be [minutes](http://purl.obolibrary.org/obo/UO_0000031)
 - **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this spectrum if it differs from
   `run.default_data_processing_id`; `null` otherwise. This applies to how spectrum properties were calculated.
-  Data arrays for this spectrum inherit these as well unless they specify a data processing methods in the
+  Data arrays for this spectrum inherit these as well unless they specify a data processing method in the
   [array index](../layouts/signal-data.md#the-array-index).
 - **`parameters`** (list).
 - **`number_of_auxiliary_arrays`** (integer) / **`auxiliary_arrays`** (list) - see [auxiliary data arrays](../layouts/auxiliary-arrays.md).
@@ -94,8 +94,8 @@ A scan or acquisition from the original raw file used to create a spectrum.
 - **`parameters`** (list).
 - **`scan_windows`** (list) - the list of windows in the main axis (wavelength array usually) that were acquired in this scan. This [SHOULD]{class="should-chip"} be an empty list if no window metadata was stored.
   - (group)
-    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower bound of a scan window. It's unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
-    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper bound of a scan window. It's unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
+    - [`scan_window_lower_limit` (MS:1000501)](http://purl.obolibrary.org/obo/MS_1000501) (float32) - The lower bound of a scan window. Its unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
+    - [`scan_window_upper_limit` (MS:1000500)](http://purl.obolibrary.org/obo/MS_1000500) (float32) - The upper bound of a scan window. Its unit [SHOULD]{class="should-chip"} be [`UO:0000018|nanometer`](http://purl.obolibrary.org/obo/UO_0000018).
 - [MAY]{class="may-chip"} supply children of [`MS:1000503`](http://purl.obolibrary.org/obo/MS_1000503) (scan attribute), [`MS:1000018`](http://purl.obolibrary.org/obo/MS_1000018) (scan direction, once), and [`MS:1000019`](http://purl.obolibrary.org/obo/MS_1000019) (scan law, once).
     - [`scan_rate (MS:1000015)`](http://purl.obolibrary.org/obo/MS_1000015)
     - [`dwell_time (MS:1000502)`](http://purl.obolibrary.org/obo/MS_1000502)

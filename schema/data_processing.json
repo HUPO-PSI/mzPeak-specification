@@ -36,7 +36,8 @@
       "properties": {
         "order": {
           "type": "integer",
-          "description": "The order in which the step is applied in the data processing pipeline. Values **MUST** be ascending, and **SHOULD** be contiguous."
+          "minimum": 1,
+          "description": "The order in which the step is applied in the data processing pipeline. Values **MUST** be unique, ascending integers starting at 1."
         },
         "software_reference": {
             "type": "string",

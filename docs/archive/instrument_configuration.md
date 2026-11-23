@@ -185,7 +185,7 @@ Describes an instrument component like the ion source, mass analyzer, or detecto
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `component_type` | `enum` | Yes | The kind of component this is |
-| `order` | `integer` | Yes | The order in which the analytes travels through the component. The values must be contiguous, unique ascending integers. |
+| `order` | `integer` | Yes | The order in which the analytes travels through the component. Values [MUST]{class="must-chip"} be unique, ascending integers starting at 1. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this component, like the particular hardware type or components |
 
 #### Property Details
@@ -198,7 +198,7 @@ The kind of component this is
 
 **`order`** - `integer` *(required)*
 
-The order in which the analytes travels through the component. The values must be contiguous, unique ascending integers.
+The order in which the analytes travels through the component. Values [MUST]{class="must-chip"} be unique, ascending integers starting at 1.
 
 **`parameters`** - `array` of [`param`](param.md) *(required)*
 

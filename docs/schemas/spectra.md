@@ -11,7 +11,7 @@ When writing signal data, **profile** data goes in `spectra_data.parquet` and **
 The `spectra_metadata.parquet` row carries both a [`number_of_data_points (MS:1003060)`](http://purl.obolibrary.org/obo/MS_1003060)
 and a [`number_of_peaks (MS:1003059)`](http://purl.obolibrary.org/obo/MS_1003059) column so a reader knows which file(s) to
 read. Absence of either of these columns implies that that modality does not exist, or the presence of a value of `null` or 0.
-A reader [SHOULD]{class="should-chip"} allow the caller to indicating which representation it wants.
+A reader [SHOULD]{class="should-chip"} allow the caller to indicate which representation it wants.
 
 For timsTOF-style data that is centroid in m/z but profiled in ion mobility, the consensus is to treat it as centroid
 for the mass-spectrum dimension and place it in `spectra_peaks.parquet`. The presence of the metadata column
@@ -107,7 +107,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 - [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (unsigned integer) - the MS stage number
 - **`data_processing_id`** (string) - the `id` of a `data_processing` that governs this spectrum if it differs from
   `run.default_data_processing_id`; `null` otherwise. This applies to how spectrum properties were calculated.
-  Data arrays for this spectrum inherit these as well unless they specify a data processing methods in the
+  Data arrays for this spectrum inherit these as well unless they specify a data processing method in the
   [array index](../layouts/signal-data.md#the-array-index).
 - **`parameters`** (list) - controlled or uncontrolled parameters; see
   [the parameters list](../layouts/metadata-tables.md#the-parameters-list).
@@ -329,7 +329,7 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 
 When describing single reaction monitoring (SRM) or multiple reaction monitoring (MRM) experiments, each product ion is isolated separately
 with a different isolation window. This table is usually empty or absent. For SRM or MRM acquisitions, the precursor isolation window and
-selected ion describe Q1 and the product isolation window describe Q3.
+selected ion describe Q1 and the product isolation window describes Q3.
 
 - **`source_index`** (uint64) - the spectrum this product belongs to (foreign key).
 - **`precursor_index`** (uint64) - the precursor this product belongs to (foreign key).

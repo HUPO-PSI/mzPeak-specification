@@ -90,7 +90,7 @@ one transformation to data from one mass analyzer and a different transformation
 ### data_processing_method
 <a name="data_processing_method"></a>
 
-Describes a single pipeline of data processing pipeline that was used on an entity or data array. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList>
+Describes a single data processing pipeline that was used on an entity or data array. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList>
 
 **Type:** `object`
 

@@ -68,7 +68,7 @@ A conformant reader [MUST]{class="must-chip"}:
 - Every non-null foreign key resolves to an existing key/id.
 - Chunks of an entity are ascending by `chunk_start` and non-overlapping.
 - Within an entity, all `array_index` entries share one layout family — either every entry
-  is `point` or every entry is one of the `chunk_*` formats. the two [MUST NOT]{class="must-not-chip"} be mixed.
+  is `point` or every entry is one of the `chunk_*` formats. The two [MUST NOT]{class="must-not-chip"} be mixed.
 - Time columns (for example `spectrum.time` and `wavelength_spectrum_time`) are expressed in
   [minutes](http://purl.obolibrary.org/obo/UO_0000031).
 - Each signal Parquet file carries a [page index](https://parquet.apache.org/docs/file-format/pageindex/).

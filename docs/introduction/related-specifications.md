@@ -11,7 +11,7 @@ and used in conjunction with, several existing and emerging community models:
   storing raw or processed mass spectrometry data. mzPeak draws on the mzML data
   model and re-uses concepts such as controlled vocabularies where feasible.
 - **[SDRF (Sample and Data Relationship Format)](https://www.psidev.info/sdrf-sample-data-relationship-format)** [(Guidelines)](https://sdrf.quantms.org/) - a representation of sample metadata. SDRF known at acquisition time may be
-  carried alongside the data in an mzPeak archive with the `other` `entity_type` and `data_kind`.
+  carried alongside the data in an mzPeak archive with `entity_type` `other` and `data_kind` `sdrf` (see [Data Kinds](../archive/data-kinds.md)).
 - **[imzML](https://github.com/imzML/imzML/)** - the mzML-derived standard for
   mass-spectrometry imaging. mzPeak addresses imaging within the same archive via
   spatial coordinates in the scan metadata (see [Imaging profile](../profiles/imaging.md)).

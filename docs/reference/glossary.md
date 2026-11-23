@@ -9,7 +9,7 @@ Apache Parquet
 :   The strongly-typed, compressed, columnar on-disk format in which each facet of an mzPeak archive is stored. See [Anatomy of a Parquet file](../foundations/parquet.md).
 
 Archive Member
-:   A file in an mzPeak archive, regardless of whether it is a Parquet file. An archive member [SHOULD]{class="should-chip"} be listed in the [index file](../archive/index-file.md)
+:   A file in an mzPeak archive, regardless of whether it is a Parquet file. Every archive member is listed in the [index file](../archive/index-file.md).
 
 Array Index
 :   The set of signal arrays mapped to a column or sub-tree. Encoded as a JSON object in the Parquet key-value metadata in `data_arrays` and `peaks` `data_kind`s for the relevant `entity_type`. The schema is defined in [The Array Index](../layouts/signal-data.md#the-array-index).

@@ -29,7 +29,8 @@
       "description": "The encoded bytes of this array. They may be compressed or not according to `compression`. The binary data type is defined by `data_type`, is stored in little endian order. No base64 encoding is used."
     },
     "items": {
-      "type": "number",
+      "type": "integer",
+      "minimum": 0,
       "description": "The number of items of the native data type in the data array. The expectation is that the data array's length divided by the size of the data type in bytes equals this number."
     },
     "data_type": {

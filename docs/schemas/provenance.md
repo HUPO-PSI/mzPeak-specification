@@ -192,7 +192,7 @@ verification against the roots of trust managed by the instrument vendor or trus
 ## Use Beyond Instrument Linkage
 
 It may be tempting to add additional roles beyond instrument -> vendor verification. To avoid increasing the complexity
-of the signing and verification process, writers are [NOT]{class="not-chip"} encouraged to cryptographically sign non-raw datasets. In
+of the signing and verification process, writers [SHOULD NOT]{class="should-not-chip"} cryptographically sign non-raw datasets unless they can secure their private keys. In
 practice, it is difficult for the average piece of software to secure its private keys when it is run on untrusted
 hardware or distributed as source code.
 

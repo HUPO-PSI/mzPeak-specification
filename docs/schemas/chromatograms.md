@@ -18,7 +18,8 @@ is why there is no `peaks` facet for this `entity_type`.
 
 The signal data is encoded using either [point layout](../layouts/point-layout.md) or [chunked layout](../layouts/chunked-layout.md).
 The entity index column [MUST]{class="must-chip"} be named `chromatogram_index`. The default primary axis is a [`MS:1000595` time array](http://purl.obolibrary.org/obo/MS_1000595).
-For consistency, the units [MUST]{class="must-chip"} be minutes.
+It is the sorting-rank-1 axis, so no separate parallel time column applies. For consistency, the unit
+[MUST]{class="must-chip"} be [`UO:0000031|minute`](http://purl.obolibrary.org/obo/UO_0000031).
 
 ### Recommended Parquet encodings
 

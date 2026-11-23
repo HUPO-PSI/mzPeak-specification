@@ -397,8 +397,8 @@ the array), then filling the null values with either a locally estimated value
 regression model described above (for a single point).
 
 Unpaired `null` values [MAY]{class="may-chip"} appear only as the first or last `null` value in array;
-any other unpaired `null` is an unrecoverable error. A run of three or more `null`
-values [MAY]{class="may-chip"} be recoverable but should not occur under normal operation. When using
+any other unpaired `null` is an unrecoverable error. Writers [MUST NOT]{class="must-not-chip"} emit a run of three or more `null`
+values, or a region bounded by `null`s that contains no non-null values; readers [SHOULD]{class="should-chip"} report such input as an error. When using
 the chunked layout this applies to each chunk's value array as well, making each chunk
 independently decodable.
 

@@ -588,6 +588,10 @@ More is described in [the components section](./index_file_components.md)
 File-level metadata [MUST]{class="must-chip"} be stored in `mzpeak_index.metadata` encoded according to the schemas
 below.
 
+The string `id` of every entry in these metadata lists (software, samples, source files, scan settings,
+data processing methods, and the run) [MUST]{class="must-chip"} be unique across the whole archive, not only within its list.
+Instrument configuration `id`s are integers and [MUST]{class="must-chip"} be unique among instrument configurations.
+
 - [`cv_list`](./cv_list.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/cv_list.json)
 - [`file_description`](./file_description.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/file_description.json)
 - [`instrument_configuration_list`](./instrument_configuration.md) [(schema)](https://github.com/HUPO-PSI/mzPeak-specification/blob/main/schema/instrument_configuration.json)

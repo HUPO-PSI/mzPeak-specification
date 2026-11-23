@@ -9,8 +9,9 @@ Numpress, …). The start/end interval permits granular random access along *bot
 the main axis and the source index. The top-level schema node is named `chunk`,
 and the entity index column [MUST]{class="must-chip"} be its first column.
 
-All rows belonging to the same entity must be contiguous, in ascending order of
+All rows belonging to the same entity [MUST]{class="must-chip"} be contiguous, in ascending order of
 chunk starting coordinate. As with the [point layout](point-layout.md), the
+entity index column [MUST]{class="must-chip"} be stored in ascending order.
 
 <div class="mzp-figure" markdown>
 <img src="../../assets/img/chunked_layout.svg" alt="Chunked-layout schema: a top-level chunk group holding spectrum_index, mz_chunk_start and mz_chunk_end bounds, an encoded mz_chunk_values list, a chunk_encoding column, and an intensity list, with one table row per chunk." height="520"/>

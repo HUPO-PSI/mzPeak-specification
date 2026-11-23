@@ -1,8 +1,8 @@
 # Chunked Layout
 
 The **chunked layout** treats one array — which must be sorted — as the "main"
-axis, cutting it into chunks of a fixed size along that coordinate space (for
-example steps of 50 m/z) and taking the same segments from the parallel arrays.
+axis, cutting it into non-overlapping chunks along that coordinate space, typically of a
+fixed width (for example steps of 50 m/z; see [Splitting data into chunks](#splitting-data-into-chunks)) and taking the same segments from the parallel arrays.
 The main axis chunks' start, end, and a repeated index are recorded as columns;
 each array may then be stored as-is or with an opaque transform (delta encoding,
 Numpress, …). The start/end interval permits granular random access along *both*

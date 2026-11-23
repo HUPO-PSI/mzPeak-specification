@@ -49,9 +49,9 @@ for this array excluding the `prefix` in the `path`. For instance `chunk.mean_dr
 
 1. **`<entity_type>_index`** (integer) — the index key for the entity this chunk
    belongs to.
-2. **`<array_name>_chunk_start`** (float64) — the first coordinate value in the
+2. **`<array_name>_chunk_start`** (same type as the coordinate array) — the first coordinate value in the
    chunk, inclusive. Its array-index `buffer_format` [MUST]{class="must-chip"} be `chunk_start`.
-3. **`<array_name>_chunk_end`** (float64) — the last coordinate value in the
+3. **`<array_name>_chunk_end`** (same type as the coordinate array) — the last coordinate value in the
    chunk, inclusive. Its array-index `buffer_format` [MUST]{class="must-chip"} be `chunk_end`.
 4. **`<array_name>_chunk_values`** (list) — the encoded coordinates from
    `array_name` according to `chunk_encoding`. Its array-index `buffer_format`

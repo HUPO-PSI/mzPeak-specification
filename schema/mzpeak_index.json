@@ -132,7 +132,7 @@
             "44655c4a48320cb90ad366690857543e4882059730f6cc364d6500ff02c1b43b918364bbcae25d99c99c7b4366b0d184a7e2f50fea8632a0d44e90ccff03f46d",
             "314da0d112ed0cb150b140af703951f5c8ca4a08725c0bcc7bd5b58e9031f707767c3035debb3284e4e53fc1a4fff7592be132bc55394e284132bf223be507c4"
           ],
-          "pattern": "^[0-9a-z]{128}$"
+          "pattern": "^[0-9a-f]{128}$"
         }
       }
     },

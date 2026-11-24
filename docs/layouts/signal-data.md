@@ -123,7 +123,7 @@ formats. The available `buffer_format` values are:
 | `chunk_end` | [chunked](chunked-layout.md) | The ending value of the main axis for the chunk, inclusive. It should be less than or equal to the next chunk's `chunk_start`. |
 | `chunk_encoding` | [chunked](chunked-layout.md) | A CURIE indicating how `chunk_values` was encoded. |
 | `chunk_secondary` | [chunked](chunked-layout.md) | Values of an array other than the main axis for the chunk. |
-| `chunk_transform` | [chunked](chunked-layout.md) | Raw bytes of an array in the chunk that was opaquely transformed (e.g. with MS-Numpress). May appear *in addition* to a referenced `chunk_values` or `chunk_secondary` column. |
+| `chunk_transform` | [chunked](chunked-layout.md) | A decomposed representation of an array in the chunk: opaquely transformed raw bytes (e.g. MS-Numpress) or a struct defined by the transform (e.g. grid encoding). May appear *in addition* to a referenced `chunk_values` or `chunk_secondary` column. |
 
 The chunked layout currently supports a single chunking dimension. A file in the
 chunked layout [MUST]{class="must-chip"} include a `chunk_start`, `chunk_end`, `chunk_encoding`, and

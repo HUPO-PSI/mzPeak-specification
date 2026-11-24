@@ -20,7 +20,7 @@ mzPeak can store array data in two ways:
   type, decoding, or cvParams), but they **cannot** be searched or sliced
   without decoding the entire array, just as in mzML.
 
-### Sorted arrays and and axes
+### Sorted arrays and axes
 
 Currently, the *sorting rank 1* array is assumed to be the axis around which all
 other values are arranged. Sorting rank 0 is the index, which does not represent

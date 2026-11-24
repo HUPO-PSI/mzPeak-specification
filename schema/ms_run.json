@@ -43,7 +43,7 @@
     },
     "start_time": {
       "type": ["string", "null"],
-      "description": "The time that data acquistion started, encoded in an RFC 3339 format https://datatracker.ietf.org/doc/html/rfc3339 . If UTC is not used, the local time offset **SHOULD** be defined.",
+      "description": "The time that data acquistion started, encoded in an RFC 3339 format https://datatracker.ietf.org/doc/html/rfc3339 . The value **MUST** include a UTC offset (`Z` for UTC), as RFC 3339 requires.",
       "format": "date-time",
       "examples": ["2005-07-20T19:44:22Z", null],
       "default": null

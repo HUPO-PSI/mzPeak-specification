@@ -27,7 +27,7 @@ metadata from the full run still applies. The `data_processing` entries [SHOULD]
 | `default_data_processing_id` | `string` | Yes | The default data processing identifier, as drawn from [`data_processing_method_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json> |
 | `default_instrument_configuration_id` | `integer` | Yes | The default instrument configuration, as drawn from [`instrument_configuration_list`](../instrument_configuration/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json> |
 | `default_source_file_id` | `string` | Yes | The default source file the content references, as drawn from [`file_description.source_files`](../file_description/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/file_description.json> |
-| `start_time` | `string` or `null` | No | The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined. |
+| `start_time` | `string` or `null` | No | The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . The value [MUST]{class="must-chip"} include a UTC offset (`Z` for UTC), as RFC 3339 requires. |
 
 ## Property Details
 
@@ -53,6 +53,6 @@ The default source file the content references, as drawn from [`file_description
 
 **`start_time`** - `string` or `null` *(optional)*
 
-The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . If UTC is not used, the local time offset [SHOULD]{class="should-chip"} be defined.
+The time that data acquistion started, encoded in an RFC 3339 format <https://datatracker.ietf.org/doc/html/rfc3339> . The value [MUST]{class="must-chip"} include a UTC offset (`Z` for UTC), as RFC 3339 requires.
 
 *Examples:* `"2005-07-20T19:44:22Z"`, `null`

@@ -73,7 +73,7 @@ and the ER diagram showing where these are found is available at <https://parque
 For Parquet file entries `row_group` and `column` indices are sufficient to retrieve the `path`, `offset`, and `length` metadata from a
 well-formed Parquet file. The `offset` and `length` fields of the signature table [SHOULD NOT]{class="should-chip"} be trusted.
 
-While whole-file signatures alone are sufficient to detect if the content has been changed, they do not tell the
+While whole-file signatures (`offset` and `length` are `null`) alone are sufficient to detect if the content has been changed, they do not tell the
 reader what has changed, and data corruption is indistinguishable from tampering when the data are still technically
 readable. By signing segments of the file, it is possible to determine where the changes were made and potentially
 retain trust in parts of the file.
@@ -154,9 +154,8 @@ When signing an mzPeak file, the following steps are performed for each member f
 When verifying an mzPeak file has not been tampered with or decayed, the following steps are performed for
 each row in the signature table. Rows [MUST]{class="must-chip"} be processed in reverse order, walking in descending `index`
 order. If a row refers to a file that is replaced by derived data later in the table, it may fail verification
-because the file being hashed is no longer the file that was signed. If this failure occurs, check if the row
-corresponds to a whole file, and that the whole file was not mentioned further down the table, thus encountered
-earlier in the iteration process.
+because the file being hashed is no longer the file that was signed. If this failure occurs, check that the whole file was
+not mentioned further down the table, thus encountered earlier in the iteration process to make this a non-failure.
 
 1. Generate a SHA-512 digest according to the [Digest Process](#digest-process) described above.
 2. Parse the CMS content in `signature` column of the row and confirm this is a signed-data message.

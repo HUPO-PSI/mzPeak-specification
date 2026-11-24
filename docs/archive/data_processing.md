@@ -12,7 +12,7 @@ The data processing section is meant to describe a data processing pipeline, ass
       "id": "pwiz_Reader_Thermo_conversion",
       "methods": [
         {
-          "order": 0,
+          "order": 1,
           "parameters": [
             {
               "accession": "MS:1000544",
@@ -22,7 +22,7 @@ The data processing section is meant to describe a data processing pipeline, ass
           "software_reference": "pwiz"
         },
         {
-          "order": 1,
+          "order": 2,
           "parameters": [
             {
               "accession": "MS:1000035",
@@ -122,7 +122,7 @@ Describes a single step of data processing tied to a particular piece of softwar
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `order` | `integer` | Yes | The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be ascending, and [SHOULD]{class="should-chip"} be contiguous. |
+| `order` | `integer` | Yes | The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be unique, ascending integers starting at 1. |
 | `software_reference` | `string` | Yes | The identifier for a software entry that performed this operation. This [MUST]{class="must-chip"} be a software_list[].id in the software list of the mzPeak archive. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this data processing step denoting actions, parameters, and other descriptors. |
 
@@ -130,7 +130,7 @@ Describes a single step of data processing tied to a particular piece of softwar
 
 **`order`** - `integer` *(required)*
 
-The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be ascending, and [SHOULD]{class="should-chip"} be contiguous.
+The order in which the step is applied in the data processing pipeline. Values [MUST]{class="must-chip"} be unique, ascending integers starting at 1.
 
 **`software_reference`** - `string` *(required)*
 

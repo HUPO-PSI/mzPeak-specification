@@ -487,7 +487,7 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
         "id": "pwiz_Reader_Thermo_conversion",
         "methods": [
           {
-            "order": 0,
+            "order": 1,
             "parameters": [
               {
                 "accession": "MS:1000544",
@@ -497,7 +497,7 @@ file [MUST]{class="must-chip"} be serialized as UTF-8.
             "software_reference": "pwiz"
           },
           {
-            "order": 1,
+            "order": 2,
             "parameters": [
               {
                 "accession": "MS:1001885",

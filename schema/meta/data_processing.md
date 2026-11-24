@@ -8,7 +8,7 @@ The data processing section is meant to describe a data processing pipeline, ass
       "id": "pwiz_Reader_Thermo_conversion",
       "methods": [
         {
-          "order": 0,
+          "order": 1,
           "parameters": [
             {
               "accession": "MS:1000544",
@@ -18,7 +18,7 @@ The data processing section is meant to describe a data processing pipeline, ass
           "software_reference": "pwiz"
         },
         {
-          "order": 1,
+          "order": 2,
           "parameters": [
             {
               "accession": "MS:1000035",

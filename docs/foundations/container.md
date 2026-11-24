@@ -80,8 +80,12 @@ avoids placing requirements on this to keep the equivalence between packed and u
 
 Because Parquet supports
 [modular encryption](https://parquet.apache.org/docs/file-format/data-pages/encryption/),
-individual Parquet files — and even individual columns or the footer metadata —
-can be encrypted while leaving the archive readable as a whole.
+individual Parquet files or even individual columns within a Parquet file
+can be encrypted while leaving the archive readable as a whole. When encrypting only a subset
+of columns, writers [MUST]{class="must-chip"} take care to allow the other columns to remain readable by writing
+the footer in plaintext, otherwise the file will require the decryption key just to open it.
+Writers [MAY]{class="may-chip"} opt to not write statistics or a page index for encrypted columns because these
+modules are not encrypted by all implementations.
 
 ZIP encryption [MUST NOT]{class="must-not-chip"} be used. ZIP encryption is widely known to be flawed and
 inconsistently implemented. If additional files must be stored encrypted that are not already

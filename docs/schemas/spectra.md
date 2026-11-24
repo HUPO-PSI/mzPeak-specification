@@ -239,7 +239,7 @@ A scan or acquisition from the original raw file used to create a spectrum.
 
 ```json
 {
-  "name": "spectra_metadata_precursor.parquet",
+  "name": "spectra_metadata_precursors.parquet",
   "entity_type": "spectrum",
   "data_kind": "precursors"
 }

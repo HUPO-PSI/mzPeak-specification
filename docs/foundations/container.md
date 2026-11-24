@@ -4,8 +4,8 @@ An mzPeak archive bundles several Parquet files and a JSON index under a single
 name, usually with the `.mzpeak` or `.mzPeak` extension. That bundle can be delivered
 three ways: as a ZIP archive, as an unpacked directory, or as a remote prefix
 (for example an HTTP server supporting range requests, S3, FTP, or WebDAV).
-Nested directories within an mzPeak archive are permitted but as of v1.0 all
-required files are stored at the root of the archive's structure.
+Nested directories within an mzPeak archive [MAY]{class="may-chip"} be used, but all
+required members [MUST]{class="must-chip"} be stored at the root of the archive.
 
 ## ZIP archives
 

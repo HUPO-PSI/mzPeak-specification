@@ -85,7 +85,8 @@ This table uses the [metadata table](../layouts/metadata-tables.md) layout.
 The method of precursor-ion selection and activation. Outside of sequential, multiple or parallel reaction monitoring,
 this table will be empty or absent. Its schema is identical to the [spectrum precursor schema](./spectra.md#spectrum-precursor-metadata-spectra_metadata_precursorsparquet)
 save that everywhere a precursor is referred to, it refers to a `chromatogram`, not a `spectrum` so `precursor_index` is
-a `chromatogram.index`, not a `spectrum.index`, and `precursor_id` is a `chromatogram.id` instead of a `spectrum.id`.
+a `chromatogram.index`, not a `spectrum.index`, and `precursor_id` is a `chromatogram.id` instead of a `spectrum.id`. Because a chromatogram is rarely derived
+from another chromatogram, `precursor_index` and `precursor_id` are normally `null`; they are kept so both tables share one schema.
 
 
 

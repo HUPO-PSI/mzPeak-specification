@@ -6,13 +6,13 @@ Describe the JSON format of the run-level metadata section, analogous to <https:
 
 The `run` object stores metadata describing the data acquisition process itself that does not live anywhere else, such as `start_time`
 describing when the acquisition run physically started. Other parts of this object provide default context for the described data, such
-as `default_data_processing_id` and `default_instrument_id`.
+as `default_data_processing_id` and `default_instrument_configuration_id`.
 
 ### Complete or partial runs
 
 When storing a single instrument run, this object [SHOULD]{class="should-chip"} be populated with as much information as possible. The more information that
 can be passed on, the less information is lost when the data are accessed later. When storing a subset of a single run, all the relevant
-metadata from the full run still applies. The `data_processing` entries [SHOULD]{class="should-chip"} be updated to describe the subset-ing process itself.
+metadata from the full run still applies. The `data_processing_method_list` entries [SHOULD]{class="should-chip"} be updated to describe the subsetting process itself.
 
 
 

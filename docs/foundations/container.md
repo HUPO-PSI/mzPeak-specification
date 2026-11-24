@@ -47,7 +47,7 @@ The steps to initiate the reading of a packed mzPeak archive
 ### Why not TAR?
 
 TAR archives are designed for linear traversal: to learn what files an archive
-contains reader must hop from header entry to header entry until reader reach the end.
+contains, a reader must hop from header entry to header entry until it reaches the end.
 Compared with ZIP's central directory, this is less efficient and more expensive
 on object stores.
 
@@ -95,7 +95,7 @@ When reading an mzPeak archive from a remote host, the hosting system must suppo
 range of bytes from a name. [HTTP Range Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Range_requests)
 are commonly supported by many production- and development-grade web servers, and this forms the basis for
 range requests for many object storage services like AWS S3 and other protocols that build upon HTTP like
-WebDAV. How-so-ever they are retrieved is beyond this specification.
+WebDAV. How they are retrieved is beyond the scope of this specification.
 
 <figure class="mzp-figure wide" markdown>
 <img src="../../assets/img/remote-access.svg" width="100%" title="A sequence of steps for reading from an HTTP-like remote host" />

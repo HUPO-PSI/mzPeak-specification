@@ -282,8 +282,9 @@ see below.
         - [`electron_beam_energy` (MS:1003410)](http://purl.obolibrary.org/obo/MS_1003410)
     - [MUST]{class="must-chip"} supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
       (dissociation method) or a child, one or more times.
-- [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (unsigned integer, optional) - For MSn for `n > 2`, the MS level of the precursor [MAY]{class="may-chip"} be written
-    in the precursor table. This [SHOULD]{class="should-chip"} be done if the `precursor_index` is `null`.
+- [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (unsigned integer, optional) - the MS level of the
+    precursor spectrum. This [SHOULD]{class="should-chip"} be done if the `precursor_index` is `null` and **MAY** be written otherwise.
+    Of particular use when writing MSn for n > 2 and precursor may not be included in run.
 
 ## Spectrum selected ion metadata - `spectra_metadata_selected_ions.parquet`
 

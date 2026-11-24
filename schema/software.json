@@ -17,7 +17,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "A unique identifier for this software, even amongst different versions of the same software."
+          "description": "A unique identifier for this software amongst all software in this file, even amongst different versions of the same software.",
+          "x-key-space": "software"
         },
         "version": {
           "type": "string",

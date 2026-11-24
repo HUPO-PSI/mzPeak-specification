@@ -17,14 +17,16 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The unique identifier for this scan settings configuration"
+          "description": "The unique identifier for this scan settings configuration amongst all scan settings in this file.",
+          "x-key-space": "scan_settings"
         },
         "source_file_references": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list."
+          "description": "A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list.",
+          "x-references": "source_file"
         },
         "targets": {
           "type": "array",

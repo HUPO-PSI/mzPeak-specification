@@ -21,11 +21,13 @@
         },
         "software_reference": {
           "type": "string",
-          "description": "The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive."
+          "description": "The identifier for a software that was associated with the data acquisition process. This **MUST** be a software_list[].id in the software list of the mzPeak archive.",
+          "x-references": "software"
         },
         "id": {
           "type": "integer",
-          "description": "A unique identifier for this instrument configuration. This value is an integer for compact storage of references throughout the rest of the archive."
+          "description": "A unique identifier for this instrument configuration amongst all instrument configurations in this file. This value is an integer for compact storage of references throughout the rest of the archive.",
+          "x-key-space": "instrument_configuration"
         },
         "parameters": {
           "type": "array",
@@ -37,7 +39,8 @@
         "scan_settings_reference": {
           "type": ["string", "null"],
           "description": "The identifier for a scan settings that was associated with this instrument configuration. If present, this **MUST** be a scan_settings_list[].id in the scan settings list of the mzPeak archive.",
-          "default": null
+          "default": null,
+          "x-references": "scan_settings"
         }
       }
     },

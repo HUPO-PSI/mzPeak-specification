@@ -36,7 +36,8 @@
         "properties": {
             "id": {
               "type": "string",
-              "description": "A unique identifier for this source file."
+              "description": "A unique identifier for this source file amongst all source files in this file.",
+              "x-key-space": "source_file"
             },
             "name": {
                 "type": "string",

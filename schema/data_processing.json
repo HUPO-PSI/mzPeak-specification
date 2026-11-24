@@ -19,7 +19,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "A unique identifier for the data processing method."
+          "description": "A unique identifier for the data processing method amongst all data processing methods in this file.",
+          "x-key-space": "data_processing_method"
         },
         "methods": {
           "type": "array",
@@ -39,8 +40,9 @@
           "description": "The order in which the step is applied in the data processing pipeline. Values **MUST** be ascending, and **SHOULD** be contiguous."
         },
         "software_reference": {
-            "type": "string",
-            "description": "The identifier for a software entry that performed this operation. This **MUST** be a software_list[].id in the software list of the mzPeak archive."
+          "type": "string",
+          "description": "The identifier for a software entry that performed this operation. This **MUST** be a software_list[].id in the software list of the mzPeak archive.",
+          "x-references": "software"
         },
         "parameters": {
           "type": "array",

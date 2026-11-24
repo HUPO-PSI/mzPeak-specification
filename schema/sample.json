@@ -17,7 +17,9 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "A unique identifier for this sample."
+          "description": "A unique identifier for this sample amongst all samples in the file.",
+          "x-key-space": "sample"
+
         },
         "name": {
           "type": "string",

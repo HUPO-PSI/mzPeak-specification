@@ -10,7 +10,7 @@ MAY_PATTERN = re.compile(r"\*+MAY\*+")
 NOT_PATTERN = re.compile(r"\*+NOT\*+")
 
 MUST_CHIP = """[MUST]{class="must-chip"}"""
-MUST_NOT_CHIP = """[MUST NOT]{class=".must-not-chip"}"""
+MUST_NOT_CHIP = """[MUST NOT]{class="must-not-chip"}"""
 SHOULD_CHIP = """[SHOULD]{class="should-chip"}"""
 SHOULD_NOT_CHIP = """[SHOULD NOT]{class="should-chip"}"""
 MAY_CHIP = """[MAY]{class="may-chip"}"""

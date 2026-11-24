@@ -312,9 +312,10 @@ being encoded. These are produced for writing by using the grid model to convert
 indices. When reading, the grid model is used to convert *from* indices back to their equivalent real-valued
 coordinates. It is possible that for some proprietary grids, only the *from* index conversion is publicly available,
 or an approximation thereof. Whether the grid encodes the chunk dimension or not, the starting grid index [MUST]{class="must-chip"} be
-included in the `indices` column's array. The chunk dimension's `indices` column [MUST]{class="must-chip"} be delta-encoded, this is
-done to improve compressibility of a sorted array of indices. Secondary arrays [MUST NOT]{class="must-not-chip"} be delta-encoded as they are not sorted and indices use
-unsigned storage and the bit-level representation of negative and positive numbers do not compress better than. The indices use 32-bit
+included in the `indices` column's array. The chunk dimension's `indices` column [MUST]{class="must-chip"} be delta-encoded: its first element is the absolute
+starting grid index and each following element is the difference to the previous index. This improves the compressibility of a sorted
+array of indices. Secondary arrays [MUST NOT]{class="must-not-chip"} be delta-encoded: they are not sorted, indices use
+unsigned storage, and negative deltas would not compress better than the absolute values. The indices use 32-bit
 integers because this provides an immediate reduction in size vs. 64-bit floats, and 2<sup>32</sup>-1 should be sufficient resolution to cover the
 real domain accurately. If it is not possible to accurately represent the data within 32 bits, the writer [SHOULD]{class="should-chip"}
 fall back to another encoding.

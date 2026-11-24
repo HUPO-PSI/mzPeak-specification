@@ -119,5 +119,5 @@ When handling an instrument with multiple mass analyzers like an [MS:1003971|ion
 Many instruments have multiple analyzers that process ions in tandem like triple-quadrupole instruments, or which
 use a quadrupole as a mass filter before another mass analyzer like a time-of-flight mass analyzer. These instruments
 have multiple [`component`](#component) entries in the same [`instrument_configuration`](#instrument_configuration)
-with the same `component_type` property value(`analyzer`). The `order` property of these distinct analyzers [SHOULD]{class="should-chip"}
+with the same `component_type` property value (`analyzer`). The `order` property of these distinct analyzers [SHOULD]{class="should-chip"}
 reflect the order in which ions are introduced to the component.

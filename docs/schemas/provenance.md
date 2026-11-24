@@ -152,7 +152,7 @@ When signing an mzPeak file, the following steps are performed for each member f
 ## Verification Process
 
 When verifying an mzPeak file has not been tampered with or decayed, the following steps are performed for
-each row in the signature table. Rows **MUST** be processed in reverse order, walking in descending `index`
+each row in the signature table. Rows [MUST]{class="must-chip"} be processed in reverse order, walking in descending `index`
 order. If a row refers to a file that is replaced by derived data later in the table, it may fail verification
 because the file being hashed is no longer the file that was signed. If this failure occurs, check if the row
 corresponds to a whole file, and that the whole file was not mentioned further down the table, thus encountered

@@ -171,7 +171,7 @@ Description of the acquisition settings of the instrument prior to the start of 
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | The unique identifier for this scan settings configuration |
+| `id` | `string` | Yes | The unique identifier for this scan settings configuration amongst all scan settings in this file. |
 | `source_file_references` | `array` of `string` | No | A reference to a source file id defined in the archive's file description that include the acquisition settings such as an instrument method file or target list. |
 | `targets` | `array` of [`target`](#target) | No | A list of targeted ions or intervals on an inclusion list. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing the scan settings. |
@@ -180,7 +180,7 @@ Description of the acquisition settings of the instrument prior to the start of 
 
 **`id`** - `string` *(required)*
 
-The unique identifier for this scan settings configuration
+The unique identifier for this scan settings configuration amongst all scan settings in this file.
 
 **`source_file_references`** - `array` of `string` *(optional)*
 

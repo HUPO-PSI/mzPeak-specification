@@ -26,11 +26,11 @@ The data processing section is meant to describe a data processing pipeline, ass
           "parameters": [
             {
               "accession": "MS:1000035",
-              "name": "peak picking",
+              "name": "peak picking"
             },
             {
               "accession": "MS:1000593",
-              "name": "baseline reduction",
+              "name": "baseline reduction"
             },
             {
               "accession": "MS:1000780",
@@ -72,12 +72,21 @@ which scopes they apply to.
 
 <figure class="mzp-figure" markdown>
 <img src="../../assets/img/data-processing-resolution-order.svg" alt="The precedence of the data processing methods applied to the scopes." height="520"/>
+<figcaption>
+Data processing methods are looked up at scopes of differing specificity. The <code>data_processing_id</code> in the array index, if <code>null</code>,
+falls back to the value in the primary metadata table for that entry, and if that is <code>null</code>, the value in the file-level run is used instead.
+</figcaption>
 </figure>
 
 The data processing resolution order shown in the figure above demonstrates the process where each scope falls back to a higher level description.
 A data array may be processed in a specific way that is distinct from how the rest of its source entity was processed, such as when describing
 centroid and profile data processed with different software. A single spectrum might be processed differently than another, such as when applying
 one transformation to data from one mass analyzer and a different transformation to data acquired on another mass analyzer in hybrid instruments.
+The resolved data processing method does not combine with the default data processing method.
+
+This means that it is *possible* for an array index entry to override the metadata table, but not the other way around. The only way to allow for
+heterogeneity in the resolved data processing method within the same array index entry's column is if it is allowed to vary with the entity's metadata.
+Care [SHOULD]{class="should-chip"} be taken to keep these values compare-able.
 
 
 **Type:** `array`
@@ -98,14 +107,14 @@ Describes a single data processing pipeline that was used on an entity or data a
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | A unique identifier for the data processing method. |
+| `id` | `string` | Yes | A unique identifier for the data processing method amongst all data processing methods in this file. |
 | `methods` | `array` of [`processing_method_step`](#processing_method_step) | Yes | &nbsp; |
 
 #### Property Details
 
 **`id`** - `string` *(required)*
 
-A unique identifier for the data processing method.
+A unique identifier for the data processing method amongst all data processing methods in this file.
 
 **`methods`** - `array` of [`processing_method_step`](#processing_method_step) *(required)*
 

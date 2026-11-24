@@ -5,11 +5,11 @@ The JSON format of the sample list. Multiple samples can be present in a single 
 ## Describing individual samples
 
 When the sample or samples included in the MS run are described in the data file itself, it makes tracing what a data file
-was for, and possibly which study it came from. This makes it possible for laboratory information management systems (LIMS)
-to more effectively index files and for repositories to be able to supply more detailed information when searching for a
-dataset. This also ensures that these details move *with* the raw data and do not get scattered between lab notebooks,
-spread sheets, or unrecorded calculations that generally do not follow the MS data beyond the person doing the data
-acquisition or analysis.
+was for which sample possible, and possibly which study it came from. This makes it possible for laboratory information
+management systems (LIMS) to more effectively index files and for repositories to be able to supply more detailed information
+when searching for a dataset. This also ensures that these details move *with* the raw data and do not get scattered between
+lab notebooks, spread sheets, or unrecorded calculations that generally do not follow the MS data beyond the person doing the
+data acquisition or analysis.
 
 Common properties to record:
 
@@ -32,13 +32,13 @@ range of properties like taxonomy, tissue type, and more are defined. This overl
 
 A [Sample and Data Relationship Format (SDRF)](https://www.psidev.info/sdrf-sample-data-relationship-format) (Guidelines at <<https://sdrf.quantms.org>)> file may
 be embedded directly in an mzPeak archive as a file. This allows the entire experimental design, as defined by the
-data producer or in-so-far as was known at the time the data were deposited. Embedding the complete file provides the
+data producer or in-so-far as was known at the time the data were deposited to be shared with new users. Embedding the complete file provides the
 reader with broader context on the experimental design and relationship with other data files. This makes the dataset
-discoverable, and may maintain FAIR linkage when the file is downloaded in isolation.
+discoverable, and may maintain FAIR linkage when the file is downloaded in isolation. When an SDRF file is embedded in an mzPeak
+archive, it should appear in the file index with a `data_kind` of `sdrf` and an `entity_type` of `other`.
 
 When an embedded SDRF file is used, the writer [SHOULD]{class="should-chip"} attempt to match sample names for cross-referencing. When
-feasible, it should also be possible to extract sample characteristics and factor values from the SDRF to populate
-the `sample.parameters`.
+feasible, it should also be possible to extract sample characteristics and factor values from the SDRF to populate the `sample.parameters`.
 
 
 **Type:** `array`
@@ -59,7 +59,7 @@ A description (one) of the samples used to generate this dataset. Analogous to <
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | A unique identifier for this sample. |
+| `id` | `string` | Yes | A unique identifier for this sample amongst all samples in the file. |
 | `name` | `string` | No | A human-readable name for this sample that might be easier to recognize. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this sample. |
 
@@ -67,7 +67,7 @@ A description (one) of the samples used to generate this dataset. Analogous to <
 
 **`id`** - `string` *(required)*
 
-A unique identifier for this sample.
+A unique identifier for this sample amongst all samples in the file.
 
 **`name`** - `string` *(optional)*
 

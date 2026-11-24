@@ -23,7 +23,7 @@ metadata from the full run still applies. The `data_processing` entries [SHOULD]
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `parameters` | `array` of [`param`](param.md) | No | Parameters describing the run not otherwise covered by the attributes. |
-| `id` | `string` | Yes | A unique identifier for the run |
+| `id` | `string` | Yes | A unique identifier for the run. Currently, there is only one run per file, but this requirement is carried forward from mzML. |
 | `default_data_processing_id` | `string` | Yes | The default data processing identifier, as drawn from [`data_processing_method_list`](../data_processing/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/data_processing.json> |
 | `default_instrument_configuration_id` | `integer` | Yes | The default instrument configuration, as drawn from [`instrument_configuration_list`](../instrument_configuration/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/instrument_configuration.json> |
 | `default_source_file_id` | `string` | Yes | The default source file the content references, as drawn from [`file_description.source_files`](../file_description/) <https://raw.githubusercontent.com/HUPO-PSI/mzPeak-specification/refs/heads/main/schema/file_description.json> |
@@ -37,7 +37,7 @@ Parameters describing the run not otherwise covered by the attributes.
 
 **`id`** - `string` *(required)*
 
-A unique identifier for the run
+A unique identifier for the run. Currently, there is only one run per file, but this requirement is carried forward from mzML.
 
 **`default_data_processing_id`** - `string` *(required)*
 

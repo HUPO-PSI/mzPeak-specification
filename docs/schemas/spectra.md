@@ -283,7 +283,7 @@ see below.
     - [MUST]{class="must-chip"} supply [`MS:1000044`](http://purl.obolibrary.org/obo/MS_1000044)
       (dissociation method) or a child, one or more times.
 - [**`ms_level (MS:1000511)`**](http://purl.obolibrary.org/obo/MS_1000511) (unsigned integer, optional) - the MS level of the
-    precursor spectrum. This [SHOULD]{class="should-chip"} be done if the `precursor_index` is `null` and **MAY** be written otherwise.
+    precursor spectrum. This [SHOULD]{class="should-chip"} be done if the `precursor_index` is `null` and [MAY]{class="may-chip"} be written otherwise.
     Of particular use when writing MSn for n > 2 and precursor may not be included in run.
 
 ## Spectrum selected ion metadata - `spectra_metadata_selected_ions.parquet`

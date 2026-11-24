@@ -30,7 +30,7 @@ A piece of software. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#s
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | A unique identifier for this software, even amongst different versions of the same software. |
+| `id` | `string` | Yes | A unique identifier for this software amongst all software in this file, even amongst different versions of the same software. |
 | `version` | `string` | Yes | The version of the software. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this software, such as its controlled vocabulary identifier, or the term MS:1000799 for custom unreleased software to denote its name. |
 
@@ -38,7 +38,7 @@ A piece of software. Analogous to <https://peptideatlas.org/tmp/mzML1.1.0.html#s
 
 **`id`** - `string` *(required)*
 
-A unique identifier for this software, even amongst different versions of the same software.
+A unique identifier for this software amongst all software in this file, even amongst different versions of the same software.
 
 **`version`** - `string` *(required)*
 

@@ -56,7 +56,7 @@ A data file that was read in order to produce this mzPeak file. Analogous to <ht
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
-| `id` | `string` | Yes | A unique identifier for this source file. |
+| `id` | `string` | Yes | A unique identifier for this source file amongst all source files in this file. |
 | `name` | `string` | Yes | The name of the source file, not including parent directory |
 | `location` | `string` | Yes | The path to the source file, URI encoded. This includes file:// protocol for local files as well as those accessed over file system mount points and UNC paths. |
 | `parameters` | `array` of [`param`](param.md) | Yes | Additional parameters describing this source file, like checksums, nativeID format, or file format |
@@ -65,7 +65,7 @@ A data file that was read in order to produce this mzPeak file. Analogous to <ht
 
 **`id`** - `string` *(required)*
 
-A unique identifier for this source file.
+A unique identifier for this source file amongst all source files in this file.
 
 **`name`** - `string` *(required)*
 

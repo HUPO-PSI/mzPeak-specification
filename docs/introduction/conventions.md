@@ -15,7 +15,7 @@ is used as a `parameter` in JSON, it is represented using the [JSONSchema](../ar
 and when converted to a Parquet structure, it uses the group structure in the
 [metadata table layout](../layouts/metadata-tables.md#the-parameters-list).
 When a term name is converted into a Parquet column name, it appears in `code` font
-with underscores as e.g. as `ms_level` optionally with its accession in parentheses that
+with underscores, e.g. `ms_level`, optionally with its accession in parentheses that
 are not part of the actual column name `ms_level (MS:1000511)`,
 see [Column Naming](../layouts/metadata-tables.md#column-naming).
 

@@ -12,7 +12,7 @@
   "definitions": {
     "data_processing_method": {
       "type": "object",
-      "description": "Describes a single pipeline of data processing pipeline that was used on an entity or data array. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList",
+      "description": "Describes a single data processing pipeline that was used on an entity or data array. Analogous to https://peptideatlas.org/tmp/mzML1.1.0.html#dataProcessingList",
       "required": [
         "id", "methods"
       ],

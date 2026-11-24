@@ -428,7 +428,7 @@ the array index [MUST]{class="must-chip"} be the *decoded* array's real type. Co
 When *writing* a file with an opaque transform on a column, the writer [MUST]{class="must-chip"} ensure
 that the necessary additional column to store the transformed value is present in the schema.
 If the writer expects the untransformed column to be present as well, this column [SHOULD]{class="should-chip"}
-be be written, and the rules for [buffer priority](signal-data.md#buffer-priority-and-naming) applied.
+be written, and the rules for [buffer priority](signal-data.md#buffer-priority-and-naming) applied.
 There [MUST]{class="must-chip"} be an array index entry for each column. The transformed array index
 entry [MUST]{class="must-chip"} set the appropriate CURIE in the `.transform` field, and the untransformed array
 entry is left empty. Non-opaque transforms like null marking do not require this extra step. When more than one alternative
@@ -438,7 +438,7 @@ entry is left empty. Non-opaque transforms like null marking do not require this
 
 <figure id="chunk-encoding-quick-reference" class="mzp-figure wide" markdown>
 ![A quick reference diagram of encoding arrays in the chunked layout](../assets/img/chunk_encoding_processes.svg){: .panel-image }
-<figcaption>The way information flows from a raw array through various the chunk encoding process after partitioning</figcaption>
+<figcaption>The way information flows from a raw array through the various chunk encoding processes after partitioning</figcaption>
 </figure>
 
 ## Decoding Strategies Quick Reference

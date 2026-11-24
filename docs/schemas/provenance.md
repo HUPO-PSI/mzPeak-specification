@@ -49,7 +49,7 @@ acting as a certificate authority (CA) and certificate revocation list (CRL) iss
 The signature table has the following layout
 
 - **`index`** (uint64): the ascending 0-based index, incrementing by 1 per entry. Primary key for the `provenance` table.
-- **`filename`** (string): the name of the file entry this signature came from or the special token `"*"` denoting a glob node, see below [Glob Nodes](#glob-node).
+- **`filename`** (string): the name of the file entry this signature came from or the special token `"*"` denoting a glob node, see below [Glob Nodes](#glob-nodes).
 - **`row_group`** (uint64, optional): for Parquet files, the row group index that a particular column chunk belongs to.
 - **`column`** (uint64, optional): for Parquet files, the column index that a particular column chunk belongs to.
 - **`path`** (string, optional): for Parquet files, the dotted path in the Parquet schema for this column.
@@ -79,7 +79,7 @@ readable. By signing segments of the file, it is possible to determine where the
 retain trust in parts of the file.
 
 The final row in the table [MUST]{class="must-chip"} be a glob node. There [MAY]{class="may-chip"} be multiple glob nodes, but the final glob node [MUST]{class="must-chip"} be the
-most recent. The order of entries in the table [MUST NOT]{class=".must-not-chip"} change when an mzPeak archive is rewritten, even if none of the data
+most recent. The order of entries in the table [MUST NOT]{class="must-not-chip"} change when an mzPeak archive is rewritten, even if none of the data
 changed.
 
 ### Digest Process
@@ -111,7 +111,7 @@ When signing an mzPeak file, the following steps are performed for each member f
       - `attrType` = "signing-time" (`1.2.840.113549.1.9.5`), `attrValues` = the current time in UTC, or generalized time after the year 2049
       - `attrType` = "message-digest" (`1.2.840.113549.1.9.4`), `attrValues` = `digest` computed above
    The writer [MAY]{class="may-chip"} additionally follow [RFC 5126 CAdES](https://www.rfc-editor.org/info/rfc5126/) guidelines and add additional signing attributes such as:
-      - `attrType` = "commitment-type-indicate" (`1.2.840.113549.1.9.16.2.16`), with any appropriate list of claims for values, but especially "proof-of-creation" (`1.2.840.113549.1.9.16.6.5`)
+      - `attrType` = "commitment-type-indication" (`1.2.840.113549.1.9.16.2.16`), with any appropriate list of claims for values, but especially "proof-of-creation" (`1.2.840.113549.1.9.16.6.5`)
       - `attrType` = "signing-certificate-v2" (`1.2.840.113549.1.9.16.2.47`), with `attrValues` being defined by [RFC 5035](https://www.rfc-editor.org/info/rfc5035/), using SHA-512 as the hash algorithm.
       - `attrType` = "content-identifier" (`1.2.840.113549.1.9.16.2.7`), `attrValues` = an octet string formatted as described in [RFC 2634 section 2.7](https://www.rfc-editor.org/info/rfc2634/#page-21). This is required for signing derived data, [see below](#use-beyond-instrument-linkage).
 3. The private key is loaded and used to sign the DER representation of `signedAttrs` to form a
@@ -134,7 +134,7 @@ When signing an mzPeak file, the following steps are performed for each member f
    The writer [MAY]{class="may-chip"} additionally follow [RFC 5126 CAdES](https://www.rfc-editor.org/info/rfc5126/) guidelines and add more unsigned attributes such as:
       - `attrType` "revocation-values" (`1.2.840.113549.1.9.16.2.24`)
 6. A [`SignerInfo`](https://datatracker.ietf.org/doc/html/rfc5652/#section-5.3) instance `signerInfo` is constructed
-   with a version of according to the signing certificate per the RFC, with signed attributes `signedAttrs`,
+   with a version according to the signing certificate per the RFC, with signed attributes `signedAttrs`,
    signature `signed_digest`, signature algorithm and digest algorithm OIDs appropriate for the private key as
    [described above](#accepted-signatures). If `unsignedAttrs` is defined, it is stored in `signerInfo`. The
    algorithm parameters [MUST]{class="must-chip"} be absent.

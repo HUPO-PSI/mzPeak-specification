@@ -8,7 +8,7 @@ list records the discrete software programs and versions used. The software list
 other components will reference members of by their *id* attribute.
 
 A piece of software [MUST]{class="must-chip"} be named using a parameter deriving from [`MS:1000531|software`](http://purl.obolibrary.org/obo/MS_1000531)
-exactly once. Software not included in the controlled vocabulary using [`MS:1000799|custom unreleased software tool`](http://purl.obolibrary.org/obo/MS_1000799)
+exactly once. Software not included in the controlled vocabulary [SHOULD]{class="should-chip"} be named using [`MS:1000799|custom unreleased software tool`](http://purl.obolibrary.org/obo/MS_1000799)
 with the custom software's name as the value.
 
 

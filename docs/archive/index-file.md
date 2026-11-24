@@ -3,7 +3,7 @@
 An mzPeak archive is made up of multiple named files. To leave room for future
 files and avoid complicated file-name resolution, an **index file** identifies
 the contents of each file and broadly defines the kind of schema it carries. The
-file [MUST]{class="must-chip"} be serialized as UTF-8.
+file [MUST]{class="must-chip"} be serialized as UTF-8. Every other member of the archive [MUST]{class="must-chip"} be listed in its `files` array.
 
 
 <div class="code-height-limit" markdown>

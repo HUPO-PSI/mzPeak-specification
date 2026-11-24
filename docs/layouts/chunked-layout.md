@@ -154,7 +154,8 @@ chunk-values array. This does not improve compressibility, but it keeps a consis
 entries that *would* benefit from a different encoding.
 
 !!! note
-    The start point is *excluded* from the chunk-values array. It must be copied from the `chunk_start` column.
+    The start point is *excluded* from the chunk-values array. `chunk_start` [MUST]{class="must-chip"} equal the first
+    coordinate in the chunk, and readers [MUST]{class="must-chip"} copy it from the `chunk_start` column.
 
 ### Delta encoding
 
@@ -165,7 +166,8 @@ encoding of the coordinates. While the same encoding *could* be done on 32-bit f
 the loss of precision is substantial.
 
 !!! note
-    The start point is *excluded* from the chunk-values array. It must be copied from the `chunk_start` column.
+    The start point is *excluded* from the chunk-values array. `chunk_start` [MUST]{class="must-chip"} equal the first
+    coordinate in the chunk, and readers [MUST]{class="must-chip"} copy it from the `chunk_start` column.
 
 ??? example "Python — null-aware delta encode/decode"
     ```python
